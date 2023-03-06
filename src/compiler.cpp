@@ -18,6 +18,7 @@ void compile(std::ostream &w)
 }
 
 // TODO: uncomment the below if you're using Flex/Bison.
+
 // extern FILE *yyin;
 
 int main(int argc, char **argv)

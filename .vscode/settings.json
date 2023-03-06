@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.sv": "verilog",
+        "*.flex": "lex",
+        "iosfwd": "cpp"
+    }
+}
