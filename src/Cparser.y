@@ -34,23 +34,37 @@
 %type <block> statement
 %type <block> jump_statement
 %type <block> expression
+%type <block> translation_unit
+%type <block> function_definition
+%type <block> compound_statement
+%type <block> declaration
+%type <block> declaration_specifiers
+
+%type <block> declarator
+
 // continue...
 %type <number> CONSTANT// May need int, float etc type
 %type <string> STRING_LITERAL // may need char type
 
 
-%start statement
+%start ROOT
 
 %%
+/* Extracts AST */
+ROOT : translation_unit { g_root = $1; }
 
-/* 
+/* Top level entity */
+translation_unit
+	: function_definition { $$ = $1; }
+	| declaration { $$ = $1; }
+	;
+
+
+
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
 	
-	; */
+	: declaration_specifiers declarator compound_statement {$$ = new FunctionDefinition($1, $2, $3);}
+	;
 
 /* compound_statement
 	: '{' '}'
@@ -65,7 +79,7 @@ statement
 	| expression_statement
 	| selection_statement
 	| iteration_statement
-	| */ jump_statement
+	| */ jump_statement {$$ = $1;}
 	;
 
 jump_statement
@@ -73,19 +87,19 @@ jump_statement
 	| CONTINUE ';'
 	| BREAK ';'
 	| RETURN ';'
-	| */ RETURN expression ';'
+	| */ RETURN expression ';' {$$ = new ReturnStatement($2);}
 	;
 
 expression
-	: primary_expression
+	: primary_expression {$$ = $1;}
 	/* | expression ',' assignment_expression */
 	;
 
 primary_expression
 	: /*IDENTIFIER
-	| */CONSTANT
-	| STRING_LITERAL
-	| '(' expression ')'
+	| */CONSTANT {$$ = new Constant($1);}
+	| STRING_LITERAL {$$ = new StringLiteral($1);}
+	| '(' expression ')' {$$ = $2;}
 	;
 
 %%
