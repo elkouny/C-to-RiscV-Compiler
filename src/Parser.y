@@ -27,9 +27,80 @@
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
 %type <exPtr> primary_expression // etc
+%type <exPtr> postfix_expression
+%type <exPtr> argument_expression_list
+%type <exPtr> unary_expression
+%type <exPtr> unary_operator
+%type <exPtr> cast_expression
+%type <exPtr> multiplicative_expression
+%type <exPtr> additive_expression
+%type <exPtr> shift_expression
+%type <exPtr> relational_expression
+%type <exPtr> equality_expression
+%type <exPtr> and_expression
+%type <exPtr> exclusive_or_expression
+%type <exPtr> inclusive_or_expression
+%type <exPtr> logical_and_expression
+%type <exPtr> logical_or_expression
+%type <exPtr> conditional_expression
+%type <exPtr> assignment_expression
+%type <exPtr> assignment_operator
+%type <exPtr> expression
+%type <exPtr> constant_expression
+%type <exPtr> declaration
+%type <exPtr> declaration_specifiers
+%type <exPtr> init_declarator_list
+%type <exPtr> init_declarator
+%type <exPtr> storage_class_specifier
+%type <exPtr> type_specifier
+%type <exPtr> struct_or_union_specifier
+%type <exPtr> struct_or_union
+%type <exPtr> struct_declaration_list
+%type <exPtr> struct_declaration	
+%type <exPtr> specifier_qualifier_list
+%type <exPtr> struct_declarator_list
+%type <exPtr> struct_declarator
+%type <exPtr> enum_specifier
+%type <exPtr> enumerator_list
+%type <exPtr> enumerator
+%type <exPtr> type_qualifier
+%type <exPtr> function_specifier
+%type <exPtr> declarator
+%type <exPtr> direct_declarator
+%type <exPtr> pointer
+%type <exPtr> type_qualifier_list
+%type <exPtr> parameter_type_list
+%type <exPtr> parameter_list
+%type <exPtr> parameter_declaration
+%type <exPtr> identifier_list
+%type <exPtr> type_name
+%type <exPtr> abstract_declarator
+%type <exPtr> direct_abstract_declarator
+%type <exPtr> initializer
+%type <exPtr> initializer_list
+%type <exPtr> designation
+%type <exPtr> designator_list
+%type <exPtr> designator
+%type <exPtr> statement
+%type <exPtr> labeled_statement
+%type <exPtr> compound_statement
+%type <exPtr> block_item_list
+%type <exPtr> block_item
+%type <exPtr> expression_statement
+%type <exPtr> selection_statement
+%type <exPtr> iteration_statement
+%type <exPtr> jump_statement
+%type <exPtr> translation_unit
+%type <exPtr> external_declaration
+%type <exPtr> function_definition
+%type <exPtr> declaration_list
+
+
 // continue...
 %type <number> // May need int, float etc type
+
 %type <string> STRING_LITERAL // may need char type
+
 
 
 %start translation_unit
@@ -37,404 +108,404 @@
 %%
 
 primary_expression
-	: IDENTIFIER
-	| CONSTANT
-	| STRING_LITERAL
-	| '(' expression ')'
+	: IDENTIFIER { $$ = new Identifier($1);}
+	| CONSTANT { $$ = new Constant($1);}
+	| STRING_LITERAL { $$ = new StringLiteral($1);}
+	| '(' expression ')' { $$ = $2;}
 	;
 
 postfix_expression
-	: primary_expression
-	| postfix_expression '[' expression ']'
-	| postfix_expression '(' ')'
-	| postfix_expression '(' argument_expression_list ')'
-	| postfix_expression '.' IDENTIFIER
-	| postfix_expression PTR_OP IDENTIFIER
-	| postfix_expression INC_OP
-	| postfix_expression DEC_OP
+	: primary_expression { $$ = $1;}
+	| postfix_expression '[' expression ']' { $$ = new ArrayAccess($1, $3);}
+	| postfix_expression '(' ')' { $$ = new FunctionCall($1, NULL);}
+	| postfix_expression '(' argument_expression_list ')' { $$ = new FunctionCall($1, $3);}
+	| postfix_expression '.' IDENTIFIER { $$ = new MemberAccess($1, $3);}
+	| postfix_expression PTR_OP IDENTIFIER { $$ = new PointerAccess($1, $3);}
+	| postfix_expression INC_OP { $$ = new PostfixInc($1);}
+	| postfix_expression DEC_OP { $$ = new PostfixDec($1);}
 	;
 
 argument_expression_list
-	: assignment_expression
-	| argument_expression_list ',' assignment_expression
+	: assignment_expression { $$ = new ArgumentList($1);}
+	| argument_expression_list ',' assignment_expression { $$ = new ArgumentList($1, $3);}
 	;
 
 unary_expression
-	: postfix_expression
-	| INC_OP unary_expression
-	| DEC_OP unary_expression
-	| unary_operator cast_expression
-	| SIZEOF unary_expression
-	| SIZEOF '(' type_name ')'
+	: postfix_expression { $$ = $1;}
+	| INC_OP unary_expression { $$ = new PrefixInc($2);}
+	| DEC_OP unary_expression { $$ = new PrefixDec($2);}
+	| unary_operator cast_expression { $$ = new UnaryOperator($1, $2);}
+	| SIZEOF unary_expression { $$ = new Sizeof($2);}
+	| SIZEOF '(' type_name ')' { $$ = new Sizeof($3);}
 	;
 
 unary_operator
-	: '&'
-	| '*'
-	| '+'
-	| '-'
-	| '~'
-	| '!'
+	: '&' { $$ = new AddressOf();}
+	| '*' { $$ = new Dereference();}
+	| '+' { $$ = new UnaryPlus();}
+	| '-' { $$ = new UnaryMinus();}
+	| '~' { $$ = new BitwiseNot();}
+	| '!' { $$ = new LogicalNot();}
 	;
 
 cast_expression
-	: unary_expression
-	| '(' type_name ')' cast_expression
+	: unary_expression { $$ = $1;}
+	| '(' type_name ')' cast_expression { $$ = new Cast($2, $4);}
 	;
 
 multiplicative_expression
-	: cast_expression
-	| multiplicative_expression '*' cast_expression
-	| multiplicative_expression '/' cast_expression
-	| multiplicative_expression '%' cast_expression
+	: cast_expression { $$ = $1;}
+	| multiplicative_expression '*' cast_expression  { $$ = new Multiplication($1, $3);}
+	| multiplicative_expression '/' cast_expression { $$ = new Division($1, $3);}
+	| multiplicative_expression '%' cast_expression { $$ = new Modulo($1, $3);}
 	;
 
 additive_expression
-	: multiplicative_expression
-	| additive_expression '+' multiplicative_expression
-	| additive_expression '-' multiplicative_expression
+	: multiplicative_expression { $$ = $1;}
+	| additive_expression '+' multiplicative_expression { $$ = new Addition($1, $3);}
+	| additive_expression '-' multiplicative_expression { $$ = new Subtraction($1, $3);}
 	;
 
 shift_expression
-	: additive_expression
-	| shift_expression LEFT_OP additive_expression
-	| shift_expression RIGHT_OP additive_expression
+	: additive_expression { $$ = $1;}
+	| shift_expression LEFT_OP additive_expression { $$ = new LeftShift($1, $3);}
+	| shift_expression RIGHT_OP additive_expression	{ $$ = new RightShift($1, $3);}
 	;
 
 relational_expression
-	: shift_expression
-	| relational_expression '<' shift_expression
-	| relational_expression '>' shift_expression
-	| relational_expression LE_OP shift_expression
-	| relational_expression GE_OP shift_expression
+	: shift_expression { $$ = $1;}
+	| relational_expression '<' shift_expression { $$ = new LessThan($1, $3);}
+	| relational_expression '>' shift_expression { $$ = new GreaterThan($1, $3);}
+	| relational_expression LE_OP shift_expression { $$ = new LessThanEqual($1, $3);}
+	| relational_expression GE_OP shift_expression { $$ = new GreaterThanEqual($1, $3);}
 	;
 
 equality_expression
-	: relational_expression
-	| equality_expression EQ_OP relational_expression
-	| equality_expression NE_OP relational_expression
+	: relational_expression { $$ = $1;}
+	| equality_expression EQ_OP relational_expression { $$ = new Equal($1, $3);}
+	| equality_expression NE_OP relational_expression { $$ = new NotEqual($1, $3);}
 	;
 
 and_expression
-	: equality_expression
-	| and_expression '&' equality_expression
+	: equality_expression { $$ = $1;}
+	| and_expression '&' equality_expression { $$ = new BitwiseAnd($1, $3);}
 	;
 
 exclusive_or_expression
-	: and_expression
-	| exclusive_or_expression '^' and_expression
+	: and_expression { $$ = $1;}
+	| exclusive_or_expression '^' and_expression { $$ = new BitwiseXor($1, $3);}
 	;
 
 inclusive_or_expression
-	: exclusive_or_expression
-	| inclusive_or_expression '|' exclusive_or_expression
+	: exclusive_or_expression { $$ = $1;}
+	| inclusive_or_expression '|' exclusive_or_expression { $$ = new BitwiseOr($1, $3);}
 	;
 
 logical_and_expression
-	: inclusive_or_expression
-	| logical_and_expression AND_OP inclusive_or_expression
+	: inclusive_or_expression { $$ = $1;}
+	| logical_and_expression AND_OP inclusive_or_expression { $$ = new LogicalAnd($1, $3);}
 	;
 
 logical_or_expression
-	: logical_and_expression
-	| logical_or_expression OR_OP logical_and_expression
+	: logical_and_expression	{ $$ = $1;}
+	| logical_or_expression OR_OP logical_and_expression { $$ = new LogicalOr($1, $3);}
 	;
 
 conditional_expression
-	: logical_or_expression
-	| logical_or_expression '?' expression ':' conditional_expression
+	: logical_or_expression { $$ = $1;}
+	| logical_or_expression '?' expression ':' conditional_expression { $$ = new Conditional($1, $3, $5);}
 	;
 
 assignment_expression
-	: conditional_expression
-	| unary_expression assignment_operator assignment_expression
+	: conditional_expression { $$ = $1;}
+	| unary_expression assignment_operator assignment_expression { $$ = new Assignment($1, $2, $3);}
 	;
 
 assignment_operator
-	: '='
-	| MUL_ASSIGN
-	| DIV_ASSIGN
-	| MOD_ASSIGN
-	| ADD_ASSIGN
-	| SUB_ASSIGN
-	| LEFT_ASSIGN
-	| RIGHT_ASSIGN
-	| AND_ASSIGN
-	| XOR_ASSIGN
-	| OR_ASSIGN
+	: '=' { $$ = new Assign();}
+	| MUL_ASSIGN { $$ = new MulAssign();}
+	| DIV_ASSIGN { $$ = new DivAssign();}
+	| MOD_ASSIGN { $$ = new ModAssign();}
+	| ADD_ASSIGN { $$ = new AddAssign();}
+	| SUB_ASSIGN { $$ = new SubAssign();}
+	| LEFT_ASSIGN { $$ = new LeftAssign();}
+	| RIGHT_ASSIGN 	{ $$ = new RightAssign();}
+	| AND_ASSIGN { $$ = new AndAssign();}
+	| XOR_ASSIGN { $$ = new XorAssign();}
+	| OR_ASSIGN { $$ = new OrAssign();}
 	;
 
 expression
-	: assignment_expression
-	| expression ',' assignment_expression
+	: assignment_expression { $$ = $1;}
+	| expression ',' assignment_expression { $$ = new Expression($1, $3);}
 	;
 
 constant_expression
-	: conditional_expression
+	: conditional_expression { $$ = $1;}
 	;
 
 declaration
-	: declaration_specifiers ';'
-	| declaration_specifiers init_declarator_list ';'
+	: declaration_specifiers ';' { $$ = new Declaration($1);}
+	| declaration_specifiers init_declarator_list ';' { $$ = new Declaration($1, $2);}
 	;
 
 declaration_specifiers
-	: storage_class_specifier
-	| storage_class_specifier declaration_specifiers
-	| type_specifier
-	| type_specifier declaration_specifiers
-	| type_qualifier
-	| type_qualifier declaration_specifiers
+	: storage_class_specifier { $$ = new DeclarationSpecifiers($1);}
+	| storage_class_specifier declaration_specifiers { $$ = new DeclarationSpecifiers($1, $2);}
+	| type_specifier { $$ = new DeclarationSpecifiers($1);}
+	| type_specifier declaration_specifiers { $$ = new DeclarationSpecifiers($1, $2);}
+	| type_qualifier { $$ = new DeclarationSpecifiers($1);}
+	| type_qualifier declaration_specifiers { $$ = new DeclarationSpecifiers($1, $2);}
 	;
 
 init_declarator_list
-	: init_declarator
-	| init_declarator_list ',' init_declarator
+	: init_declarator { $$ = new InitDeclaratorList($1);}
+	| init_declarator_list ',' init_declarator { $$ = new InitDeclaratorList($1, $3);}
 	;
 
 init_declarator
-	: declarator
-	| declarator '=' initializer
+	: declarator { $$ = new InitDeclarator($1);}
+	| declarator '=' initializer { $$ = new InitDeclarator($1, $3);}
 	;
 
 storage_class_specifier
-	: TYPEDEF
-	| EXTERN
-	| STATIC
-	| AUTO
-	| REGISTER
+	: TYPEDEF { $$ = new TypeDef();}
+	| EXTERN { $$ = new Extern();}
+	| STATIC { $$ = new Static();}
+	| AUTO { $$ = new Auto();}
+	| REGISTER { $$ = new Register();}
 	;
 
 type_specifier
-	: VOID
-	| CHAR
-	| SHORT
-	| INT
-	| LONG
-	| FLOAT
-	| DOUBLE
-	| SIGNED
-	| UNSIGNED
-	| struct_or_union_specifier
-	| enum_specifier
-	| TYPE_NAME
+	: VOID { $$ = new Void();}
+	| CHAR { $$ = new Char();}
+	| SHORT { $$ = new Short();}
+	| INT { $$ = new Int();}
+	| LONG { $$ = new Long();}
+	| FLOAT { $$ = new Float();}
+	| DOUBLE { $$ = new Double();}
+	| SIGNED { $$ = new Signed();}
+	| UNSIGNED { $$ = new Unsigned();}
+	| struct_or_union_specifier { $$ = $1;}
+	| enum_specifier { $$ = $1;}
+	| TYPE_NAME { $$ = new TypeName($1);}
 	;
 
 struct_or_union_specifier
-	: struct_or_union IDENTIFIER '{' struct_declaration_list '}'
-	| struct_or_union '{' struct_declaration_list '}'
-	| struct_or_union IDENTIFIER
+	: struct_or_union IDENTIFIER '{' struct_declaration_list '}' { $$ = new StructOrUnionSpecifier($1, $2, $4);}
+	| struct_or_union '{' struct_declaration_list '}' { $$ = new StructOrUnionSpecifier($1, $3);}
+	| struct_or_union IDENTIFIER { $$ = new StructOrUnionSpecifier($1, $2);}
 	;
 
 struct_or_union
-	: STRUCT
-	| UNION
+	: STRUCT { $$ = new Struct();}
+	| UNION { $$ = new Union();}
 	;
 
 struct_declaration_list
-	: struct_declaration
-	| struct_declaration_list struct_declaration
+	: struct_declaration { $$ = new StructDeclarationList($1);}
+	| struct_declaration_list struct_declaration { $$ = new StructDeclarationList($1, $2);}
 	;
 
 struct_declaration
-	: specifier_qualifier_list struct_declarator_list ';'
+	: specifier_qualifier_list struct_declarator_list ';' { $$ = new StructDeclaration($1, $2);}
 	;
 
 specifier_qualifier_list
-	: type_specifier specifier_qualifier_list
-	| type_specifier
-	| type_qualifier specifier_qualifier_list
-	| type_qualifier
+	: type_specifier specifier_qualifier_list { $$ = new SpecifierQualifierList($1, $2);}
+	| type_specifier { $$ = new SpecifierQualifierList($1);}
+	| type_qualifier specifier_qualifier_list{ $$ = new SpecifierQualifierList($1, $2);}
+	| type_qualifier { $$ = new SpecifierQualifierList($1);}
 	;
 
 struct_declarator_list
-	: struct_declarator
-	| struct_declarator_list ',' struct_declarator
+	: struct_declarator { $$ = new StructDeclaratorList($1);}
+	| struct_declarator_list ',' struct_declarator { $$ = new StructDeclaratorList($1, $3);}
 	;
 
 struct_declarator
-	: declarator
-	| ':' constant_expression
-	| declarator ':' constant_expression
+	: declarator { $$ = new StructDeclarator($1);}
+	| ':' constant_expression { $$ = new StructDeclarator($1);}
+	| declarator ':' constant_expression { $$ = new StructDeclarator($1, $3);}
 	;
 
 enum_specifier
-	: ENUM '{' enumerator_list '}'
-	| ENUM IDENTIFIER '{' enumerator_list '}'
-	| ENUM IDENTIFIER
+	: ENUM '{' enumerator_list '}' { $$ = new EnumSpecifier($2);}
+	| ENUM IDENTIFIER '{' enumerator_list '}' { $$ = new EnumSpecifier($2, $4);}
+	| ENUM IDENTIFIER { $$ = new EnumSpecifier($2);}
 	;
 
 enumerator_list
-	: enumerator
-	| enumerator_list ',' enumerator
+	: enumerator { $$ = new EnumeratorList($1);}
+	| enumerator_list ',' enumerator { $$ = new EnumeratorList($1, $3);}
 	;
 
 enumerator
-	: IDENTIFIER
-	| IDENTIFIER '=' constant_expression
+	: IDENTIFIER { $$ = new Enumerator($1);}
+	| IDENTIFIER '=' constant_expression { $$ = new Enumerator($1, $3);}
 	;
 
 type_qualifier
-	: CONST
-	| VOLATILE
+	: CONST { $$ = new Const();}
+	| VOLATILE { $$ = new Volatile();}
 	;
 
 declarator
-	: pointer direct_declarator
-	| direct_declarator
+	: pointer direct_declarator { $$ = new Declarator($1, $2);}
+	| direct_declarator { $$ = new Declarator($1);}
 	;
 
 direct_declarator
-	: IDENTIFIER
-	| '(' declarator ')'
-	| direct_declarator '[' constant_expression ']'
-	| direct_declarator '[' ']'
-	| direct_declarator '(' parameter_type_list ')'
-	| direct_declarator '(' identifier_list ')'
-	| direct_declarator '(' ')'
+	: IDENTIFIER { $$ = new DirectDeclarator($1);}
+	| '(' declarator ')' { $$ = new DirectDeclarator($2);}
+	| direct_declarator '[' constant_expression ']' { $$ = new DirectDeclarator($1, $3);}
+	| direct_declarator '[' ']' { $$ = new DirectDeclarator($1);}
+	| direct_declarator '(' parameter_type_list ')' { $$ = new DirectDeclarator($1, $3);}
+	| direct_declarator '(' identifier_list ')' { $$ = new DirectDeclarator($1, $3);}
+	| direct_declarator '(' ')' { $$ = new DirectDeclarator($1);}
 	;
 
 pointer
-	: '*'
-	| '*' type_qualifier_list
-	| '*' pointer
-	| '*' type_qualifier_list pointer
+	: '*' { $$ = new Pointer();}
+	| '*' type_qualifier_list { $$ = new Pointer($2);}
+	| '*' pointer { $$ = new Pointer($2);}
+	| '*' type_qualifier_list pointer { $$ = new Pointer($2, $3);}
 	;
 
 type_qualifier_list
-	: type_qualifier
-	| type_qualifier_list type_qualifier
+	: type_qualifier { $$ = new TypeQualifierList($1);}
+	| type_qualifier_list type_qualifier { $$ = new TypeQualifierList($1, $2);}
 	;
 
 
 parameter_type_list
-	: parameter_list
-	| parameter_list ',' ELLIPSIS
+	: parameter_list { $$ = new ParameterTypeList($1);}
+	| parameter_list ',' ELLIPSIS { $$ = new ParameterTypeList($1, $3);}
 	;
 
 parameter_list
-	: parameter_declaration
-	| parameter_list ',' parameter_declaration
+	: parameter_declaration { $$ = new ParameterList($1);}
+	| parameter_list ',' parameter_declaration { $$ = new ParameterList($1, $3);}
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator
-	| declaration_specifiers abstract_declarator
-	| declaration_specifiers
+	: declaration_specifiers declarator { $$ = new ParameterDeclaration($1, $2);}
+	| declaration_specifiers abstract_declarator { $$ = new ParameterDeclaration($1, $2);}
+	| declaration_specifiers { $$ = new ParameterDeclaration($1);}
 	;
 
 identifier_list
-	: IDENTIFIER
-	| identifier_list ',' IDENTIFIER
+	: IDENTIFIER { $$ = new IdentifierList($1);}
+	| identifier_list ',' IDENTIFIER  { $$ = new IdentifierList($1, $3);}
 	;
 
 type_name
-	: specifier_qualifier_list
-	| specifier_qualifier_list abstract_declarator
+	: specifier_qualifier_list { $$ = new TypeName($1);}
+	| specifier_qualifier_list abstract_declarator { $$ = new TypeName($1, $2);}
 	;
 
 abstract_declarator
-	: pointer
-	| direct_abstract_declarator
-	| pointer direct_abstract_declarator
+	: pointer { $$ = new AbstractDeclarator($1);}
+	| direct_abstract_declarator { $$ = new AbstractDeclarator($1);}
+	| pointer direct_abstract_declarator { $$ = new AbstractDeclarator($1, $2);}
 	;
 
 direct_abstract_declarator
-	: '(' abstract_declarator ')'
-	| '[' ']'
-	| '[' constant_expression ']'
-	| direct_abstract_declarator '[' ']'
-	| direct_abstract_declarator '[' constant_expression ']'
-	| '(' ')'
-	| '(' parameter_type_list ')'
-	| direct_abstract_declarator '(' ')'
-	| direct_abstract_declarator '(' parameter_type_list ')'
+	: '(' abstract_declarator ')' { $$ = new DirectAbstractDeclarator($2);}
+	| '[' ']' { $$ = new DirectAbstractDeclarator();}
+	| '[' constant_expression ']' { $$ = new DirectAbstractDeclarator($2);}
+	| direct_abstract_declarator '[' ']' { $$ = new DirectAbstractDeclarator($1);}
+	| direct_abstract_declarator '[' constant_expression ']' { $$ = new DirectAbstractDeclarator($1, $3);}
+	| '(' ')' { $$ = new DirectAbstractDeclarator();}
+	| '(' parameter_type_list ')' { $$ = new DirectAbstractDeclarator($2);}
+	| direct_abstract_declarator '(' ')' { $$ = new DirectAbstractDeclarator($1);}
+	| direct_abstract_declarator '(' parameter_type_list ')'  { $$ = new DirectAbstractDeclarator($1, $3);}
 	;
 
 initializer
-	: assignment_expression
-	| '{' initializer_list '}'
-	| '{' initializer_list ',' '}'
+	: assignment_expression { $$ = new Initializer($1);}
+	| '{' initializer_list '}' { $$ = new Initializer($2);}
+	| '{' initializer_list ',' '}' { $$ = new Initializer($2);}
 	;
 
 initializer_list
-	: initializer
-	| initializer_list ',' initializer
+	: initializer { $$ = new InitializerList($1);}
+	| initializer_list ',' initializer { $$ = new InitializerList($1, $3);}
 	;
 
 statement
-	: labeled_statement
-	| compound_statement
-	| expression_statement
-	| selection_statement
-	| iteration_statement
-	| jump_statement
+	: labeled_statement { $$ = new Statement($1);}
+	| compound_statement { $$ = new Statement($1);}
+	| expression_statement { $$ = new Statement($1);}
+	| selection_statement { $$ = new Statement($1);}
+	| iteration_statement { $$ = new Statement($1);}
+	| jump_statement { $$ = new Statement($1);}
 	;
 
 labeled_statement
-	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement
-	| DEFAULT ':' statement
+	: IDENTIFIER ':' statement { $$ = new LabeledStatement($1, $3);}
+	| CASE constant_expression ':' statement 	{ $$ = new LabeledStatement($2, $4);}
+	| DEFAULT ':' statement { $$ = new LabeledStatement($3);}
 	;
 
 compound_statement
-	: '{' '}'
-	| '{' statement_list '}'
-	| '{' declaration_list '}'
-	| '{' declaration_list statement_list '}'
+	: '{' '}' { $$ = new CompoundStatement();}
+	| '{' statement_list '}' { $$ = new CompoundStatement($2);}
+	| '{' declaration_list '}' { $$ = new CompoundStatement($2);}
+	| '{' declaration_list statement_list '}' { $$ = new CompoundStatement($2, $3);}
 	;
 
 declaration_list
-	: declaration
-	| declaration_list declaration
+	: declaration { $$ = new DeclarationList($1);}
+	| declaration_list declaration { $$ = new DeclarationList($1, $2);}
 	;
 
 statement_list
-	: statement
-	| statement_list statement
+	: statement	{ $$ = new StatementList($1);}
+	| statement_list statement	{ $$ = new StatementList($1, $2);}
 	;
 
 expression_statement
-	: ';'
-	| expression ';'
+	: ';'	{ $$ = new ExpressionStatement();}
+	| expression ';'	{ $$ = new ExpressionStatement($1);}
 	;
 
 selection_statement
-	: IF '(' expression ')' statement
-	| IF '(' expression ')' statement ELSE statement
-	| SWITCH '(' expression ')' statement
+	: IF '(' expression ')' statement	{ $$ = new SelectionStatement($3, $5);}
+	| IF '(' expression ')' statement ELSE statement	{ $$ = new SelectionStatement($3, $5, $7);}
+	| SWITCH '(' expression ')' statement	{ $$ = new SelectionStatement($3, $5);}
 	;
 
 iteration_statement
-	: WHILE '(' expression ')' statement
-	| DO statement WHILE '(' expression ')' ';'
-	| FOR '(' expression_statement expression_statement ')' statement
-	| FOR '(' expression_statement expression_statement expression ')' statement
+	: WHILE '(' expression ')' statement	{ $$ = new IterationStatement($3, $5);}
+	| DO statement WHILE '(' expression ')' ';'	{ $$ = new IterationStatement($2, $4);}
+	| FOR '(' expression_statement expression_statement ')' statement	{ $$ = new IterationStatement($3, $4, $6);}
+	| FOR '(' expression_statement expression_statement expression ')' statement	{ $$ = new IterationStatement($3, $4, $5, $7);}
 	;
 
 jump_statement
-	: GOTO IDENTIFIER ';'
-	| CONTINUE ';'
-	| BREAK ';'
-	| RETURN ';'
-	| RETURN expression ';'
+	: GOTO IDENTIFIER ';'	{ $$ = new JumpStatement($2);}
+	| CONTINUE ';'	{ $$ = new JumpStatement();}
+	| BREAK ';'	{ $$ = new JumpStatement();}
+	| RETURN ';'	{ $$ = new JumpStatement();}
+	| RETURN expression ';'		{ $$ = new JumpStatement($2);}
 	;
 
-translation_unit
-	: external_declaration
-	| translation_unit external_declaration
+translation_unit	
+	: external_declaration	{ $$ = new TranslationUnit($1);}
+	| translation_unit external_declaration	{ $$ = new TranslationUnit($1, $2);}
 	;
 
 external_declaration
-	: function_definition
-	| declaration
+	: function_definition	{ $$ = new ExternalDeclaration($1);}
+	| declaration	{ $$ = new ExternalDeclaration($1);}
 	;
 
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
+	: declaration_specifiers declarator declaration_list compound_statement	{ $$ = new FunctionDefinition($1, $2, $3, $4);}
+	| declaration_specifiers declarator compound_statement		{ $$ = new FunctionDefinition($1, $2, $3);}
+	| declarator declaration_list compound_statement	{ $$ = new FunctionDefinition($1, $2, $3);}
+	| declarator compound_statement	{ $$ = new FunctionDefinition($1, $2);}
 	;
 
 %%
