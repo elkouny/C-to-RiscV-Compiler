@@ -1,19 +1,26 @@
-#ifndef ast_jump_hpp
-#define ast_jump_hpp
+#ifndef ast_expression_hpp
+#define ast_expression_hpp
 
 #include "ast_block.hpp"
 
-class Jump : Block
+class Expression : public Block
 {
 private:
     int constant;
-protected:
-    Jump(int c) : constant(c) {}
+    std::string string;
+// protected:
 public:
-    ~Jump();
+    Expression(int c) : constant(c) {}
+    Expression(std::string s ) : string(s) {}
+    
+    ~Expression();
 
     int getConstant() const {
         return constant;
+    }
+
+    std::string getString() const {
+        return string;
     }
 
     virtual void print(std::ostream &dst) const override {
