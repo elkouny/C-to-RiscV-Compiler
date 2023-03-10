@@ -68,7 +68,7 @@ function_definition
 
 /* compound_statement
 	: '{' '}'
-	| '{' statement_list '}'
+	| '{' statement_list '}' 
 	| '{' declaration_list '}'
 	| '{' declaration_list statement_list '}'
 	; */
