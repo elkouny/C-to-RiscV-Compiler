@@ -2,7 +2,7 @@
 
 %{
 extern "C" int fileno(FILE *stream);
-#include "Parser.tab.hpp"
+#include "currentParser.tab.hpp"
 %}
 
 D  [0-9]
@@ -47,7 +47,7 @@ IS (u|U|l|L)*
 "volatile"		{ return(VOLATILE); }
 "while"			{ return(WHILE); }
 
-{L}({L}|{D})*		{ return(check_type()); }
+{L}({L}|{D})*		{ return(IDENTIFIER);} //check_type()); }
 
 0[xX]{H}+{IS}?		{ return(CONSTANT); }
 0{D}+{IS}?		{ return(CONSTANT); }
@@ -173,6 +173,5 @@ int check_type()
 /*
 *	it actually will only return IDENTIFIER
 */
-
 	return(IDENTIFIER);
 }

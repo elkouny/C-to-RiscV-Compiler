@@ -68,20 +68,64 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    IDENTIFIER = 258,              /* IDENTIFIER  */
-    CONSTANT = 259,                /* CONSTANT  */
-    STRING_LITERAL = 260,          /* STRING_LITERAL  */
-    CHAR = 261,                    /* CHAR  */
-    SHORT = 262,                   /* SHORT  */
-    INT = 263,                     /* INT  */
-    LONG = 264,                    /* LONG  */
-    SIGNED = 265,                  /* SIGNED  */
-    UNSIGNED = 266,                /* UNSIGNED  */
-    FLOAT = 267,                   /* FLOAT  */
-    DOUBLE = 268,                  /* DOUBLE  */
-    VOID = 269,                    /* VOID  */
-    TYPE_NAME = 270,               /* TYPE_NAME  */
-    RETURN = 271                   /* RETURN  */
+    SIZEOF = 258,                  /* SIZEOF  */
+    PTR_OP = 259,                  /* PTR_OP  */
+    INC_OP = 260,                  /* INC_OP  */
+    DEC_OP = 261,                  /* DEC_OP  */
+    LEFT_OP = 262,                 /* LEFT_OP  */
+    RIGHT_OP = 263,                /* RIGHT_OP  */
+    LE_OP = 264,                   /* LE_OP  */
+    GE_OP = 265,                   /* GE_OP  */
+    EQ_OP = 266,                   /* EQ_OP  */
+    NE_OP = 267,                   /* NE_OP  */
+    AND_OP = 268,                  /* AND_OP  */
+    OR_OP = 269,                   /* OR_OP  */
+    MUL_ASSIGN = 270,              /* MUL_ASSIGN  */
+    DIV_ASSIGN = 271,              /* DIV_ASSIGN  */
+    MOD_ASSIGN = 272,              /* MOD_ASSIGN  */
+    ADD_ASSIGN = 273,              /* ADD_ASSIGN  */
+    SUB_ASSIGN = 274,              /* SUB_ASSIGN  */
+    LEFT_ASSIGN = 275,             /* LEFT_ASSIGN  */
+    RIGHT_ASSIGN = 276,            /* RIGHT_ASSIGN  */
+    AND_ASSIGN = 277,              /* AND_ASSIGN  */
+    XOR_ASSIGN = 278,              /* XOR_ASSIGN  */
+    OR_ASSIGN = 279,               /* OR_ASSIGN  */
+    TYPEDEF = 280,                 /* TYPEDEF  */
+    EXTERN = 281,                  /* EXTERN  */
+    STATIC = 282,                  /* STATIC  */
+    AUTO = 283,                    /* AUTO  */
+    REGISTER = 284,                /* REGISTER  */
+    CONST = 285,                   /* CONST  */
+    VOLATILE = 286,                /* VOLATILE  */
+    STRUCT = 287,                  /* STRUCT  */
+    UNION = 288,                   /* UNION  */
+    ENUM = 289,                    /* ENUM  */
+    ELLIPSIS = 290,                /* ELLIPSIS  */
+    CASE = 291,                    /* CASE  */
+    DEFAULT = 292,                 /* DEFAULT  */
+    IF = 293,                      /* IF  */
+    ELSE = 294,                    /* ELSE  */
+    SWITCH = 295,                  /* SWITCH  */
+    WHILE = 296,                   /* WHILE  */
+    DO = 297,                      /* DO  */
+    FOR = 298,                     /* FOR  */
+    GOTO = 299,                    /* GOTO  */
+    CONTINUE = 300,                /* CONTINUE  */
+    BREAK = 301,                   /* BREAK  */
+    IDENTIFIER = 302,              /* IDENTIFIER  */
+    CONSTANT = 303,                /* CONSTANT  */
+    STRING_LITERAL = 304,          /* STRING_LITERAL  */
+    CHAR = 305,                    /* CHAR  */
+    SHORT = 306,                   /* SHORT  */
+    INT = 307,                     /* INT  */
+    LONG = 308,                    /* LONG  */
+    SIGNED = 309,                  /* SIGNED  */
+    UNSIGNED = 310,                /* UNSIGNED  */
+    FLOAT = 311,                   /* FLOAT  */
+    DOUBLE = 312,                  /* DOUBLE  */
+    VOID = 313,                    /* VOID  */
+    TYPE_NAME = 314,               /* TYPE_NAME  */
+    RETURN = 315                   /* RETURN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -97,7 +141,7 @@ union YYSTYPE
     double number;
     std::string *string;
 
-#line 101 "src/currentParser.tab.hpp"
+#line 145 "src/currentParser.tab.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

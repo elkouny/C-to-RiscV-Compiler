@@ -96,39 +96,83 @@ enum yysymbol_kind_t
   YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
-  YYSYMBOL_IDENTIFIER = 3,                 /* IDENTIFIER  */
-  YYSYMBOL_CONSTANT = 4,                   /* CONSTANT  */
-  YYSYMBOL_STRING_LITERAL = 5,             /* STRING_LITERAL  */
-  YYSYMBOL_CHAR = 6,                       /* CHAR  */
-  YYSYMBOL_SHORT = 7,                      /* SHORT  */
-  YYSYMBOL_INT = 8,                        /* INT  */
-  YYSYMBOL_LONG = 9,                       /* LONG  */
-  YYSYMBOL_SIGNED = 10,                    /* SIGNED  */
-  YYSYMBOL_UNSIGNED = 11,                  /* UNSIGNED  */
-  YYSYMBOL_FLOAT = 12,                     /* FLOAT  */
-  YYSYMBOL_DOUBLE = 13,                    /* DOUBLE  */
-  YYSYMBOL_VOID = 14,                      /* VOID  */
-  YYSYMBOL_TYPE_NAME = 15,                 /* TYPE_NAME  */
-  YYSYMBOL_RETURN = 16,                    /* RETURN  */
-  YYSYMBOL_17_ = 17,                       /* '('  */
-  YYSYMBOL_18_ = 18,                       /* ')'  */
-  YYSYMBOL_19_ = 19,                       /* '{'  */
-  YYSYMBOL_20_ = 20,                       /* '}'  */
-  YYSYMBOL_21_ = 21,                       /* ';'  */
-  YYSYMBOL_YYACCEPT = 22,                  /* $accept  */
-  YYSYMBOL_ROOT = 23,                      /* ROOT  */
-  YYSYMBOL_translation_unit = 24,          /* translation_unit  */
-  YYSYMBOL_external_declaration = 25,      /* external_declaration  */
-  YYSYMBOL_function_definition = 26,       /* function_definition  */
-  YYSYMBOL_declaration_specifiers = 27,    /* declaration_specifiers  */
-  YYSYMBOL_type_specifier = 28,            /* type_specifier  */
-  YYSYMBOL_declarator = 29,                /* declarator  */
-  YYSYMBOL_direct_declarator = 30,         /* direct_declarator  */
-  YYSYMBOL_compound_statement = 31,        /* compound_statement  */
-  YYSYMBOL_statement = 32,                 /* statement  */
-  YYSYMBOL_jump_statement = 33,            /* jump_statement  */
-  YYSYMBOL_expression = 34,                /* expression  */
-  YYSYMBOL_primary_expression = 35         /* primary_expression  */
+  YYSYMBOL_SIZEOF = 3,                     /* SIZEOF  */
+  YYSYMBOL_PTR_OP = 4,                     /* PTR_OP  */
+  YYSYMBOL_INC_OP = 5,                     /* INC_OP  */
+  YYSYMBOL_DEC_OP = 6,                     /* DEC_OP  */
+  YYSYMBOL_LEFT_OP = 7,                    /* LEFT_OP  */
+  YYSYMBOL_RIGHT_OP = 8,                   /* RIGHT_OP  */
+  YYSYMBOL_LE_OP = 9,                      /* LE_OP  */
+  YYSYMBOL_GE_OP = 10,                     /* GE_OP  */
+  YYSYMBOL_EQ_OP = 11,                     /* EQ_OP  */
+  YYSYMBOL_NE_OP = 12,                     /* NE_OP  */
+  YYSYMBOL_AND_OP = 13,                    /* AND_OP  */
+  YYSYMBOL_OR_OP = 14,                     /* OR_OP  */
+  YYSYMBOL_MUL_ASSIGN = 15,                /* MUL_ASSIGN  */
+  YYSYMBOL_DIV_ASSIGN = 16,                /* DIV_ASSIGN  */
+  YYSYMBOL_MOD_ASSIGN = 17,                /* MOD_ASSIGN  */
+  YYSYMBOL_ADD_ASSIGN = 18,                /* ADD_ASSIGN  */
+  YYSYMBOL_SUB_ASSIGN = 19,                /* SUB_ASSIGN  */
+  YYSYMBOL_LEFT_ASSIGN = 20,               /* LEFT_ASSIGN  */
+  YYSYMBOL_RIGHT_ASSIGN = 21,              /* RIGHT_ASSIGN  */
+  YYSYMBOL_AND_ASSIGN = 22,                /* AND_ASSIGN  */
+  YYSYMBOL_XOR_ASSIGN = 23,                /* XOR_ASSIGN  */
+  YYSYMBOL_OR_ASSIGN = 24,                 /* OR_ASSIGN  */
+  YYSYMBOL_TYPEDEF = 25,                   /* TYPEDEF  */
+  YYSYMBOL_EXTERN = 26,                    /* EXTERN  */
+  YYSYMBOL_STATIC = 27,                    /* STATIC  */
+  YYSYMBOL_AUTO = 28,                      /* AUTO  */
+  YYSYMBOL_REGISTER = 29,                  /* REGISTER  */
+  YYSYMBOL_CONST = 30,                     /* CONST  */
+  YYSYMBOL_VOLATILE = 31,                  /* VOLATILE  */
+  YYSYMBOL_STRUCT = 32,                    /* STRUCT  */
+  YYSYMBOL_UNION = 33,                     /* UNION  */
+  YYSYMBOL_ENUM = 34,                      /* ENUM  */
+  YYSYMBOL_ELLIPSIS = 35,                  /* ELLIPSIS  */
+  YYSYMBOL_CASE = 36,                      /* CASE  */
+  YYSYMBOL_DEFAULT = 37,                   /* DEFAULT  */
+  YYSYMBOL_IF = 38,                        /* IF  */
+  YYSYMBOL_ELSE = 39,                      /* ELSE  */
+  YYSYMBOL_SWITCH = 40,                    /* SWITCH  */
+  YYSYMBOL_WHILE = 41,                     /* WHILE  */
+  YYSYMBOL_DO = 42,                        /* DO  */
+  YYSYMBOL_FOR = 43,                       /* FOR  */
+  YYSYMBOL_GOTO = 44,                      /* GOTO  */
+  YYSYMBOL_CONTINUE = 45,                  /* CONTINUE  */
+  YYSYMBOL_BREAK = 46,                     /* BREAK  */
+  YYSYMBOL_IDENTIFIER = 47,                /* IDENTIFIER  */
+  YYSYMBOL_CONSTANT = 48,                  /* CONSTANT  */
+  YYSYMBOL_STRING_LITERAL = 49,            /* STRING_LITERAL  */
+  YYSYMBOL_CHAR = 50,                      /* CHAR  */
+  YYSYMBOL_SHORT = 51,                     /* SHORT  */
+  YYSYMBOL_INT = 52,                       /* INT  */
+  YYSYMBOL_LONG = 53,                      /* LONG  */
+  YYSYMBOL_SIGNED = 54,                    /* SIGNED  */
+  YYSYMBOL_UNSIGNED = 55,                  /* UNSIGNED  */
+  YYSYMBOL_FLOAT = 56,                     /* FLOAT  */
+  YYSYMBOL_DOUBLE = 57,                    /* DOUBLE  */
+  YYSYMBOL_VOID = 58,                      /* VOID  */
+  YYSYMBOL_TYPE_NAME = 59,                 /* TYPE_NAME  */
+  YYSYMBOL_RETURN = 60,                    /* RETURN  */
+  YYSYMBOL_61_ = 61,                       /* '('  */
+  YYSYMBOL_62_ = 62,                       /* ')'  */
+  YYSYMBOL_63_ = 63,                       /* '{'  */
+  YYSYMBOL_64_ = 64,                       /* '}'  */
+  YYSYMBOL_65_ = 65,                       /* ';'  */
+  YYSYMBOL_YYACCEPT = 66,                  /* $accept  */
+  YYSYMBOL_ROOT = 67,                      /* ROOT  */
+  YYSYMBOL_translation_unit = 68,          /* translation_unit  */
+  YYSYMBOL_external_declaration = 69,      /* external_declaration  */
+  YYSYMBOL_function_definition = 70,       /* function_definition  */
+  YYSYMBOL_declaration_specifiers = 71,    /* declaration_specifiers  */
+  YYSYMBOL_type_specifier = 72,            /* type_specifier  */
+  YYSYMBOL_declarator = 73,                /* declarator  */
+  YYSYMBOL_direct_declarator = 74,         /* direct_declarator  */
+  YYSYMBOL_compound_statement = 75,        /* compound_statement  */
+  YYSYMBOL_statement = 76,                 /* statement  */
+  YYSYMBOL_jump_statement = 77,            /* jump_statement  */
+  YYSYMBOL_expression = 78,                /* expression  */
+  YYSYMBOL_primary_expression = 79         /* primary_expression  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -456,10 +500,10 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  17
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   29
+#define YYLAST   28
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  22
+#define YYNTOKENS  66
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  14
 /* YYNRULES -- Number of rules.  */
@@ -468,7 +512,7 @@ union yyalloc
 #define YYNSTATES  42
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   271
+#define YYMAXUTOK   315
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -486,15 +530,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      17,    18,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,    21,
+      61,    62,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,    65,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    19,     2,    20,     2,     2,     2,     2,
+       2,     2,     2,    63,     2,    64,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -509,16 +553,20 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
+      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
+      45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
+      55,    56,    57,    58,    59,    60
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,    50,    50,    54,    58,    62,    66,    70,    71,    72,
-      73,    74,    75,    76,    77,    78,    79,    83,    87,    88,
-      89,    92,    93,    97,   101,   105,   109,   110,   111,   112
+       0,    68,    68,    72,    76,    80,    84,    88,    89,    90,
+      91,    92,    93,    94,    95,    96,    97,   101,   105,   106,
+     107,   110,   111,   115,   119,   123,   127,   128,   129,   130
 };
 #endif
 
@@ -534,14 +582,20 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "IDENTIFIER",
-  "CONSTANT", "STRING_LITERAL", "CHAR", "SHORT", "INT", "LONG", "SIGNED",
-  "UNSIGNED", "FLOAT", "DOUBLE", "VOID", "TYPE_NAME", "RETURN", "'('",
-  "')'", "'{'", "'}'", "';'", "$accept", "ROOT", "translation_unit",
-  "external_declaration", "function_definition", "declaration_specifiers",
-  "type_specifier", "declarator", "direct_declarator",
-  "compound_statement", "statement", "jump_statement", "expression",
-  "primary_expression", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "SIZEOF", "PTR_OP",
+  "INC_OP", "DEC_OP", "LEFT_OP", "RIGHT_OP", "LE_OP", "GE_OP", "EQ_OP",
+  "NE_OP", "AND_OP", "OR_OP", "MUL_ASSIGN", "DIV_ASSIGN", "MOD_ASSIGN",
+  "ADD_ASSIGN", "SUB_ASSIGN", "LEFT_ASSIGN", "RIGHT_ASSIGN", "AND_ASSIGN",
+  "XOR_ASSIGN", "OR_ASSIGN", "TYPEDEF", "EXTERN", "STATIC", "AUTO",
+  "REGISTER", "CONST", "VOLATILE", "STRUCT", "UNION", "ENUM", "ELLIPSIS",
+  "CASE", "DEFAULT", "IF", "ELSE", "SWITCH", "WHILE", "DO", "FOR", "GOTO",
+  "CONTINUE", "BREAK", "IDENTIFIER", "CONSTANT", "STRING_LITERAL", "CHAR",
+  "SHORT", "INT", "LONG", "SIGNED", "UNSIGNED", "FLOAT", "DOUBLE", "VOID",
+  "TYPE_NAME", "RETURN", "'('", "')'", "'{'", "'}'", "';'", "$accept",
+  "ROOT", "translation_unit", "external_declaration",
+  "function_definition", "declaration_specifiers", "type_specifier",
+  "declarator", "direct_declarator", "compound_statement", "statement",
+  "jump_statement", "expression", "primary_expression", YY_NULLPTR
 };
 
 static const char *
@@ -551,7 +605,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-18)
+#define YYPACT_NINF (-48)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -565,11 +619,11 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -2,   -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,
-     -18,    16,   -18,   -18,   -18,     0,   -18,   -18,   -18,     0,
-       1,     4,     5,    -1,   -18,     6,   -18,    -3,   -18,     2,
-     -18,   -18,   -18,   -18,   -18,    -3,     7,   -18,   -18,     8,
-     -18,   -18
+     -46,   -48,   -48,   -48,   -48,   -48,   -48,   -48,   -48,   -48,
+     -48,    16,   -48,   -48,   -48,   -44,   -48,   -48,   -48,   -44,
+     -43,   -40,   -39,   -45,   -48,   -38,   -48,   -47,   -48,   -42,
+     -48,   -48,   -48,   -48,   -48,   -47,   -37,   -48,   -48,   -36,
+     -48,   -48
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -587,8 +641,8 @@ static const yytype_int8 yydefact[] =
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -18,   -18,   -18,   -18,   -18,   -18,   -18,    10,   -18,   -18,
-     -18,   -18,   -17,   -18
+     -48,   -48,   -48,   -48,   -48,   -48,   -48,    -1,   -48,   -48,
+     -48,   -48,   -10,   -48
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -604,34 +658,34 @@ static const yytype_int8 yydefgoto[] =
 static const yytype_int8 yytable[] =
 {
       32,    33,    34,    18,     1,     2,     3,     4,     5,     6,
-       7,     8,     9,    10,    35,    27,    17,    19,    39,    28,
-      23,    25,    38,    26,    31,     0,    41,     0,    40,    22
+       7,     8,     9,    10,    35,    27,    17,    19,    22,    28,
+      23,    25,    38,    26,    31,    39,    41,     0,    40
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     4,     5,     3,     6,     7,     8,     9,    10,    11,
-      12,    13,    14,    15,    17,    16,     0,    17,    35,    20,
-      19,    17,    20,    18,    18,    -1,    18,    -1,    21,    19
+      47,    48,    49,    47,    50,    51,    52,    53,    54,    55,
+      56,    57,    58,    59,    61,    60,     0,    61,    19,    64,
+      63,    61,    64,    62,    62,    35,    62,    -1,    65
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    23,    24,    25,    26,    27,    28,     0,     3,    17,
-      29,    30,    29,    19,    31,    17,    18,    16,    20,    32,
-      33,    18,     3,     4,     5,    17,    34,    35,    20,    34,
-      21,    18
+       0,    50,    51,    52,    53,    54,    55,    56,    57,    58,
+      59,    67,    68,    69,    70,    71,    72,     0,    47,    61,
+      73,    74,    73,    63,    75,    61,    62,    60,    64,    76,
+      77,    62,    47,    48,    49,    61,    78,    79,    64,    78,
+      65,    62
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    22,    23,    24,    25,    26,    27,    28,    28,    28,
-      28,    28,    28,    28,    28,    28,    28,    29,    30,    30,
-      30,    31,    31,    32,    33,    34,    35,    35,    35,    35
+       0,    66,    67,    68,    69,    70,    71,    72,    72,    72,
+      72,    72,    72,    72,    72,    72,    72,    73,    74,    74,
+      74,    75,    75,    76,    77,    78,    79,    79,    79,    79
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1103,175 +1157,175 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* ROOT: translation_unit  */
-#line 50 "src/currentParser.y"
+#line 68 "src/currentParser.y"
                         { g_root = (yyvsp[0].block); }
-#line 1109 "src/currentParser.tab.cpp"
-    break;
-
-  case 3: /* translation_unit: external_declaration  */
-#line 54 "src/currentParser.y"
-                               { (yyval.block) = (yyvsp[0].block); }
-#line 1115 "src/currentParser.tab.cpp"
-    break;
-
-  case 4: /* external_declaration: function_definition  */
-#line 58 "src/currentParser.y"
-                              { (yyval.block) = (yyvsp[0].block);}
-#line 1121 "src/currentParser.tab.cpp"
-    break;
-
-  case 5: /* function_definition: declaration_specifiers declarator compound_statement  */
-#line 62 "src/currentParser.y"
-                                                               { (yyval.block) = new Function(*(yyvsp[-2].string), (yyvsp[-1].block), (yyvsp[0].block)); delete (yyvsp[-2].string); }
-#line 1127 "src/currentParser.tab.cpp"
-    break;
-
-  case 6: /* declaration_specifiers: type_specifier  */
-#line 66 "src/currentParser.y"
-                         { (yyval.string) = (yyvsp[0].string);}
-#line 1133 "src/currentParser.tab.cpp"
-    break;
-
-  case 7: /* type_specifier: VOID  */
-#line 70 "src/currentParser.y"
-                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
-#line 1139 "src/currentParser.tab.cpp"
-    break;
-
-  case 8: /* type_specifier: CHAR  */
-#line 71 "src/currentParser.y"
-                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
-#line 1145 "src/currentParser.tab.cpp"
-    break;
-
-  case 9: /* type_specifier: SHORT  */
-#line 72 "src/currentParser.y"
-                    { (yyval.string) = *(yyvsp[0].string); /*delete $1;*/}
-#line 1151 "src/currentParser.tab.cpp"
-    break;
-
-  case 10: /* type_specifier: INT  */
-#line 73 "src/currentParser.y"
-                    { (yyval.string) = *(yyvsp[0].string); /*delete $1;*/}
-#line 1157 "src/currentParser.tab.cpp"
-    break;
-
-  case 11: /* type_specifier: LONG  */
-#line 74 "src/currentParser.y"
-                    { (yyval.string) = *(yyvsp[0].string); /*delete $1;*/}
 #line 1163 "src/currentParser.tab.cpp"
     break;
 
-  case 12: /* type_specifier: FLOAT  */
-#line 75 "src/currentParser.y"
-                    { (yyval.string) = *(yyvsp[0].string); /*delete $1;*/}
+  case 3: /* translation_unit: external_declaration  */
+#line 72 "src/currentParser.y"
+                               { (yyval.block) = (yyvsp[0].block); }
 #line 1169 "src/currentParser.tab.cpp"
     break;
 
-  case 13: /* type_specifier: DOUBLE  */
+  case 4: /* external_declaration: function_definition  */
 #line 76 "src/currentParser.y"
-                    { (yyval.string) = *(yyvsp[0].string); /*delete $1;*/}
+                              { (yyval.block) = (yyvsp[0].block);}
 #line 1175 "src/currentParser.tab.cpp"
     break;
 
-  case 14: /* type_specifier: SIGNED  */
-#line 77 "src/currentParser.y"
-                    { (yyval.string) = *(yyvsp[0].string); /*delete $1;*/}
+  case 5: /* function_definition: declaration_specifiers declarator compound_statement  */
+#line 80 "src/currentParser.y"
+                                                               { (yyval.block) = new Function(*(yyvsp[-2].string), (yyvsp[-1].block), (yyvsp[0].block)); delete (yyvsp[-2].string); }
 #line 1181 "src/currentParser.tab.cpp"
     break;
 
-  case 15: /* type_specifier: UNSIGNED  */
-#line 78 "src/currentParser.y"
-                    { (yyval.string) = *(yyvsp[0].string); /*delete $1;*/}
+  case 6: /* declaration_specifiers: type_specifier  */
+#line 84 "src/currentParser.y"
+                         { (yyval.string) = (yyvsp[0].string);}
 #line 1187 "src/currentParser.tab.cpp"
     break;
 
-  case 16: /* type_specifier: TYPE_NAME  */
-#line 79 "src/currentParser.y"
-                    { (yyval.string) = *(yyvsp[0].string); /*delete $1;*/}
+  case 7: /* type_specifier: VOID  */
+#line 88 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1193 "src/currentParser.tab.cpp"
     break;
 
-  case 17: /* declarator: direct_declarator  */
-#line 83 "src/currentParser.y"
-                            { (yyval.block) = (yyvsp[0].block);}
+  case 8: /* type_specifier: CHAR  */
+#line 89 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1199 "src/currentParser.tab.cpp"
     break;
 
-  case 18: /* direct_declarator: IDENTIFIER  */
-#line 87 "src/currentParser.y"
-                     { (yyval.block) = new Declarator(*(yyvsp[0].string)); delete (yyvsp[0].string); }
+  case 9: /* type_specifier: SHORT  */
+#line 90 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1205 "src/currentParser.tab.cpp"
     break;
 
-  case 19: /* direct_declarator: '(' declarator ')'  */
-#line 88 "src/currentParser.y"
-                             { (yyval.block) = (yyvsp[-1].block); }
+  case 10: /* type_specifier: INT  */
+#line 91 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1211 "src/currentParser.tab.cpp"
     break;
 
-  case 20: /* direct_declarator: direct_declarator '(' ')'  */
-#line 89 "src/currentParser.y"
-                                    { (yyval.block) = (yyvsp[-2].block);}
+  case 11: /* type_specifier: LONG  */
+#line 92 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1217 "src/currentParser.tab.cpp"
     break;
 
-  case 21: /* compound_statement: '{' '}'  */
-#line 92 "src/currentParser.y"
-                  { (yyval.block) = new Expression("null"); }
+  case 12: /* type_specifier: FLOAT  */
+#line 93 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1223 "src/currentParser.tab.cpp"
     break;
 
-  case 22: /* compound_statement: '{' statement '}'  */
-#line 93 "src/currentParser.y"
-                            { (yyval.block) = (yyvsp[-1].block); }
+  case 13: /* type_specifier: DOUBLE  */
+#line 94 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1229 "src/currentParser.tab.cpp"
     break;
 
-  case 23: /* statement: jump_statement  */
-#line 97 "src/currentParser.y"
-                         {(yyval.block) = (yyvsp[0].block);}
+  case 14: /* type_specifier: SIGNED  */
+#line 95 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1235 "src/currentParser.tab.cpp"
     break;
 
-  case 24: /* jump_statement: RETURN expression ';'  */
-#line 101 "src/currentParser.y"
-                                {(yyval.block) = (yyvsp[-1].block);}
+  case 15: /* type_specifier: UNSIGNED  */
+#line 96 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1241 "src/currentParser.tab.cpp"
     break;
 
-  case 25: /* expression: primary_expression  */
-#line 105 "src/currentParser.y"
-                             {(yyval.block) = (yyvsp[0].block);}
+  case 16: /* type_specifier: TYPE_NAME  */
+#line 97 "src/currentParser.y"
+                    { (yyval.string) = (yyvsp[0].string); /*delete $1;*/}
 #line 1247 "src/currentParser.tab.cpp"
     break;
 
-  case 26: /* primary_expression: IDENTIFIER  */
-#line 109 "src/currentParser.y"
-                     { (yyval.block) = new Expression(*(yyvsp[0].string)); delete (yyvsp[0].string);}
+  case 17: /* declarator: direct_declarator  */
+#line 101 "src/currentParser.y"
+                            { (yyval.block) = (yyvsp[0].block);}
 #line 1253 "src/currentParser.tab.cpp"
     break;
 
-  case 27: /* primary_expression: CONSTANT  */
-#line 110 "src/currentParser.y"
-                   { (yyval.block) = new Expression(atoi(*(yyvsp[0].string))); delete (yyvsp[0].string);}
+  case 18: /* direct_declarator: IDENTIFIER  */
+#line 105 "src/currentParser.y"
+                     { (yyval.block) = new Declarator(*(yyvsp[0].string)); delete (yyvsp[0].string); }
 #line 1259 "src/currentParser.tab.cpp"
     break;
 
-  case 28: /* primary_expression: STRING_LITERAL  */
-#line 111 "src/currentParser.y"
-                         { (yyval.block) = new Expression(*(yyvsp[0].string)); delete (yyvsp[0].string);}
+  case 19: /* direct_declarator: '(' declarator ')'  */
+#line 106 "src/currentParser.y"
+                             { (yyval.block) = (yyvsp[-1].block); }
 #line 1265 "src/currentParser.tab.cpp"
     break;
 
-  case 29: /* primary_expression: '(' expression ')'  */
-#line 112 "src/currentParser.y"
-                             { (yyval.block) = (yyvsp[-1].block); }
+  case 20: /* direct_declarator: direct_declarator '(' ')'  */
+#line 107 "src/currentParser.y"
+                                    { (yyval.block) = (yyvsp[-2].block);}
 #line 1271 "src/currentParser.tab.cpp"
     break;
 
+  case 21: /* compound_statement: '{' '}'  */
+#line 110 "src/currentParser.y"
+                  { (yyval.block) = new Expression("null"); }
+#line 1277 "src/currentParser.tab.cpp"
+    break;
 
-#line 1275 "src/currentParser.tab.cpp"
+  case 22: /* compound_statement: '{' statement '}'  */
+#line 111 "src/currentParser.y"
+                            { (yyval.block) = (yyvsp[-1].block); }
+#line 1283 "src/currentParser.tab.cpp"
+    break;
+
+  case 23: /* statement: jump_statement  */
+#line 115 "src/currentParser.y"
+                         {(yyval.block) = (yyvsp[0].block);}
+#line 1289 "src/currentParser.tab.cpp"
+    break;
+
+  case 24: /* jump_statement: RETURN expression ';'  */
+#line 119 "src/currentParser.y"
+                                {(yyval.block) = (yyvsp[-1].block);}
+#line 1295 "src/currentParser.tab.cpp"
+    break;
+
+  case 25: /* expression: primary_expression  */
+#line 123 "src/currentParser.y"
+                             {(yyval.block) = (yyvsp[0].block);}
+#line 1301 "src/currentParser.tab.cpp"
+    break;
+
+  case 26: /* primary_expression: IDENTIFIER  */
+#line 127 "src/currentParser.y"
+                     { (yyval.block) = new Expression(*(yyvsp[0].string)); delete (yyvsp[0].string);}
+#line 1307 "src/currentParser.tab.cpp"
+    break;
+
+  case 27: /* primary_expression: CONSTANT  */
+#line 128 "src/currentParser.y"
+                   { (yyval.block) = new Expression(stoi(*(yyvsp[0].string))); delete (yyvsp[0].string);}
+#line 1313 "src/currentParser.tab.cpp"
+    break;
+
+  case 28: /* primary_expression: STRING_LITERAL  */
+#line 129 "src/currentParser.y"
+                         { (yyval.block) = new Expression(*(yyvsp[0].string)); delete (yyvsp[0].string);}
+#line 1319 "src/currentParser.tab.cpp"
+    break;
+
+  case 29: /* primary_expression: '(' expression ')'  */
+#line 130 "src/currentParser.y"
+                             { (yyval.block) = (yyvsp[-1].block); }
+#line 1325 "src/currentParser.tab.cpp"
+    break;
+
+
+#line 1329 "src/currentParser.tab.cpp"
 
       default: break;
     }
@@ -1464,7 +1518,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 115 "src/currentParser.y"
+#line 133 "src/currentParser.y"
 
 
 const Block *g_root; 

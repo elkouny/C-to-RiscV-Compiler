@@ -17,11 +17,29 @@
     std::string *string;
 }
 
+%token SIZEOF
+%token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
+%token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
+%token SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
+%token XOR_ASSIGN OR_ASSIGN 
+%token TYPEDEF EXTERN STATIC AUTO REGISTER
+%token CONST VOLATILE
+%token STRUCT UNION ENUM ELLIPSIS
+
+%token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK
+
+
 %token <string> IDENTIFIER CONSTANT STRING_LITERAL
 
 %token <string> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID TYPE_NAME
 
 %token RETURN
+/* 
+%token <string> IDENTIFIER CONSTANT STRING_LITERAL
+
+%token <string> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID TYPE_NAME
+
+%token RETURN */
 
 %type <block> primary_expression // etc
 %type <block> expression
@@ -107,7 +125,7 @@ expression
 
 primary_expression
 	: IDENTIFIER { $$ = new Expression(*$1); delete $1;}
-	| CONSTANT { $$ = new Expression(atoi(*$1)); delete $1;}
+	| CONSTANT { $$ = new Expression(stoi(*$1)); delete $1;}
 	| STRING_LITERAL { $$ = new Expression(*$1); delete $1;}
 	| '(' expression ')' { $$ = $2; }
 	;
