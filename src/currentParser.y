@@ -94,7 +94,7 @@ declarator
 	;
 
 direct_declarator
-	: IDENTIFIER { $$ = new DirectDeclarator($1);}
+	: IDENTIFIER { $$ = new DirectDeclarator();}
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '(' ')' { $$ = $1;}
 
@@ -117,9 +117,9 @@ expression
 
 
 primary_expression
-	: IDENTIFIER { $$ = new Identifier($1);}
-	| CONSTANT { $$ = new Constant($1);}
-	| STRING_LITERAL { $$ = new StringLiteral($1);}
+	: IDENTIFIER { $$ = new Identifier();}
+	| CONSTANT { $$ = new Constant();}
+	| STRING_LITERAL { $$ = new StringLiteral();}
 	| '(' expression ')' { $$ = $2;}
 	;
 
