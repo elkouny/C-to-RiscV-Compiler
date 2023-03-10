@@ -17,18 +17,14 @@
     std::string *string;
 }
 
-%token IDENTIFIER CONSTANT STRING_LITERAL
-%token TYPE_NAME
+%token <string> IDENTIFIER CONSTANT STRING_LITERAL
 
-%token CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
+%token <string> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID TYPE_NAME
 
 %token RETURN
 
 %type <block> primary_expression // etc
 %type <block> expression
-%type <block> declaration_specifiers
-%type <block> type_specifier
-%type <block> type_qualifier
 %type <block> declarator
 %type <block> direct_declarator
 %type <block> statement
@@ -38,6 +34,8 @@
 %type <block> external_declaration
 %type <block> function_definition
 
+%type <string> declaration_specifiers
+%type <string> type_specifier
 
 /* %type <block> declarator */
 
@@ -61,44 +59,38 @@ external_declaration
 	;
 
 function_definition
-	: declaration_specifiers declarator compound_statement { $$ = new Function($1, $2, $3);} // $1 type, $2 main(), $3 block: {}
+	: declaration_specifiers declarator compound_statement { $$ = new Function(*$1, $2, $3); delete $1; }  // $1 type, $2 main(), $3 block: {}
 	;
 
 declaration_specifiers
 	: type_specifier { $$ = $1;}
-	| type_qualifier { $$ = $1;}
 	;
 
 type_specifier
-	: VOID { $$ = $1;}
-	| CHAR { $$ = $1;}
-	| SHORT { $$ = $1;}
-	| INT { $$ = $1;}
-	| LONG { $$ = $1;}
-	| FLOAT { $$ = $1;}
-	| DOUBLE { $$ = $1;}
-	| SIGNED { $$ = $1;}
-	| UNSIGNED { $$ = $1;}
-	| TYPE_NAME { $$ = $1;}
-	;
-
-type_qualifier
-	: CONST { $$ = $1;}
-	| VOLATILE { $$ = $1;}
+	: VOID      { $$ = $1; /*delete $1;*/}
+	| CHAR      { $$ = $1; /*delete $1;*/}
+	| SHORT     { $$ = $1; /*delete $1;*/}
+	| INT       { $$ = $1; /*delete $1;*/}
+	| LONG      { $$ = $1; /*delete $1;*/}
+	| FLOAT     { $$ = $1; /*delete $1;*/}
+	| DOUBLE    { $$ = $1; /*delete $1;*/}
+	| SIGNED    { $$ = $1; /*delete $1;*/}
+	| UNSIGNED  { $$ = $1; /*delete $1;*/}
+	| TYPE_NAME { $$ = $1; /*delete $1;*/}
 	;
 
 declarator
-	: direct_declarator { $$ = new Declarator($1);}
+	: direct_declarator { $$ = $1;}
 	;
 
 direct_declarator
-	: IDENTIFIER { $$ = $1; }
+	: IDENTIFIER { $$ = new Declarator(*$1); delete $1; }
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '(' ')' { $$ = $1;}
 
 compound_statement
-	: '{' '}'
-	| '{' statement '}'
+	: '{' '}' { $$ = new Expression("null"); }
+	| '{' statement '}' { $$ = $2; }
 	;
 
 statement
@@ -106,7 +98,7 @@ statement
 	;
 
 jump_statement
-	: RETURN expression ';' {$$ = new Jump($2);}
+	: RETURN expression ';' {$$ = $2;}
 	;
 
 expression
@@ -114,9 +106,9 @@ expression
 	;
 
 primary_expression
-	: IDENTIFIER { $$ = $1; }
-	| CONSTANT { $$ = $1; }
-	| STRING_LITERAL { $$ = $1; }
+	: IDENTIFIER { $$ = new Expression(*$1); delete $1;}
+	| CONSTANT { $$ = new Expression(atoi(*$1)); delete $1;}
+	| STRING_LITERAL { $$ = new Expression(*$1); delete $1;}
 	| '(' expression ')' { $$ = $2; }
 	;
 
