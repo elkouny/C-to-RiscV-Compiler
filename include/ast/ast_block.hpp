@@ -12,22 +12,25 @@ class Block;
 
 typedef const Block *BlockPtr;
 
-class Block
-{
-private:
-    std::vector<BlockPtr> children;
+class Block {
+// private:
+//     BlockPtr translation_unit;
 public:
-    virtual ~Block()
-    {}
+    // Block(const BlockPtr &_tu) : translation_unit(_tu) {}
+    
+    virtual ~Block() {}
 
     //! Tell and expression to print itself to the given stream
     virtual void print(std::ostream &dst) const =0;
 
     //! Evaluate the tree using the given mapping of variables to numbers
-    virtual double evaluate(
-        const std::map<std::string,double> &bindings
-    ) const
-    { throw std::runtime_error("Not implemented."); }
+    virtual void evaluate(std::ostream &dst) const { 
+        throw std::runtime_error("Not implemented."); 
+    }
+
+    // virtual std::string getIdentifier() const {}
+
+    // virtual int getConstant() const {}  
 };
 
 
