@@ -3,14 +3,15 @@
 
 #include "ast_block.hpp"
 
-class Function : Block {
+class Function : public Block {
 private:
     std::string specifier;
     BlockPtr declarator;
     BlockPtr cstatement;
-protected:
-    Function(std::string s, BlockPtr d, BlockPtr c) : specifier(s), declarator(d), cstatement(c) {}
+// protected:
 public:
+    Function(std::string s, BlockPtr d, BlockPtr c) : specifier(s), declarator(d), cstatement(c) {}
+    
     virtual ~Function() {
         delete declarator;
         delete cstatement;
@@ -29,7 +30,7 @@ public:
     }
 
     virtual void print(std::ostream &dst) const override {
-        dst<<specifier<<" ";
+        dst<<getSpecifier()<<" ";
         getDeclarator()->print(dst);
         dst<<" {\n";
         getStatement()->print(dst);
