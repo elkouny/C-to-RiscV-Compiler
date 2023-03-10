@@ -1,8 +1,9 @@
-// DOUBLE CHECK THIS WITH SPEC LATER
 %code requires{
     #include "ast.hpp"
 
-    extern /*rename main tree node*/ Expression *g_root; 
+	#include <cassert>
+
+    extern Block *g_root; 
 
     int yylex(void);
     void yyerror(const char *);  
@@ -11,7 +12,8 @@
 
 
 %union{
-    /*rename pointer ^*/ Expression * exPtr 
+    /*rename pointer ^*/ 
+	const Block *block;
     double number;
     std::string *string;
 }
@@ -28,90 +30,75 @@
 
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
-%type <exPtr> primary_expression // etc
-%type <exPtr> postfix_expression
-%type <exPtr> argument_expression_list
-%type <exPtr> unary_expression
-%type <exPtr> unary_operator
-%type <exPtr> cast_expression
-%type <exPtr> multiplicative_expression
-%type <exPtr> additive_expression
-%type <exPtr> shift_expression
-%type <exPtr> relational_expression
-%type <exPtr> equality_expression
-%type <exPtr> and_expression
-%type <exPtr> exclusive_or_expression
-%type <exPtr> inclusive_or_expression
-%type <exPtr> logical_and_expression
-%type <exPtr> logical_or_expression
-%type <exPtr> conditional_expression
-%type <exPtr> assignment_expression
-%type <exPtr> assignment_operator
-%type <exPtr> expression
-%type <exPtr> constant_expression
-%type <exPtr> declaration
-%type <exPtr> declaration_specifiers
-%type <exPtr> init_declarator_list
-%type <exPtr> init_declarator
-%type <exPtr> storage_class_specifier
-%type <exPtr> type_specifier
-%type <exPtr> struct_or_union_specifier
-%type <exPtr> struct_or_union
-%type <exPtr> struct_declaration_list
-%type <exPtr> struct_declaration	
-%type <exPtr> specifier_qualifier_list
-%type <exPtr> struct_declarator_list
-%type <exPtr> struct_declarator
-%type <exPtr> enum_specifier
-%type <exPtr> enumerator_list
-%type <exPtr> enumerator
-%type <exPtr> type_qualifier
-%type <exPtr> function_specifier
-%type <exPtr> declarator
-%type <exPtr> direct_declarator
-%type <exPtr> pointer
-%type <exPtr> type_qualifier_list
-%type <exPtr> parameter_type_list
-%type <exPtr> parameter_list
-%type <exPtr> parameter_declaration
-%type <exPtr> identifier_list
-%type <exPtr> type_name
-%type <exPtr> abstract_declarator
-%type <exPtr> direct_abstract_declarator
-%type <exPtr> initializer
-%type <exPtr> initializer_list
-%type <exPtr> designation
-%type <exPtr> designator_list
-%type <exPtr> designator
-%type <exPtr> statement
-%type <exPtr> labeled_statement
-%type <exPtr> compound_statement
-%type <exPtr> block_item_list
-%type <exPtr> block_item
-%type <exPtr> expression_statement
-%type <exPtr> selection_statement
-%type <exPtr> iteration_statement
-%type <exPtr> jump_statement
-%type <exPtr> translation_unit
-%type <exPtr> external_declaration
-%type <exPtr> function_definition
-%type <exPtr> declaration_list
+%type <block> primary_expression // etc
+%type <block> postfix_expression
+%type <block> argument_expression_list
+%type <block> unary_expression
+%type <block> unary_operator
+%type <block> cast_expression
+%type <block> multiplicative_expression
+%type <block> additive_expression
+%type <block> shift_expression
+%type <block> relational_expression
+%type <block> equality_expression
+%type <block> and_expression
+%type <block> exclusive_or_expression
+%type <block> inclusive_or_expression
+%type <block> logical_and_expression
+%type <block> logical_or_expression
+%type <block> conditional_expression
+%type <block> assignment_expression
+%type <block> assignment_operator
+%type <block> expression
+%type <block> constant_expression
+%type <block> declaration
+%type <block> declaration_specifiers
+%type <block> init_declarator_list
+%type <block> init_declarator
+%type <block> storage_class_specifier
+%type <block> type_specifier
+%type <block> struct_or_union_specifier
+%type <block> struct_or_union
+%type <block> struct_declaration_list
+%type <block> struct_declaration	
+%type <block> specifier_qualifier_list
+%type <block> struct_declarator_list
+%type <block> struct_declarator
+%type <block> enum_specifier
+%type <block> enumerator_list
+%type <block> enumerator
+%type <block> type_qualifier
+%type <block> declarator
+%type <block> direct_declarator
+%type <block> pointer
+%type <block> type_qualifier_list
+%type <block> parameter_type_list
+%type <block> parameter_list
+%type <block> parameter_declaration
+%type <block> identifier_list
+%type <block> type_name
+%type <block> abstract_declarator
+%type <block> direct_abstract_declarator
+%type <block> initializer
+%type <block> initializer_list
+%type <block> statement
+%type <block> labeled_statement
+%type <block> compound_statement
+%type <block> expression_statement
+%type <block> selection_statement
+%type <block> iteration_statement
+%type <block> jump_statement
+%type <block> translation_unit
+%type <block> external_declaration
+%type <block> function_definition
+%type <block> declaration_list
+%type <block> statement_list
 
 
 // continue...
-%type <number>  INT 
-%type <number>  FLOAT
+/* %type <number> // May need int, float etc type */
 
-
-
-%type <string> STRING_LITERAL 
-%type <string> IDENTIFIER 
-%type <string> CONSTANT
-
-
-
-
-
+/* %type <string> STRING_LITERAL // may need char type */
 
 %start translation_unit
 
@@ -405,7 +392,7 @@ parameter_declaration
 	;
 
 identifier_list
-	: IDENTIFIER { $$ = new IdentifierList($1);}
+	: IDENTIFIER { $$ = $1 }
 	| identifier_list ',' IDENTIFIER  { $$ = new IdentifierList($1, $3);}
 	;
 
