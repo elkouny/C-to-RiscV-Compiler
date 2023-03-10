@@ -11,7 +11,7 @@ private:
 public:
     Declarator(std::string i) : identifier(i) {}
 
-    ~Declarator();
+    ~Declarator() {};
     
     std::string getIdentifier() const {
         return identifier;

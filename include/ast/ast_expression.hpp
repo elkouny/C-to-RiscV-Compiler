@@ -13,7 +13,7 @@ public:
     Expression(int c) : constant(c) {}
     Expression(std::string s ) : string(s) {}
     
-    ~Expression();
+    ~Expression() {};
 
     int getConstant() const {
         return constant;

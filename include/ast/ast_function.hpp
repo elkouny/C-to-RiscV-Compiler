@@ -41,7 +41,7 @@ public:
         dst<<getSpecifier()<<":\n";
         dst<<"addi sp,sp,-16\nsd s0,8(sp)\naddi s0,sp,16\n";
         getStatement()->evaluate(dst);
-        dst<<"mv a0,a5\n ld s0,8(sp)\n addi sp,sp,16\n jr ra\n";
+        dst<<"mv a0,a5\nld s0,8(sp)\naddi sp,sp,16\njr ra\n";
     }
 };
 

@@ -30,7 +30,7 @@ IS (u|U|l|L)*
 "for"			{ return(FOR); }
 "goto"			{ return(GOTO); }
 "if"			{ return(IF); }
-"int"			{ return(INT); }
+"int"			{ yylval.string=new std::string(yytext); return(INT); }
 "long"			{ return(LONG); }
 "register"		{ return(REGISTER); }
 "return"		{ return(RETURN); }
@@ -47,18 +47,18 @@ IS (u|U|l|L)*
 "volatile"		{ return(VOLATILE); }
 "while"			{ return(WHILE); }
 
-{L}({L}|{D})*		{ return(IDENTIFIER);} //check_type()); }
+{L}({L}|{D})*		{ yylval.string=new std::string(yytext); return(IDENTIFIER);} //check_type()); }
 
-0[xX]{H}+{IS}?		{ return(CONSTANT); }
-0{D}+{IS}?		{ return(CONSTANT); }
-{D}+{IS}?		{ return(CONSTANT); }
-L?'(\\.|[^\\'])+'	{ return(CONSTANT); }
+0[xX]{H}+{IS}?		{ yylval.string=new std::string(yytext); return(CONSTANT); }
+0{D}+{IS}?		    { yylval.string=new std::string(yytext); return(CONSTANT); }
+{D}+{IS}?		    { yylval.string=new std::string(yytext); return(CONSTANT); }
+L?'(\\.|[^\\'])+'	{ yylval.string=new std::string(yytext); return(CONSTANT); }
 
-{D}+{E}{FS}?		{ return(CONSTANT); }
+{D}+{E}{FS}?		{ yylval.string=new std::string(yytext); return(CONSTANT); }
 {D}*"."{D}+({E})?{FS}?	{ return(CONSTANT); }
-{D}+"."{D}*({E})?{FS}?	{ return(CONSTANT); }
+{D}+"."{D}*({E})?{FS}?	{ yylval.string=new std::string(yytext); return(CONSTANT); }
 
-L?\"(\\.|[^\\"])*\"	{ return(STRING_LITERAL); }
+L?\"(\\.|[^\\"])*\"	{ yylval.string=new std::string(yytext); return(STRING_LITERAL); }
 
 "..."			{ return(ELLIPSIS); }
 ">>="			{ return(RIGHT_ASSIGN); }
@@ -118,60 +118,60 @@ void yyerror (char const *s)
   exit(1);
 }
 
-yywrap()
-{
-	return(1);
-}
+// yywrap()
+// {
+// 	return 1;
+// }
 
-{
-	char c, c1;
+// {
+// 	char c, c1;
 
-loop:
-	while ((c = input()) != '*' && c != 0)
-		putchar(c);
+// loop:
+// 	while ((c = input()) != '*' && c != 0)
+// 		putchar(c);
 
-	if ((c1 = input()) != '/' && c != 0)
-	{
-		unput(c1);
-		goto loop;
-	}
+// 	if ((c1 = input()) != '/' && c != 0)
+// 	{
+// 		unput(c1);
+// 		goto loop;
+// 	}
 
-	if (c != 0)
-		putchar(c1);
-}
-
-
-int column = 0;
-
-void count()
-{
-	int i;
-
-	for (i = 0; yytext[i] != '\0'; i++)
-		if (yytext[i] == '\n')
-			column = 0;
-		else if (yytext[i] == '\t')
-			column += 8 - (column % 8);
-		else
-			column++;
-
-	ECHO;
-}
+// 	if (c != 0)
+// 		putchar(c1);
+// }
 
 
-int check_type()
-{
-/*
-* pseudo code --- this is what it should check
-*
-*	if (yytext == type_name)
-*		return(TYPE_NAME);
-*
-*	return(IDENTIFIER);
-*/
+// int column = 0;
 
-/*
-*	it actually will only return IDENTIFIER
-*/
-	return(IDENTIFIER);
-}
+// void count()
+// {
+// 	int i;
+
+// 	for (i = 0; yytext[i] != '\0'; i++)
+// 		if (yytext[i] == '\n')
+// 			column = 0;
+// 		else if (yytext[i] == '\t')
+// 			column += 8 - (column % 8);
+// 		else
+// 			column++;
+
+// 	ECHO;
+// }
+
+
+// int check_type()
+// {
+// /*
+// * pseudo code --- this is what it should check
+// *
+// *	if (yytext == type_name)
+// *		return(TYPE_NAME);
+// *
+// *	return(IDENTIFIER);
+// */
+
+// /*
+// *	it actually will only return IDENTIFIER
+// */
+// 	return(IDENTIFIER);
+// }

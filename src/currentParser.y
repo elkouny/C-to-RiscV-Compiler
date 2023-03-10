@@ -13,7 +13,7 @@
 %union{
     /*rename pointer ^*/ 
 	const Block *block;
-    double number;
+    // double number;
     std::string *string;
 }
 
@@ -76,7 +76,9 @@ external_declaration
 	;
 
 function_definition
-	: declaration_specifiers declarator compound_statement { $$ = new Function(*$1, $2, $3); delete $1; }  // $1 type, $2 main(), $3 block: {}
+	: declaration_specifiers declarator compound_statement { $$ = new Function(*$1, $2, $3); }  // $1 type, $2 main(), $3 block: {}
+	| expression ';' { $$ = $1; }
+	| jump_statement { $$ = $1; }
 	;
 
 declaration_specifiers
@@ -101,7 +103,7 @@ declarator
 	;
 
 direct_declarator
-	: IDENTIFIER { $$ = new Declarator(*$1); delete $1; }
+	: IDENTIFIER { $$ = new Declarator(*$1); }
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '(' ')' { $$ = $1;}
 
@@ -123,9 +125,9 @@ expression
 	;
 
 primary_expression
-	: IDENTIFIER { $$ = new Expression(*$1); delete $1;}
-	| CONSTANT { $$ = new Expression(stoi(*$1)); delete $1;}
-	| STRING_LITERAL { $$ = new Expression(*$1); delete $1;}
+	: IDENTIFIER { $$ = new Expression(*$1); }
+	| CONSTANT { $$ = new Expression(stoi(*$1)); }
+	| STRING_LITERAL { $$ = new Expression(*$1); }
 	| '(' expression ')' { $$ = $2; }
 	;
 
