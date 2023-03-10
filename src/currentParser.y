@@ -70,29 +70,31 @@ declaration_specifiers
 	;
 
 type_specifier
-	: VOID { $$ = $1;}
-	| CHAR { $$ = $1;}
-	| SHORT { $$ = $1;}
-	| INT { $$ = $1;}
-	| LONG { $$ = $1;}
-	| FLOAT { $$ = $1;}
-	| DOUBLE { $$ = $1;}
-	| SIGNED { $$ = $1;}
-	| UNSIGNED { $$ = $1;}
-	| TYPE_NAME { $$ = $1;}
+	: VOID { $$ = new Void();}
+	| CHAR { $$ = new Char();}
+	| SHORT { $$ = new Short();}
+	| INT { $$ = new Int();}
+	| LONG { $$ = new Long();}
+	| FLOAT { $$ = new Float();}
+	| DOUBLE { $$ = new Double();}
+	| SIGNED { $$ = new Signed();}
+	| UNSIGNED { $$ = new Unsigned();}
+	| TYPE_NAME { $$ = new TypeName();}
 	;
 
+
 type_qualifier
-	: CONST { $$ = $1;}
-	| VOLATILE { $$ = $1;}
+	: CONST { $$ = new Const();}
+	| VOLATILE { $$ = new Volatile();}
 	;
+
 
 declarator
 	: direct_declarator { $$ = new Declarator($1);}
 	;
 
 direct_declarator
-	: IDENTIFIER { $$ = $1; }
+	: IDENTIFIER { $$ = new DirectDeclarator($1);}
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '(' ')' { $$ = $1;}
 
@@ -113,11 +115,12 @@ expression
 	: primary_expression {$$ = $1;}
 	;
 
+
 primary_expression
-	: IDENTIFIER { $$ = $1; }
-	| CONSTANT { $$ = $1; }
-	| STRING_LITERAL { $$ = $1; }
-	| '(' expression ')' { $$ = $2; }
+	: IDENTIFIER { $$ = new Identifier($1);}
+	| CONSTANT { $$ = new Constant($1);}
+	| STRING_LITERAL { $$ = new StringLiteral($1);}
+	| '(' expression ')' { $$ = $2;}
 	;
 
 %%
