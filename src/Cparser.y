@@ -203,6 +203,7 @@ direct_declarator
 	| '{' statement_list '}' { $$ = new CompoundStatement($2);}
 	| '{' declaration_list '}' { $$ = new CompoundStatement($2);}
 	| '{' declaration_list statement_list '}' { $$ = new CompoundStatement($2, $3);}
+
 	; */
 
 compound_statement

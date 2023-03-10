@@ -32,6 +32,9 @@ bin/print_parsed : src/print_parsed.o src/$(PARSER).tab.o src/$(LEXER).yy.o src/
 # 	mkdir -p bin
 # 	g++ $(CPPFLAGS) -o bin/eval_expr $^
 
+bin/print_canonical : src/print_canonical.o src/currentParser.tab.o src/Lexer.yy.o src/currentParser.tab.o
+	mkdir -p bin
+	g++ $(CPPFLAGS) -o bin/print_canonical $^
 
 clean :
 	rm src/*.o

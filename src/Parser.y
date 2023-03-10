@@ -8,6 +8,8 @@
     int yylex(void);
     void yyerror(const char *);  
 }
+%define parse.error verbose
+
 
 %union{
     /*rename pointer ^*/ 
@@ -97,8 +99,6 @@
 /* %type <number> // May need int, float etc type */
 
 /* %type <string> STRING_LITERAL // may need char type */
-
-
 
 %start translation_unit
 
@@ -489,13 +489,13 @@ jump_statement
 	;
 
 translation_unit	
-	: external_declaration	{ $$ = new TranslationUnit($1);}
+	: external_declaration	{ $$ =  $1;}
 	| translation_unit external_declaration	{ $$ = new TranslationUnit($1, $2);}
 	;
 
 external_declaration
-	: function_definition	{ $$ = new ExternalDeclaration($1);}
-	| declaration	{ $$ = new ExternalDeclaration($1);}
+	: function_definition	{ $$ = $1;}
+	| declaration	{ $$ = $1;}
 	;
 
 function_definition
