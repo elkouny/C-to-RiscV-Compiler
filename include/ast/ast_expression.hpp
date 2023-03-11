@@ -30,6 +30,11 @@ public:
     virtual void evaluate(std::ostream &dst) const override {
         dst<<"li a5,"<<getConstant()<<"\n";
     }
+    
+    // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const override {
+    //     dst<<"li "<<context.regName(destReg)<<","<<getConstant()<<"\n";
+    // }
+
 };
 
 #endif

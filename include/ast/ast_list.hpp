@@ -31,7 +31,7 @@ public:
     BlockPtr getHead() const { return head; }
     BlockPtr getList() const { return list; }
 
-    void print(std::ostream &dst) const override {
+    virtual void print(std::ostream &dst) const override {
         head->print(dst);
         if (list != nullptr) {
             dst << std::endl;
@@ -40,13 +40,20 @@ public:
     }
 
 
-    void evaluate(std::ostream &dst) const override {
+    virtual void evaluate(std::ostream &dst) const override {
         head->evaluate(dst);
         if (list != nullptr) {
             dst << std::endl;
             list->evaluate(dst);
         }
     }    
+
+    // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const override {
+    //     head->generateRISC(dst, context, destReg);
+    //     if (list != nullptr) {
+    //         list->generateRISC(dst, context, destReg);
+    //     }
+    // }
 };
 
 #endif
