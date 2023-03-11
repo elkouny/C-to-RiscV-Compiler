@@ -51,6 +51,9 @@
 %type <block> external_declaration
 %type <block> function_definition
 %type <block> statement_list
+%type <block> declaration
+%type <block> init_declarator_list
+%type <block> init_declarator
 
 %type <string> declaration_specifiers
 %type <string> type_specifier
@@ -70,11 +73,30 @@ ROOT : translation_unit { g_root = $1; }
 /* Top level entity */
 translation_unit
 	: external_declaration { $$ = $1; }
+	| declaration	{ $$ = $1;}
 	;
 
 external_declaration
 	: function_definition { $$ = $1;}
 	;
+
+// HAVE A LOO L8R
+declaration
+	: declaration_specifiers ';' { $$ = new  Declaration($1);}
+	| declaration_specifiers init_declarator_list ';' { $$ = new Declaration($1, $2);} // CHANGE
+	;
+
+init_declarator_list
+	: init_declarator { $$ = new List($1);}
+	| init_declarator_list ',' init_declarator { $$ = new List($1, $3);}
+	;
+
+init_declarator
+	: declarator { $$ = new InitDeclarator($1);} 
+	| declarator '=' primary_expression { $$ = new InitDeclarator($1, $3);}
+	;
+
+///// UNTIL HERE
 
 function_definition
 	: declaration_specifiers declarator compound_statement { $$ = new Function(*$1, $2, $3); }  // $1 type, $2 main(), $3 block: {}
@@ -115,8 +137,8 @@ compound_statement
 	;
 
 statement_list
-	: statement	{  $$ = new StatementList($1);}
-	| statement_list statement	{ $$ = new StatementList($1, $2);}
+	: statement	{  $$ = new List($1);}
+	| statement_list statement	{ $$ = new List($1, $2);}
 	;
 
 statement
