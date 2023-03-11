@@ -50,6 +50,7 @@
 %type <block> translation_unit
 %type <block> external_declaration
 %type <block> function_definition
+%type <block> statement_list
 
 %type <string> declaration_specifiers
 %type <string> type_specifier
@@ -109,7 +110,13 @@ direct_declarator
 
 compound_statement
 	: '{' '}' { $$ = new Expression("null"); }
-	| '{' statement '}' { $$ = $2; }
+	/* | '{' statement '}' { $$ = $2; } */
+	| '{' statement_list '}' { $$ = ($2);}
+	;
+
+statement_list
+	: statement	{  $$ = new StatementList($1);}
+	| statement_list statement	{ $$ = new StatementList($1, $2);}
 	;
 
 statement
@@ -118,6 +125,7 @@ statement
 
 jump_statement
 	: RETURN expression ';' {$$ = $2;}
+
 	;
 
 expression

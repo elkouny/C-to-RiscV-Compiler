@@ -16,7 +16,7 @@ CPPFLAGS += -I include
 PARSER += currentParser
 LEXER += Lexer
 
-all : bin/print_parsed # bin/eval_expr
+all : bin/print_parsed bin/print_canonical
 
 src/$(PARSER).tab.cpp src/$(PARSER).tab.hpp : src/$(PARSER).y
 	bison -v -d  -Wconflicts-sr -Wother -Wcounterexamples src/$(PARSER).y -o src/$(PARSER).tab.cpp
