@@ -80,8 +80,7 @@ external_declaration
 	: function_definition { $$ = $1;}
 	;
 
-// HAVE A LOO L8R
-/* eg int x = 2; or int x; or int x,y=2 */
+
 declaration
 	: declaration_specifiers ';' { $$ = new Declaration(*$1);}
 	| declaration_specifiers init_declarator_list ';' { $$ = new Declaration(*$1, $2);}
@@ -97,7 +96,6 @@ init_declarator
 	| declarator '=' primary_expression { $$ = new Init_Declarator($1, $3);}
 	;
 
-///// UNTIL HERE
 
 function_definition
 	: declaration_specifiers declarator compound_statement { $$ = new Function(*$1, $2, $3); }  // $1 type, $2 main(), $3 block: {}
@@ -135,7 +133,8 @@ direct_declarator
 compound_statement
 	: '{' '}' { $$ = new Expression("null"); }
 	/* | '{' statement '}' { $$ = $2; } */
-	| '{' statement_list '}' { $$ = ($2);}
+	| '{' statement_list '}' {$$ = new Compound_Statement($2);}
+	| '{' declaration statement_list '}' {$$ = new Compound_Statement($2, $3);}
 	;
 
 statement_list
@@ -145,6 +144,7 @@ statement_list
 
 statement
 	: jump_statement {$$ = $1;}
+	| compound_statement {$$ = $1;}
 	;
 
 jump_statement

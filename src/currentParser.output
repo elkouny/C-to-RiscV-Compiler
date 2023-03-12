@@ -91,32 +91,34 @@ Grammar
 
    29 compound_statement: '{' '}'
    30                   | '{' statement_list '}'
+   31                   | '{' declaration statement_list '}'
 
-   31 statement_list: statement
-   32               | statement_list statement
+   32 statement_list: statement
+   33               | statement_list statement
 
-   33 statement: jump_statement
+   34 statement: jump_statement
+   35          | compound_statement
 
-   34 jump_statement: RETURN expression ';'
+   36 jump_statement: RETURN expression ';'
 
-   35 expression: primary_expression
+   37 expression: primary_expression
 
-   36 primary_expression: IDENTIFIER
-   37                   | CONSTANT
-   38                   | STRING_LITERAL
-   39                   | '(' expression ')'
+   38 primary_expression: IDENTIFIER
+   39                   | CONSTANT
+   40                   | STRING_LITERAL
+   41                   | '(' expression ')'
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
-    '(' (40) 27 28 39
-    ')' (41) 27 28 39
+    '(' (40) 27 28 41
+    ')' (41) 27 28 41
     ',' (44) 8
-    ';' (59) 5 6 12 34
+    ';' (59) 5 6 12 36
     '=' (61) 10
-    '{' (123) 29 30
-    '}' (125) 29 30
+    '{' (123) 29 30 31
+    '}' (125) 29 30 31
     error (256)
     SIZEOF (258)
     PTR_OP (259)
@@ -162,9 +164,9 @@ Terminals, with rules where they appear
     GOTO (299)
     CONTINUE (300)
     BREAK (301)
-    IDENTIFIER <string> (302) 26 36
-    CONSTANT <string> (303) 37
-    STRING_LITERAL <string> (304) 38
+    IDENTIFIER <string> (302) 26 38
+    CONSTANT <string> (303) 39
+    STRING_LITERAL <string> (304) 40
     CHAR <string> (305) 16
     SHORT <string> (306) 17
     INT <string> (307) 18
@@ -175,7 +177,7 @@ Terminals, with rules where they appear
     DOUBLE <string> (312) 21
     VOID <string> (313) 15
     TYPE_NAME <string> (314) 24
-    RETURN (315) 34
+    RETURN (315) 36
 
 
 Nonterminals, with rules where they appear
@@ -193,7 +195,7 @@ Nonterminals, with rules where they appear
         on right: 2
     declaration <block> (72)
         on left: 5 6
-        on right: 3
+        on right: 3 31
     init_declarator_list <block> (73)
         on left: 7 8
         on right: 6 8
@@ -216,23 +218,23 @@ Nonterminals, with rules where they appear
         on left: 26 27 28
         on right: 25 28
     compound_statement <block> (80)
-        on left: 29 30
-        on right: 11
+        on left: 29 30 31
+        on right: 11 35
     statement_list <block> (81)
-        on left: 31 32
-        on right: 30 32
+        on left: 32 33
+        on right: 30 31 33
     statement <block> (82)
-        on left: 33
-        on right: 31 32
+        on left: 34 35
+        on right: 32 33
     jump_statement <block> (83)
-        on left: 34
-        on right: 13 33
+        on left: 36
+        on right: 13 34
     expression <block> (84)
-        on left: 35
-        on right: 12 34 39
+        on left: 37
+        on right: 12 36 41
     primary_expression <block> (85)
-        on left: 36 37 38 39
-        on right: 10 35
+        on left: 38 39 40 41
+        on right: 10 37
 
 
 State 0
@@ -269,23 +271,23 @@ State 0
 
 State 1
 
-   36 primary_expression: IDENTIFIER .
+   38 primary_expression: IDENTIFIER .
 
-    $default  reduce using rule 36 (primary_expression)
+    $default  reduce using rule 38 (primary_expression)
 
 
 State 2
 
-   37 primary_expression: CONSTANT .
+   39 primary_expression: CONSTANT .
 
-    $default  reduce using rule 37 (primary_expression)
+    $default  reduce using rule 39 (primary_expression)
 
 
 State 3
 
-   38 primary_expression: STRING_LITERAL .
+   40 primary_expression: STRING_LITERAL .
 
-    $default  reduce using rule 38 (primary_expression)
+    $default  reduce using rule 40 (primary_expression)
 
 
 State 4
@@ -360,7 +362,7 @@ State 13
 
 State 14
 
-   34 jump_statement: RETURN . expression ';'
+   36 jump_statement: RETURN . expression ';'
 
     IDENTIFIER      shift, and go to state 1
     CONSTANT        shift, and go to state 2
@@ -373,7 +375,7 @@ State 14
 
 State 15
 
-   39 primary_expression: '(' . expression ')'
+   41 primary_expression: '(' . expression ')'
 
     IDENTIFIER      shift, and go to state 1
     CONSTANT        shift, and go to state 2
@@ -458,21 +460,21 @@ State 24
 
 State 25
 
-   35 expression: primary_expression .
+   37 expression: primary_expression .
 
-    $default  reduce using rule 35 (expression)
+    $default  reduce using rule 37 (expression)
 
 
 State 26
 
-   34 jump_statement: RETURN expression . ';'
+   36 jump_statement: RETURN expression . ';'
 
     ';'  shift, and go to state 37
 
 
 State 27
 
-   39 primary_expression: '(' expression . ')'
+   41 primary_expression: '(' expression . ')'
 
     ')'  shift, and go to state 38
 
@@ -558,16 +560,16 @@ State 36
 
 State 37
 
-   34 jump_statement: RETURN expression ';' .
+   36 jump_statement: RETURN expression ';' .
 
-    $default  reduce using rule 34 (jump_statement)
+    $default  reduce using rule 36 (jump_statement)
 
 
 State 38
 
-   39 primary_expression: '(' expression ')' .
+   41 primary_expression: '(' expression ')' .
 
-    $default  reduce using rule 39 (primary_expression)
+    $default  reduce using rule 41 (primary_expression)
 
 
 State 39
@@ -612,13 +614,29 @@ State 43
 
    29 compound_statement: '{' . '}'
    30                   | '{' . statement_list '}'
+   31                   | '{' . declaration statement_list '}'
 
-    RETURN  shift, and go to state 14
-    '}'     shift, and go to state 50
+    CHAR       shift, and go to state 4
+    SHORT      shift, and go to state 5
+    INT        shift, and go to state 6
+    LONG       shift, and go to state 7
+    SIGNED     shift, and go to state 8
+    UNSIGNED   shift, and go to state 9
+    FLOAT      shift, and go to state 10
+    DOUBLE     shift, and go to state 11
+    VOID       shift, and go to state 12
+    TYPE_NAME  shift, and go to state 13
+    RETURN     shift, and go to state 14
+    '{'        shift, and go to state 43
+    '}'        shift, and go to state 50
 
-    statement_list  go to state 51
-    statement       go to state 52
-    jump_statement  go to state 53
+    declaration             go to state 51
+    declaration_specifiers  go to state 52
+    type_specifier          go to state 22
+    compound_statement      go to state 53
+    statement_list          go to state 54
+    statement               go to state 55
+    jump_statement          go to state 56
 
 
 State 44
@@ -632,7 +650,7 @@ State 45
 
    28 direct_declarator: direct_declarator '(' . ')'
 
-    ')'  shift, and go to state 54
+    ')'  shift, and go to state 57
 
 
 State 46
@@ -675,46 +693,104 @@ State 50
 
 State 51
 
-   30 compound_statement: '{' statement_list . '}'
-   32 statement_list: statement_list . statement
+   31 compound_statement: '{' declaration . statement_list '}'
 
     RETURN  shift, and go to state 14
-    '}'     shift, and go to state 55
+    '{'     shift, and go to state 43
 
-    statement       go to state 56
-    jump_statement  go to state 53
+    compound_statement  go to state 53
+    statement_list      go to state 58
+    statement           go to state 55
+    jump_statement      go to state 56
 
 
 State 52
 
-   31 statement_list: statement .
+    5 declaration: declaration_specifiers . ';'
+    6            | declaration_specifiers . init_declarator_list ';'
 
-    $default  reduce using rule 31 (statement_list)
+    IDENTIFIER  shift, and go to state 29
+    ';'         shift, and go to state 30
+    '('         shift, and go to state 31
+
+    init_declarator_list  go to state 32
+    init_declarator       go to state 33
+    declarator            go to state 48
+    direct_declarator     go to state 35
 
 
 State 53
 
-   33 statement: jump_statement .
+   35 statement: compound_statement .
 
-    $default  reduce using rule 33 (statement)
+    $default  reduce using rule 35 (statement)
 
 
 State 54
+
+   30 compound_statement: '{' statement_list . '}'
+   33 statement_list: statement_list . statement
+
+    RETURN  shift, and go to state 14
+    '{'     shift, and go to state 43
+    '}'     shift, and go to state 59
+
+    compound_statement  go to state 53
+    statement           go to state 60
+    jump_statement      go to state 56
+
+
+State 55
+
+   32 statement_list: statement .
+
+    $default  reduce using rule 32 (statement_list)
+
+
+State 56
+
+   34 statement: jump_statement .
+
+    $default  reduce using rule 34 (statement)
+
+
+State 57
 
    28 direct_declarator: direct_declarator '(' ')' .
 
     $default  reduce using rule 28 (direct_declarator)
 
 
-State 55
+State 58
+
+   31 compound_statement: '{' declaration statement_list . '}'
+   33 statement_list: statement_list . statement
+
+    RETURN  shift, and go to state 14
+    '{'     shift, and go to state 43
+    '}'     shift, and go to state 61
+
+    compound_statement  go to state 53
+    statement           go to state 60
+    jump_statement      go to state 56
+
+
+State 59
 
    30 compound_statement: '{' statement_list '}' .
 
     $default  reduce using rule 30 (compound_statement)
 
 
-State 56
+State 60
 
-   32 statement_list: statement_list statement .
+   33 statement_list: statement_list statement .
 
-    $default  reduce using rule 32 (statement_list)
+    $default  reduce using rule 33 (statement_list)
+
+
+State 61
+
+   31 compound_statement: '{' declaration statement_list '}' .
+
+    $default  reduce using rule 31 (compound_statement)
