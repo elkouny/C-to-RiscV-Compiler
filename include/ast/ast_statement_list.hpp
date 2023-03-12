@@ -1,27 +1,33 @@
-#ifndef ast_list_hpp
-#define ast_list_hpp
+#ifndef ast_statement_list_hpp
+#define ast_statement_list_hpp
 
 #include "ast_block.hpp"
 
-class List : public Block {
+class Statement_List : public Block {
 private:
 
     
     BlockPtr head;
     BlockPtr list;
 
+
+
+// return 5;
+// return x;
+
+
 // protected:
 public:
     
-    List(BlockPtr _head, BlockPtr _list)
+    Statement_List(BlockPtr _head, BlockPtr _list)
         : head(_head)
         , list(_list)
     {}
-    List(BlockPtr _head)
+    Statement_List(BlockPtr _head)
         : head(_head)
         , list(nullptr)
     {}
-    ~List() {
+    ~Statement_List() {
         delete head;
         if (list != nullptr){
             delete list;

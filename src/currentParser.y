@@ -52,7 +52,7 @@
 %type <block> function_definition
 %type <block> statement_list
 %type <block> declaration
-%type <block> init_declarator_list
+%type <block> init_declarator_list 
 %type <block> init_declarator
 
 %type <string> declaration_specifiers
@@ -81,19 +81,20 @@ external_declaration
 	;
 
 // HAVE A LOO L8R
+/* eg int x = 2; or int x; or int x,y=2 */
 declaration
-	: declaration_specifiers ';' { $$ = new  Declaration($1);}
-	| declaration_specifiers init_declarator_list ';' { $$ = new Declaration($1, $2);} // CHANGE
+	: declaration_specifiers ';' { $$ = new Declaration(*$1);}
+	| declaration_specifiers init_declarator_list ';' { $$ = new Declaration(*$1, $2);}
 	;
 
 init_declarator_list
-	: init_declarator { $$ = new List($1);}
-	| init_declarator_list ',' init_declarator { $$ = new List($1, $3);}
+	: init_declarator { $$ = new Init_Declarator_List($1);}
+	| init_declarator_list ',' init_declarator { $$ = new Init_Declarator_List($3, $1);}
 	;
 
 init_declarator
-	: declarator { $$ = new InitDeclarator($1);} 
-	| declarator '=' primary_expression { $$ = new InitDeclarator($1, $3);}
+	: declarator { $$ = new Init_Declarator($1);} 
+	| declarator '=' primary_expression { $$ = new Init_Declarator($1, $3);}
 	;
 
 ///// UNTIL HERE
@@ -129,6 +130,7 @@ direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); }
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '(' ')' { $$ = $1;}
+	;
 
 compound_statement
 	: '{' '}' { $$ = new Expression("null"); }
@@ -137,8 +139,8 @@ compound_statement
 	;
 
 statement_list
-	: statement	{  $$ = new List($1);}
-	| statement_list statement	{ $$ = new List($1, $2);}
+	: statement	{  $$ = new Statement_List($1);}
+	| statement_list statement	{ $$ = new Statement_List($2, $1);}
 	;
 
 statement

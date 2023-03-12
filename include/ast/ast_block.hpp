@@ -28,6 +28,9 @@ public:
         throw std::runtime_error("Not implemented."); 
     }
 
+    // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const {
+    //     throw std::runtime_error("Not implemented."); 
+    // }
     // virtual std::string getIdentifier() const {}
 
     // virtual int getConstant() const {}  
