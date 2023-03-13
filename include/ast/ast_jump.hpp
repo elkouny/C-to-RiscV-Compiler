@@ -29,7 +29,5 @@ public:
     virtual void evaluate(std::ostream &dst) const override {
         getExpression()->evaluate(dst);
     }
-
-
 };
 #endif

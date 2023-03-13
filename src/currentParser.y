@@ -6,6 +6,7 @@
 	// rename expression later
     extern const Block *g_root; 
 
+
     int yylex(void);
     void yyerror(const char *);  
 }
@@ -13,7 +14,6 @@
 %union{
     /*rename pointer ^*/ 
 	const Block *block;
-    // double number;
 	std::vector<BlockPtr> *list;
     std::string *string;
 }
@@ -138,9 +138,9 @@ statement_list
 	| statement_list statement { $1->push_back($2); $$ = $1; }
 	;
 
+
 statement
 	: jump_statement {$$ = $1;}
-	| compound_statement {$$ = $1;}
 	;
 
 jump_statement

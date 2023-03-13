@@ -38,6 +38,19 @@ public:
             dst<<" ] ";
         }
     }
+//     virtual void print(std::ostream &dst, unsigned indentLevel = 0) const override {
+//         std::string indent(indentLevel * 4, ' ');
+//         dst << indent << "Init_Declarator: " << std::endl;
+//         dst << indent << "├─ Declarator: " << std::endl;
+//         declarator->print(dst, indentLevel + 1);
+//         if (initializer != nullptr) {
+//             dst << indent << "└─ Initializer: " << std::endl;
+//             initializer->print(dst, indentLevel + 1);
+//         } else {
+//             dst << indent << "└─ (No Initializer)" << std::endl;
+//         }
+// }
+
 
 
     // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const override {
