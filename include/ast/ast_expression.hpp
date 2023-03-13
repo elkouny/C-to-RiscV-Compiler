@@ -24,7 +24,9 @@ public:
     }
 
     virtual void print(std::ostream &dst) const override {
+        
         dst<<constant;
+        dst<<string;
     }
 
     virtual void evaluate(std::ostream &dst) const override {

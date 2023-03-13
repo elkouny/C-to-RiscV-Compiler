@@ -52,7 +52,7 @@
 %type <block> function_definition
 %type <block> statement_list
 %type <block> declaration
-%type <block> init_declarator_list 
+/* %type <block> init_declarator_list  */
 %type <block> init_declarator
 
 %type <string> declaration_specifiers
@@ -82,14 +82,10 @@ external_declaration
 
 
 declaration
-	: declaration_specifiers ';' { $$ = new Declaration(*$1);}
-	| declaration_specifiers init_declarator_list ';' { $$ = new Declaration(*$1, $2);}
+	
+	: declaration_specifiers init_declarator ';' { $$ = new Declaration(*$1, $2);}
 	;
 
-init_declarator_list
-	: init_declarator { $$ = new Init_Declarator_List($1);}
-	| init_declarator_list ',' init_declarator { $$ = new Init_Declarator_List($3, $1);}
-	;
 
 init_declarator
 	: declarator { $$ = new Init_Declarator($1);} 

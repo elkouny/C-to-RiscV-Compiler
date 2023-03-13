@@ -30,9 +30,13 @@ public:
     }
 
     virtual void print(std::ostream &dst) const override {
+        dst<<"[New Function]";
+        dst<<"[Function Type] ";
         dst<<getSpecifier()<<" ";
+        dst<<"[Declarator] ";
         getDeclarator()->print(dst);
         dst<<" {\n";
+        dst<<"[Statements]";
         getStatement()->print(dst);
         dst<<"\n}\n";
     }

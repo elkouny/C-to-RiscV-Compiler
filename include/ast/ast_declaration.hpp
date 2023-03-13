@@ -12,28 +12,22 @@ public:
         : type(_type)
         , declarator(_declarator)
     {}
-    Declaration(std::string _type)
-        : type(_type)
-        , declarator(nullptr)
-    {}
+    
 
     ~Declaration() {
       
-
-        if (declarator != nullptr){
-            delete declarator;
-        }
+        delete declarator;
+        
     }
 
     std::string getType() const { return type; }
     BlockPtr getDeclarator() const { return declarator; }
 
     virtual void print(std::ostream &dst) const override {
+        dst << "[Variable Type] ";
         dst << type;
-        if (declarator != nullptr) {
-            dst << " ";
-            declarator->print(dst);
-        }
+        dst << " ";
+        declarator->print(dst);
     }
 
     // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const override {
