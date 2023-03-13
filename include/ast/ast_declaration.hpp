@@ -24,7 +24,7 @@ public:
     virtual void print(std::ostream &dst) const override {
         dst << "\n        [Variable Type] ";
         dst << type;
-        dst << " ";
+        dst << " ] ";
         declarator->print(dst);
     }
 
