@@ -20,9 +20,9 @@ bin/print_canonical : src/print_canonical.o src/currentParser.tab.o src/Lexer.yy
 	g++ $(CPPFLAGS) -o bin/print_canonical $^
 
 clean :
-	rm src/*.o
-	rm bin/*
-	rm src/*.tab.cpp
-	rm src/*.yy.cpp
-	rm src/$(PARSER).output
-	rm src/$(PARSER).tab.hpp
+	rm -rf src/*.tab.hpp
+	rm -rf src/*.output
+	rm -rf src/*.o
+	rm -rf bin/*
+	rm -rf src/*.tab.cpp
+	rm -rf src/*.yy.cpp
