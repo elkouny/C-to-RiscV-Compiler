@@ -22,10 +22,10 @@ public:
     BlockPtr getDeclarator() const { return declarator; }
 
     virtual void print(std::ostream &dst) const override {
-        dst << "\n        [Variable Type] ";
-        dst << type;
-        dst << " ] ";
+        dst << "\n        Declaration [ Variable Type: [ ";
+        dst << type << " ] ";
         declarator->print(dst);
+        dst<<"]";
     }
 
     virtual void evaluate(std::ostream &dst) const override { dst<<""; }

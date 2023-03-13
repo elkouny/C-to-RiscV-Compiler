@@ -14,6 +14,7 @@ public:
         for (auto i : *slist){
             delete i;
         }
+        delete slist;
         if (declaration != nullptr) {
             delete declaration;
         }
@@ -23,13 +24,14 @@ public:
     std::vector<BlockPtr> getList() const { return *slist; }
 
     virtual void print(std::ostream &dst) const override {
-        dst << "    [Compound Statement] ";
+        dst << "    Compound Statement [";
         if (declaration != nullptr) {
             getDec()->print(dst);
         }
         for (auto i : *slist){
             i->print(dst);
         }
+        dst<<"\n    ]";
     }
     
     virtual void evaluate(std::ostream &dst) const override {

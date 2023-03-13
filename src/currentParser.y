@@ -14,6 +14,7 @@
     /*rename pointer ^*/ 
 	const Block *block;
     // double number;
+	std::vector<BlockPtr> *list;
     std::string *string;
 }
 
@@ -50,7 +51,7 @@
 %type <block> translation_unit
 %type <block> external_declaration
 %type <block> function_definition
-%type <block> statement_list
+%type <list> statement_list
 %type <block> declaration
 /* %type <block> init_declarator_list  */
 %type <block> init_declarator
@@ -133,8 +134,8 @@ compound_statement
 	;
 
 statement_list
-	: statement	{ new std::vector<BlockPtr> *list; list->push_back($1); $$ = list;}
-	| statement_list statement	{ $1->push_back($2); $$ = $1;}
+	: statement	{ std::vector<BlockPtr>* BlockList = new std::vector<BlockPtr>(); BlockList->push_back($1);  $$ = BlockList; }
+	| statement_list statement { $1->push_back($2); $$ = $1; }
 	;
 
 statement

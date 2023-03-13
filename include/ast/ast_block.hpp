@@ -16,10 +16,7 @@ class Block {
 // private:
 //     BlockPtr translation_unit;
 public:
-    // Block(const BlockPtr &_tu) : translation_unit(_tu) {}
-    
     virtual ~Block() {}
-
     //! Tell and expression to print itself to the given stream
     virtual void print(std::ostream &dst) const =0;
 
