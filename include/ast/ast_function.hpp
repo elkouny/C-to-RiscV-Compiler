@@ -33,7 +33,7 @@ public:
         dst<<"[New Function]";
         dst<<"[Function Type] ";
         dst<<getSpecifier()<<" ";
-        dst<<"[Declarator] ";
+        dst<<"[ Function Name ] ";
         getDeclarator()->print(dst);
         dst<<" {\n";
         dst<<"[Statements]";

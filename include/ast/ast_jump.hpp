@@ -21,7 +21,7 @@ public:
     BlockPtr getExpression() const { return expression; }
 
     virtual void print(std::ostream &dst) const override {
-        dst << "[Jump Statement ] ";
+        dst << "[Jump Statement type ] ";
         dst << type;
         dst << "[Value ] ";
         expression->print(dst);
