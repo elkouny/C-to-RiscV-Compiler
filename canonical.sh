@@ -9,3 +9,4 @@ read -r EXPRESSION
 
 echo $EXPRESSION | ./bin/print_canonical
 done
+

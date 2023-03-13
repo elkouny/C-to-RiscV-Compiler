@@ -36,14 +36,13 @@ public:
         dst<<"[Declarator] ";
         getDeclarator()->print(dst);
         dst<<" {\n";
-        dst<<"[Statements]";
         getStatement()->print(dst);
         dst<<"\n}\n";
     }
 
     virtual void evaluate(std::ostream &dst) const override { 
         dst<<getSpecifier()<<":\n";
-        dst<<"addi sp,sp,-16\nsd s0,8(sp)\naddi s0,sp,16\n";
+        dst<<"addi sp,sp,-16\nsd s0,8(sp)\naddi s0,sp,16";
         getStatement()->evaluate(dst);
         dst<<"mv a0,a5\nld s0,8(sp)\naddi sp,sp,16\njr ra\n";
     }

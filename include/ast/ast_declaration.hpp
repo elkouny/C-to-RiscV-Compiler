@@ -15,20 +15,21 @@ public:
     
 
     ~Declaration() {
-      
         delete declarator;
-        
     }
 
     std::string getType() const { return type; }
     BlockPtr getDeclarator() const { return declarator; }
 
     virtual void print(std::ostream &dst) const override {
-        dst << "[Variable Type] ";
+        dst << "\n        [Variable Type] ";
         dst << type;
         dst << " ";
         declarator->print(dst);
     }
+
+    virtual void evaluate(std::ostream &dst) const override { dst<<""; }
+
 
     // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const override {
     //     type->generateRISC(dst, context, destReg);

@@ -21,13 +21,15 @@ public:
     BlockPtr getExpression() const { return expression; }
 
     virtual void print(std::ostream &dst) const override {
-        dst << "[Jump Statement ] ";
+        dst << "\n        [Jump Statement] ";
         dst << type;
-        dst << "[Value ] ";
-        expression->print(dst);
-
-
-        
+        getExpression()->print(dst);  
     }
+
+    virtual void evaluate(std::ostream &dst) const override {
+        getExpression()->evaluate(dst);
+    }
+
+
 };
 #endif

@@ -5,26 +5,41 @@
 
 class Compound_Statement : public Block {
 private:
-    BlockPtr head;
-    BlockPtr list;
+    BlockPtr declaration;
+    std::vector<BlockPtr> *slist;
 public:
-    Compound_Statement(BlockPtr _head, BlockPtr _list) : head(_head), list(_list) {}
-    Compound_Statement(BlockPtr _head) : head(_head) {}
+    Compound_Statement(BlockPtr _declaration, std::vector<BlockPtr> * _list) : declaration(_declaration), slist(_list) {}
+    Compound_Statement(std::vector<BlockPtr> *_list) : slist(_list) {}
     ~Compound_Statement() {
-        delete head;
-        if (list != nullptr) {
-            delete list;
+        for (auto i : *slist){
+            delete i;
+        }
+        if (declaration != nullptr) {
+            delete declaration;
         }
     }
 
+    BlockPtr getDec() const { return declaration; }
+    std::vector<BlockPtr> getList() const { return *slist; }
+
     virtual void print(std::ostream &dst) const override {
-    
-        head->print(dst);
-        if (list != nullptr) {
-            list->print(dst);
+        dst << "    [Compound Statement] ";
+        if (declaration != nullptr) {
+            getDec()->print(dst);
         }
-  
+        for (auto i : *slist){
+            i->print(dst);
+        }
     }
     
+    virtual void evaluate(std::ostream &dst) const override {
+        for (auto i : *slist){
+            i->evaluate(dst);
+        }
+        if (declaration != nullptr) {
+            dst << std::endl;
+            getDec()->evaluate(dst);
+        }
+    }    
 };
 #endif

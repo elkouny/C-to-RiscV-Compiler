@@ -24,13 +24,13 @@ public:
     }
 
     virtual void print(std::ostream &dst) const override {
-        
+        dst<<" [Expression] ";
         dst<<constant;
         dst<<string;
     }
 
     virtual void evaluate(std::ostream &dst) const override {
-        dst<<"li a5,"<<getConstant()<<"\n";
+        dst<<"\nli a5,"<<getConstant();
     }
     
     // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const override {

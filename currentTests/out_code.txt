@@ -1,4 +1,8 @@
 [New Function][Function Type] int [Declarator] main {
-[Statements][Variable Type] int [Variable Name] x[Jump Statement] return
+    [Compound Statement] 
+        [Variable Type] int [Variable Name] x
+        [Jump Statement] return [Expression] 4
+
+        [Jump Statement] return [Expression] 5
 }
 

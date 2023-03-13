@@ -133,8 +133,8 @@ compound_statement
 	;
 
 statement_list
-	: statement	{  $$ = new Statement_List($1);}
-	| statement_list statement	{ $$ = new Statement_List($2, $1);}
+	: statement	{ new std::vector<BlockPtr> *list; list->push_back($1); $$ = list;}
+	| statement_list statement	{ $1->push_back($2); $$ = $1;}
 	;
 
 statement
