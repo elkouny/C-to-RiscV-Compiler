@@ -10,13 +10,6 @@ private:
     BlockPtr head;
     BlockPtr list;
 
-
-
-// return 5;
-// return x;
-
-
-// protected:
 public:
     
     Statement_List(BlockPtr _head, BlockPtr _list)
