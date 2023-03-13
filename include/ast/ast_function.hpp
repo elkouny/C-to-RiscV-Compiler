@@ -30,15 +30,16 @@ public:
     }
 
     virtual void print(std::ostream &dst) const override {
-        dst<<"[New Function]";
-        dst<<"[Function Type] ";
-        dst<<getSpecifier()<<" ";
-        dst<<"[ Function Name ] ";
+        dst<<"New Function: [ ";
+        dst<<"Function Type: [ ";
+        dst<<getSpecifier()<<" ] ";
+        dst<<"Function Name: [ ";
         getDeclarator()->print(dst);
-        dst<<" {\n";
-        dst<<"[Statements]";
+        dst<<" ] ";
+        dst<<"Statements: [ ";
         getStatement()->print(dst);
-        dst<<"\n}\n";
+        dst<<" ] ";
+        dst<<" ] ";
     }
 
     virtual void evaluate(std::ostream &dst) const override { 

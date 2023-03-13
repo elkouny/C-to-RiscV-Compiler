@@ -26,13 +26,16 @@ public:
     BlockPtr getInitializer() const { return initializer; }
 
     virtual void print(std::ostream &dst) const override {
-        dst<<"[Variable Name] ";
+        dst<<"Variable Name: [ ";
         declarator->print(dst);
+        dst<<" ] ";
         if (initializer != nullptr) {
-            dst << "[Variable assignment] ";
+            dst << "Variable assignment[ ";
             dst << " = ";
-            dst <<"[Variable Value] ";
+            dst <<"Variable Value[ ";
             initializer->print(dst);
+            dst<<" ] ";
+            dst<<" ] ";
         }
     }
 
