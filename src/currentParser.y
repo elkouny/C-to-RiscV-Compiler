@@ -6,6 +6,7 @@
 	// rename expression later
     extern const Block *g_root; 
 
+
     int yylex(void);
     void yyerror(const char *);  
 }
@@ -13,6 +14,7 @@
 %union{
     /*rename pointer ^*/ 
 	const Block *block;
+	std::vector<BlockPtr> *list;
     // double number;
     std::string *string;
 }
@@ -50,7 +52,7 @@
 %type <block> translation_unit
 %type <block> external_declaration
 %type <block> function_definition
-%type <block> statement_list
+%type <list> statement_list
 %type <block> declaration
 /* %type <block> init_declarator_list  */
 %type <block> init_declarator
@@ -133,9 +135,10 @@ compound_statement
 	;
 
 statement_list
-	: statement	{ new std::vector<BlockPtr> *list; list->push_back($1); $$ = list;}
+	: statement	{  std::vector<BlockPtr>* list = new std::vector<BlockPtr>(); list->push_back($1); $$ = list;}
 	| statement_list statement	{ $1->push_back($2); $$ = $1;}
 	;
+
 
 statement
 	: jump_statement {$$ = $1;}
