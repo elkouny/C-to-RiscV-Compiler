@@ -997,7 +997,7 @@ YY_RULE_SETUP
 case 20:
 YY_RULE_SETUP
 #line 36 "src/Lexer.flex"
-{ return(RETURN); }
+{yylval.string=new std::string(yytext);  return(RETURN); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP

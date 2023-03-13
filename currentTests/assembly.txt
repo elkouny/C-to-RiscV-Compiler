@@ -2,11 +2,5 @@ int:
 addi sp,sp,-16
 sd s0,8(sp)
 addi s0,sp,16
-li a5,5
-
-li a5,4
-mv a0,a5
-ld s0,8(sp)
-addi sp,sp,16
-jr ra
-
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Not implemented.

@@ -1,5 +1,4 @@
-int main {
-5
-4
+[New Function][Function Type] int [Declarator] main {
+[Statements][Variable Type] int [Variable Name] x[Jump Statement] return
 }
 

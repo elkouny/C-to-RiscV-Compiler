@@ -32,7 +32,7 @@
 
 %token <string> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID TYPE_NAME
 
-%token RETURN
+%token <string> RETURN
 /* 
 %token <string> IDENTIFIER CONSTANT STRING_LITERAL
 
@@ -82,10 +82,9 @@ external_declaration
 
 
 declaration
-	
+
 	: declaration_specifiers init_declarator ';' { $$ = new Declaration(*$1, $2);}
 	;
-
 
 init_declarator
 	: declarator { $$ = new Init_Declarator($1);} 
@@ -144,7 +143,7 @@ statement
 	;
 
 jump_statement
-	: RETURN expression ';' {$$ = $2;}
+	: RETURN expression ';' {$$= new jump_statement(*$1,$2);}
 
 	;
 

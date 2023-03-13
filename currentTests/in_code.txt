@@ -1,4 +1,4 @@
 int main() {
-    return 5;
+    int x;
     return 4;
 }

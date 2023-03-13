@@ -33,7 +33,7 @@ IS (u|U|l|L)*
 "int"			{ yylval.string=new std::string(yytext); return(INT); }
 "long"			{ return(LONG); }
 "register"		{ return(REGISTER); }
-"return"		{ return(RETURN); }
+"return"		{yylval.string=new std::string(yytext);  return(RETURN); }
 "short"			{ return(SHORT); }
 "signed"		{ return(SIGNED); }
 "sizeof"		{ return(SIZEOF); }

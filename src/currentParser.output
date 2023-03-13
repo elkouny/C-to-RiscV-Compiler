@@ -172,7 +172,7 @@ Terminals, with rules where they appear
     DOUBLE <string> (312) 18
     VOID <string> (313) 12
     TYPE_NAME <string> (314) 21
-    RETURN (315) 33
+    RETURN <string> (315) 33
 
 
 Nonterminals, with rules where they appear
