@@ -139,7 +139,6 @@ statement_list
 
 statement
 	: jump_statement {$$ = $1;}
-	| compound_statement {$$ = $1;}
 	;
 
 jump_statement

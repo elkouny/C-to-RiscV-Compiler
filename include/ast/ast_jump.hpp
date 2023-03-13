@@ -23,13 +23,13 @@ public:
     virtual void print(std::ostream &dst) const override {
         dst << "\n        [Jump Statement] ";
         dst << type;
-        getExpression()->print(dst);  
+        dst << " ] ";
+        dst << "Expression : [ ";
+        expression->print(dst);
+        dst << " ] ";
+
+
+        
     }
-
-    virtual void evaluate(std::ostream &dst) const override {
-        getExpression()->evaluate(dst);
-    }
-
-
 };
 #endif

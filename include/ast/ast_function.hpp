@@ -38,8 +38,18 @@ public:
         dst<<" {\n";
         getStatement()->print(dst);
         dst<<" ] ";
-        dst<<" ] ";
+
     }
+
+//     virtual void print(std::ostream &dst, unsigned indentLevel = 0) const override {
+//     std::string indent(indentLevel * 4, ' ');
+//     dst << indent << "Function: " << specifier << std::endl;
+//     dst << indent << "├─ Declarator: " << std::endl;
+//     declarator->print(dst, indentLevel + 1);
+//     dst << std::endl << indent << "└─ Statement: " << std::endl;
+//     cstatement->print(dst, indentLevel + 1);
+// }
+
 
     virtual void evaluate(std::ostream &dst) const override { 
         dst<<getSpecifier()<<":\n";
