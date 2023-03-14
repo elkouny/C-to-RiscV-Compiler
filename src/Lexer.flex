@@ -60,6 +60,7 @@ L?'(\\.|[^\\'])+'	{ yylval.string=new std::string(yytext); return(CONSTANT); }
 
 L?\"(\\.|[^\\"])*\"	{ yylval.string=new std::string(yytext); return(STRING_LITERAL); }
 
+
 "..."			{ return(ELLIPSIS); }
 ">>="			{ return(RIGHT_ASSIGN); }
 "<<="			{ return(LEFT_ASSIGN); }

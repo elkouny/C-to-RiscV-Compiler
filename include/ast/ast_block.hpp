@@ -5,8 +5,11 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <unordered_map>
 
 #include <memory>
+
+#include "ast.hpp"
 
 class Block;
 
@@ -21,11 +24,12 @@ public:
     virtual void print(std::ostream &dst) const =0;
 
     //! Evaluate the tree using the given mapping of variables to numbers
-    virtual void evaluate(std::ostream &dst) const { 
-        throw std::runtime_error("Not implemented."); 
-    }
+    // virtual void evaluate(std::ostream &dst) const { 
+    //     throw std::runtime_error("Not implemented."); 
+    // }
+    virtual int getSize() const { return 1;}
 
-    // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const {
+    // virtual void generateRISC(std::ostream &dst, Scope &scope, int destReg) const {
     //     throw std::runtime_error("Not implemented."); 
     // }
     // virtual std::string getIdentifier() const {}

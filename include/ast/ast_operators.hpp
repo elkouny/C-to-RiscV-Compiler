@@ -3,7 +3,6 @@
 
 #include "ast_block.hpp"
 
-
 class Operators : public Block {
 private:
     BlockPtr left;
@@ -32,16 +31,11 @@ public:
         dst << ")";
     }
 
-    virtual void evaluate(std::ostream &dst) const override {
-        left->evaluate(dst);
-        dst << " " << op << " ";
-        right->evaluate(dst);
-    }    
-
-    // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const override {
-    //     left->generateRISC(dst, context, destReg);
+    // virtual void evaluate(std::ostream &dst) const override {
+    //     left->evaluate(dst);
     //     dst << " " << op << " ";
-    //     right->generateRISC(dst, context, destReg);
-    // }
+    //     right->evaluate(dst);
+    // }      
 };
+
 #endif

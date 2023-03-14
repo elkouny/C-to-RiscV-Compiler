@@ -1,5 +1,5 @@
-#ifndef ast_jump_hpp
-#define ast_jump_hpp
+#ifndef ast_jump_statement_hpp
+#define ast_jump_statement_hpp
 
 #include "ast_block.hpp"
 
@@ -17,6 +17,7 @@ public:
         delete expression;
     }
 
+    int getSize() {return 1;}
     std::string getType() const { return type; }
     BlockPtr getExpression() const { return expression; }
 
@@ -26,8 +27,8 @@ public:
         getExpression()->print(dst);  
     }
 
-    virtual void evaluate(std::ostream &dst) const override {
-        getExpression()->evaluate(dst);
-    }
+    // virtual void evaluate(std::ostream &dst) const override {
+    //     getExpression()->evaluate(dst);
+    // }
 };
 #endif

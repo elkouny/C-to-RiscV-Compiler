@@ -4,8 +4,19 @@
 
 #include "cli.h"
 
+
+Scope buildScope(BlockPtr) {
+    
+}
+
 void compile(std::ostream &w)
 {
+    const Block *ast=parseAST();
+
+    Scope scope = buildScope(ast);
+
+    ast->generateRISC(std::cerr, scope, context, "a0");
+    
     w << ".text" << std::endl;
     w << ".globl f" << std::endl;
     w << std::endl;
@@ -23,6 +34,8 @@ void compile(std::ostream &w)
 
 int main(int argc, char **argv)
 {
+
+
     // Parse CLI arguments, to fetch the values of the source and output files.
     std::string sourcePath = "";
     std::string outputPath = "";

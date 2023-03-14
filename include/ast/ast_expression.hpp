@@ -23,15 +23,24 @@ public:
         return string;
     }
 
+    // int getSize() {
+    //     return 1;
+    // }
+
     virtual void print(std::ostream &dst) const override {
-        dst<<" Expression ";
-        dst<<"[ "<< constant;
-        dst<<string << " ]";
+        dst<<" Expression [ ";
+        if (constant != 0) {
+            dst << "Constant: [ " << getConstant() << " ]";
+        }
+        else {
+            dst << "String: [ " << getString() << " ]";
+        }
+        dst<< " ]";
     }
 
-    virtual void evaluate(std::ostream &dst) const override {
-        dst<<"\nli a5,"<<getConstant();
-    }
+    // virtual void evaluate(std::ostream &dst) const override {
+    //     dst<<"\nli a5,"<<getConstant();
+    // }
     
     // virtual void generateRISC(std::ostream &dst, Context &context, int destReg) const override {
     //     dst<<"li "<<context.regName(destReg)<<","<<getConstant()<<"\n";

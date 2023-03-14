@@ -7,7 +7,6 @@ class Declarator : public Block
 {
 private:
     std::string identifier;
-// protected:
 public:
     Declarator(std::string i) : identifier(i) {}
 
