@@ -49,16 +49,30 @@ public:
         }
         dst<<"\n    ]";
     }
+
+     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.scope.newScope();
+        dst<<"\naddi sp,sp ";
+        context.offset += (dlist->size() * -4 /*+ slist->size() * -4*/);
+        dst<<context.offset;
+        dst<<"\n";
+        dst<<"sw s0 " << 4 - context.offset << "(sp)\n";
+        dst<<"addi s0,sp," <<  - 1 * context.offset << "\n";
+        if (dlist != nullptr) {
+            for (auto i : *dlist){
+                i->generateRISC(dst, context, destReg);
+            }
+        }
+        for (auto i : *slist){
+            i->generateRISC(dst, context, destReg);
+        }
+        dst<<"lw s0," << 4 - context.offset << "(sp)\n";
+        dst<<"addi sp,sp," << -1 * context.offset << "\n";
+        context.offset += (dlist->size() * 4 /*+ slist->size() * 4*/);
+        context.scope.popScope();
+
+
+    }
     
-    // virtual void evaluate(std::ostream &dst) const override {
-    //     for (auto i : *slist){
-    //         dst << "    ";
-    //         i->evaluate(dst);
-    //     }
-    //     if (declaration != nullptr) {
-    //         dst << std::endl;
-    //         getDec()->evaluate(dst);
-    //     }
-    // }    
 };
 #endif

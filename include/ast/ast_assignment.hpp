@@ -17,7 +17,7 @@ public:
         delete var;
         delete expression;
     }
-    BlockPtr getVar() const { return var; }
+
     std::string getOp() const { return op; }
     BlockPtr getExpression() const { return expression; }
 
@@ -31,11 +31,35 @@ public:
         dst << " ]";
     }
 
-    // virtual void evaluate(std::ostream &dst) const override {
-    //     var->evaluate(dst);
-    //     dst << " " << op << " ";
-    //     expression->evaluate(dst);
-    // }   
+    // virtual void generateRISC(std::ostream &dst, Scope scope, int destReg) const override {
+    //     std::string reg = scope.regs.nextFreeReg();
+
+    //     scope.regs.useReg(reg);
+
+    //     std::string varname = var->getVar();
+
+    //     Params params = scope.getVarInfo(varname);
+
+    //     if (scope.contexts.empty()) {
+    //         int offset = -20;
+    //         Context newContext;
+    //         newContext.addContext(varname, params);
+    //         scope.contexts.push_back(newContext);
+    //     } 
+        
+    //     else {
+    //         int offset = scope.contexts[-1].getCurrentOffset() - 4;
+    //         scope.contexts[-1].addContext(varname, params);
+    //     }
+        
+    //     scope.debugScope(dst);
+
+    //     scope.regs.freeReg(varname);
+    //     // declarator.generateRISC(dst, scope, destReg);
+    //     // dst << " = ";
+    //     // initializer->generateRISC(dst, scope, destReg);
+    // }
+ 
 };
 
 

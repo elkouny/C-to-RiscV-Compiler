@@ -27,6 +27,19 @@ public:
         declarator->print(dst);
         dst<<"]";
     }
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        std::string varname = declarator->getIdentifier();
+        int offset = context.scope[-1]->getCurrentOffset() - 4;
+        
+  
+        declarator->generateRISC(dst, context, reg);
+    }
+
+
+
  
 };
 #endif

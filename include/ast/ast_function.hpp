@@ -38,7 +38,18 @@ public:
         dst<<" ] ] [";
         getStatement()->print(dst);
         dst<<"\n] ";
+
     }
+
+    virtual void generateRISC(std::ostream &dst , Context &context , std::string destReg) const override {
+        dst<<declarator->getIdentifier()<<":";
+        cstatement->generateRISC(dst, context, "a0");
+        dst<<"ret";
+        // EVALUATE SIZE OF SYMBOLS USED IN COMPOUND STATEMENT
+
+
+    }
+    
 
 };
 

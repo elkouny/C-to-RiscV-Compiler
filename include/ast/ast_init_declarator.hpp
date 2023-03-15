@@ -1,5 +1,6 @@
 #ifndef ast_init_declarator_hpp
 #define ast_init_declarator_hpp
+
 #include "ast_block.hpp"
 
 class Init_Declarator : public Block {
@@ -36,10 +37,33 @@ public:
         }
     }
 
-    // virtual void generateRISC(std::ostream &dst, Scope scope, int destReg) const override {
-    //     declarator->generateRISC(dst, scope, destReg);
-    //     dst << " = ";
-    //     initializer->generateRISC(dst, scope, destReg);
+    // virtual void generateRISC(std::ostream &dst, Scope &scope, int destReg) const override {
+    //     std::string reg = scope.regs.nextFreeReg();
+
+    //     scope.regs.useReg(reg);
+
+    //     std::string type = declarator->getType(); 
+
+    //     std::string varname = declarator->getIdentifier();
+
+    //     if (scope.symbols.empty()) {
+    //         int offset = -20;
+    //         Context newContext;
+    //         newContext.addContext(varname, reg, type, offset);
+    //         scope.symbols.push_back(newContext);
+    //     } 
+        
+    //     else {
+    //         int offset = scope.contexts[-1].getCurrentOffset() - 4;
+    //         scope.contexts[-1].addContext(varname, reg, type, offset);
+    //     }
+        
+    //     scope.debugScope(dst);
+
+    //     scope.regs.freeReg(reg);
+    //     // declarator.generateRISC(dst, scope, destReg);
+    //     // dst << " = ";
+    //     // initializer.generateRISC(dst, scope, destReg);
     // }
 };
 #endif

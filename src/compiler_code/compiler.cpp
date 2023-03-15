@@ -4,16 +4,11 @@
 
 #include "cli.h"
 
-
-Scope buildScope(BlockPtr) {
-    
-}
-
 void compile(std::ostream &w)
 {
     const Block *ast=parseAST();
 
-    Scope scope = buildScope(ast);
+    Context context;
 
     ast->generateRISC(std::cerr, scope, context, "a0");
     

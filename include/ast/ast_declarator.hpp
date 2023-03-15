@@ -12,7 +12,7 @@ public:
 
     ~Declarator() {};
     
-    std::string getIdentifier() const {
+    virtual std::string getIdentifier() const override {
         return identifier;
     }
 

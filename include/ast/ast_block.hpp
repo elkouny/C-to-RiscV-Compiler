@@ -27,14 +27,16 @@ public:
     // virtual void evaluate(std::ostream &dst) const { 
     //     throw std::runtime_error("Not implemented."); 
     // }
-    virtual int getSize() const { return 1;}
 
-    // virtual void generateRISC(std::ostream &dst, Scope &scope, int destReg) const {
-    //     throw std::runtime_error("Not implemented."); 
-    // }
-    // virtual std::string getIdentifier() const {}
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const=0 ;
 
-    // virtual int getConstant() const {}  
+    // virtual std::string getType() { return "error " };
+
+    virtual std::string getVar() { return "error"; };
+
+    virtual std::string getIdentifier() const { return "error "; }
+
+    // virtual int getConstant() const { return -1 }; 
 };
 
 

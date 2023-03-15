@@ -17,7 +17,6 @@ public:
         delete expression;
     }
 
-    int getSize() {return 1;}
     std::string getType() const { return type; }
     BlockPtr getExpression() const { return expression; }
 

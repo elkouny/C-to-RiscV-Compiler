@@ -7,11 +7,11 @@ class Expression : public Block
 {
 private:
     int constant;
-    std::string string;
+    std::string variable;
 // protected:
 public:
     Expression(int c) : constant(c) {}
-    Expression(std::string s ) : string(s) {}
+    Expression(std::string v ) : variable(v) {}
     
     ~Expression() {};
 
@@ -19,8 +19,8 @@ public:
         return constant;
     }
 
-    std::string getString() const {
-        return string;
+    std::string getVar() const {
+        return variable;
     }
 
     // int getSize() {
@@ -30,10 +30,10 @@ public:
     virtual void print(std::ostream &dst) const override {
         dst<<" Expression [ ";
         if (constant != 0) {
-            dst << "Constant: [ " << getConstant() << " ]";
+            dst << "Constant: [ " << constant << " ]";
         }
         else {
-            dst << "String: [ " << getString() << " ]";
+            dst << "String: [ " << variable << " ]";
         }
         dst<< " ]";
     }
