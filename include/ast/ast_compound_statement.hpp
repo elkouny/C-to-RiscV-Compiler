@@ -19,10 +19,12 @@ public:
             delete i;
         }
         delete slist;
-        for (auto i : *dlist){
-            delete i;
+        if (dlist != nullptr){
+            for (auto i : *dlist){
+                delete i;
+            }
+            delete dlist;
         }
-        delete dlist;
     }
 
     // int getSize() { 
@@ -44,33 +46,43 @@ public:
             }
             dst<<"\n    ]";
         }
+        dst << "\n    Statement List [";
         for (auto i : *slist){
             i->print(dst);
         }
         dst<<"\n    ]";
+        dst<<"\n    ]";
     }
 
-     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        context.scope.newScope();
-        dst<<"\naddi sp,sp ";
-        context.offset += (dlist->size() * -4 /*+ slist->size() * -4*/);
-        dst<<context.offset;
-        dst<<"\n";
-        dst<<"sw s0 " << 4 - context.offset << "(sp)\n";
-        dst<<"addi s0,sp," <<  - 1 * context.offset << "\n";
-        if (dlist != nullptr) {
-            for (auto i : *dlist){
-                i->generateRISC(dst, context, destReg);
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        try{
+            context.newScope();
+            dst<<"\naddi sp,sp ";
+            context.offset += (dlist->size() * - 4 /*+ slist->size() * -4*/);
+            dst<<context.offset;
+            dst<<"\n";
+            dst<<"sw ra " << - 4 - context.offset << "(sp)\n";
+            dst<<"sw s0 " << - 8 - context.offset << "(sp)\n";
+            dst<<"addi s0,sp," <<  - 1 * context.offset << "\n";
+            if (dlist != nullptr) {
+                for (auto i : *dlist){
+                    i->generateRISC(dst, context, destReg);
+                }
             }
+            for (auto i : *slist){
+                // std::string reg = context.regs.nextFreeReg();
+                // context.regs.useReg("reg")
+                i->generateRISC(dst, context, destReg);
+                // context.regs.freeReg("reg")
+            }
+            dst<<"lw s0," << - 8 - context.offset << "(sp)\n";
+            dst<<"addi sp,sp," << -1 * context.offset << "\n";
+            context.offset += (dlist->size() * 4 /*+ slist->size() * 4*/);
+            context.popScope();
         }
-        for (auto i : *slist){
-            i->generateRISC(dst, context, destReg);
+        catch (...) {
+            dst<<"Error in Compound Statement";
         }
-        dst<<"lw s0," << 4 - context.offset << "(sp)\n";
-        dst<<"addi sp,sp," << -1 * context.offset << "\n";
-        context.offset += (dlist->size() * 4 /*+ slist->size() * 4*/);
-        context.scope.popScope();
-
 
     }
     

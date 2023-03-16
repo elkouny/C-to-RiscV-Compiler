@@ -114,7 +114,7 @@ declaration
 
 init_declarator
 	: declarator { $$ = new Init_Declarator($1);} 
-	| declarator '=' primary_expression { $$ = new Init_Declarator($1, $3);}
+	| declarator '=' assignment_expression { $$ = new Init_Declarator($1, $3);}
 	;
 
 

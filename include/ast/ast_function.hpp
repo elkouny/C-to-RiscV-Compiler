@@ -42,10 +42,19 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst , Context &context , std::string destReg) const override {
-        dst<<declarator->getIdentifier()<<":";
-        cstatement->generateRISC(dst, context, "a0");
-        dst<<"ret";
-        // EVALUATE SIZE OF SYMBOLS USED IN COMPOUND STATEMENT
+        try{
+            dst<<declarator->getIdentifier()<<":";
+            // std::string reg = context.regs.nextFreeReg();
+            // context.regs.useReg(reg);
+            cstatement->generateRISC(dst, context, "a0");
+            // dst<<"\nmv a0,"+reg+"\njr ra";
+            // context.regs.freeReg(reg);
+            dst<<"\njr ra";
+            // EVALUATE SIZE OF SYMBOLS USED IN COMPOUND STATEMENT
+        }
+        catch (...) {
+            dst<<"Error in Function";
+        }
 
 
     }

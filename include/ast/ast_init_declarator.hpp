@@ -23,7 +23,10 @@ public:
         }
     }
 
-    BlockPtr getDeclarator() const { return declarator; }
+    virtual std::string getIdentifier() const override {
+        return declarator->getIdentifier();
+    }
+
     BlockPtr getInitializer() const { return initializer; }
 
     virtual void print(std::ostream &dst) const override {
@@ -37,33 +40,18 @@ public:
         }
     }
 
-    // virtual void generateRISC(std::ostream &dst, Scope &scope, int destReg) const override {
-    //     std::string reg = scope.regs.nextFreeReg();
-
-    //     scope.regs.useReg(reg);
-
-    //     std::string type = declarator->getType(); 
-
-    //     std::string varname = declarator->getIdentifier();
-
-    //     if (scope.symbols.empty()) {
-    //         int offset = -20;
-    //         Context newContext;
-    //         newContext.addContext(varname, reg, type, offset);
-    //         scope.symbols.push_back(newContext);
-    //     } 
-        
-    //     else {
-    //         int offset = scope.contexts[-1].getCurrentOffset() - 4;
-    //         scope.contexts[-1].addContext(varname, reg, type, offset);
-    //     }
-        
-    //     scope.debugScope(dst);
-
-    //     scope.regs.freeReg(reg);
-    //     // declarator.generateRISC(dst, scope, destReg);
-    //     // dst << " = ";
-    //     // initializer.generateRISC(dst, scope, destReg);
-    // }
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        if (initializer != nullptr) {
+            std::string varname = declarator->getIdentifier();
+            std::string reg = context.regs.nextFreeReg();
+            context.regs.useReg(reg);
+            initializer->generateRISC(dst, context, reg);
+            int offset = context.getVarInfo(varname).offset;
+            dst << "sw " << reg << ", " << offset << "(s0)" << std::endl;
+            context.regs.freeReg(reg);
+        }
+    }
+   
 };
+
 #endif

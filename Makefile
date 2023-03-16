@@ -3,7 +3,7 @@ CPPFLAGS += -I include
 PARSER += currentParser
 LEXER += Lexer
 
-all : bin/print_parsed bin/print_canonical bin/cumpile
+all : bin/print_parsed bin/print_canonical  bin/cumpile
 
 bin/$(PARSER).tab.cpp bin/$(PARSER).tab.hpp : src/$(PARSER).y
 	mkdir -p bin

@@ -1,1 +1,21 @@
-./currentTest.sh: line 12: bin/print_parsed: No such file or directory
+main:
+addi sp,sp -28
+sw ra 24(sp)
+sw s0 20(sp)
+addi s0,sp,28
+
+li t4,0
+sw t4, -20(s0)
+
+li t4,5
+sw t4, -24(s0)
+
+lw t4,-20(s0)
+sw t4, 0(s0)
+
+lw t4,-20(s0)
+mv a0, t4
+lw s0,20(sp)
+addi sp,sp,28
+
+jr ra

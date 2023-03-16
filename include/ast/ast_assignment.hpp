@@ -22,7 +22,7 @@ public:
     BlockPtr getExpression() const { return expression; }
 
     virtual void print(std::ostream &dst) const override {
-        dst << "\n    New Assignment: [ ";
+        dst << "\n        New Assignment: [ ";
         var->print(dst);
         dst << " Operator: [ ";
         dst << op;
@@ -31,34 +31,22 @@ public:
         dst << " ]";
     }
 
-    // virtual void generateRISC(std::ostream &dst, Scope scope, int destReg) const override {
-    //     std::string reg = scope.regs.nextFreeReg();
-
-    //     scope.regs.useReg(reg);
-
-    //     std::string varname = var->getVar();
-
-    //     Params params = scope.getVarInfo(varname);
-
-    //     if (scope.contexts.empty()) {
-    //         int offset = -20;
-    //         Context newContext;
-    //         newContext.addContext(varname, params);
-    //         scope.contexts.push_back(newContext);
-    //     } 
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        try{
+            std::string varname = var->getIdentifier();
+            std::string reg = context.regs.nextFreeReg();
+            context.regs.useReg(reg);
+            expression->generateRISC(dst, context, reg);
+            int offset = context.getVarInfo(varname).offset;
+            dst << "sw " << reg << ", " << offset << "(s0)" << std::endl;
+            context.regs.freeReg(reg);
+        }
         
-    //     else {
-    //         int offset = scope.contexts[-1].getCurrentOffset() - 4;
-    //         scope.contexts[-1].addContext(varname, params);
-    //     }
-        
-    //     scope.debugScope(dst);
+        catch (...) {
+            dst<<"Error in Assignment";
+        }
 
-    //     scope.regs.freeReg(varname);
-    //     // declarator.generateRISC(dst, scope, destReg);
-    //     // dst << " = ";
-    //     // initializer->generateRISC(dst, scope, destReg);
-    // }
+    }
  
 };
 

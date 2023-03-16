@@ -1,7 +1,8 @@
 #!/bin/bash
 
+make clean
 
-make
+make all
 #clear
 while true
 do 

@@ -1,0 +1,12 @@
+New Function: [ Function Type: [ int ] Function Name: [ main ] ] [
+    Compound Statement [
+    Declaration List [
+        Declaration [ Variable Type: [ int ] Variable Name: [ x ] Variable assignment : [ Expression [ Constant: [ 0 ] ] ] ]
+        Declaration [ Variable Type: [ int ] Variable Name: [ y ] Variable assignment : [ Expression [ Constant: [ 5 ] ] ] ]
+    ]
+    Statement List [
+        New Assignment: [  Expression [ String: [ y ] ] Operator: [ = ]  Expression [ String: [ x ] ] ]
+        Jump Statement [ return ] Expression [ String: [ x ] ]
+    ]
+    ]
+] 

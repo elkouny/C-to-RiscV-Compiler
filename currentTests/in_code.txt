@@ -1,9 +1,6 @@
 int main () { 
     int x=0;
     int y =5;
-    {
-        x++;
-    }
-    int u = x+y;
-    return 5;
+    y = x;
+    return x;
 }

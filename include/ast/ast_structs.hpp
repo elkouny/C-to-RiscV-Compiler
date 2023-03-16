@@ -1,14 +1,29 @@
 #ifndef ast_structs_hpp
 #define ast_structs_hpp
+#include <string>
+#include <vector>
+#include <iostream>
+#include <map>
+#include <unordered_map>
+
+#include <memory>
 
 struct Params{
     std::string type;
-    int offset = -20;
+    int offset;
 
-    Params ( std::string _type, int _offset) : type(_type), offset(_offset) {}
+    Params () {
+        type = "0";
+        offset = 0;
+    }
+
+    Params ( std::string _type, int _offset) {
+        type = _type;
+        offset= _offset;
+    }
 };
 
-struct Symbol_map{
+struct VarMap{
 
     std::unordered_map<std::string,Params> bindings;
 
@@ -24,24 +39,28 @@ struct Symbol_map{
     }
 
     int getCurrentOffset(){
-        int offset = 0;
+        int offset = -16;
         for (auto& it: bindings) {
-            if (it.second.offset > offset) { 
+            if (it.second.offset < offset) { 
                 offset = it.second.offset;
             }
         } 
         return offset;
     }
 
-    void addSymbol (std::string _varname, std::string _type, int _offset){
+    void addVar (std::string _varname, std::string _type, int _offset){
         bindings[_varname] = Params(_type, _offset);
     }
 
-    void addSymbol (std::string _varname,Params params){
+    void addVar (std::string _varname,Params params){
         bindings[_varname] = params;
     }
 
-    void DebugSymbol (std::ostream &dst) {
+    void updateOffset (std::string _varname, int _offset){
+        bindings[_varname].offset = _offset;
+    }
+
+    void DebugVars (std::ostream &dst) {
         dst<<"Bindings:\n";
         for (auto& it: bindings) {
             dst<<"var: [ "<< it.first<<" ] type: [ "<<it.second.type<<" ] offset [ "<<it.second.offset<<" ]\n";
@@ -88,13 +107,21 @@ struct Registers{
     }
 };
 
-struct Scope{
-    std::vector<Symbol_map> symbols;
+struct Context{
+
+    std::vector<VarMap> scope;
+    Registers regs;
+    int offset = -20;
+
+    std::string make_label (std::string label){
+        static int unique = 0 ;
+        return label + std::to_string(unique++);
+    }
 
     Params getVarInfo (std::string var) {
-        for ( int i = symbols.size(); i > -1 ; i--){
-            if (symbols[i].findVar(var)){
-                return symbols[i].getParams(var);
+        for ( int i = scope.size()-1; i > -1 ; i--){
+            if (scope[i].findVar(var)){
+                return scope[i].getParams(var);
             }
         }
         Params error = Params("0",0);
@@ -102,39 +129,34 @@ struct Scope{
     }
 
     void addGlobal(std::string var, Params varinfo) {
-        symbols[0].addSymbol(var, varinfo);
+        scope[0].addVar(var, varinfo);
     }   
 
-    void addSymbol(std::string var, Params varinfo) {
-        symbols[-1].addSymbol(var, varinfo);
+    void addVar (std::string _varname, std::string _type, int _offset){
+        scope[scope.size()-1].bindings[_varname] = Params(_type, _offset);
+    }
+
+    void addVar(std::string var, Params varinfo) {
+        scope.back().addVar(var, varinfo);
     } 
 
     void newScope() { 
-        Symbol_map _symbols;
-        symbols.push_back(_symbols);
+        VarMap _vars;
+        scope.push_back(_vars);
     }
 
     void popScope() {
-        symbols.pop_back();
+        scope.pop_back();
     }
     
     void debugScope(std::ostream &dst) {
-        for (int i = symbols.size()-1; i>-1; i--){
+        for (int i = scope.size()-1; i>-1; i--){
             dst<<"Scope Level "<< i << ":\n";
-            symbols[i].DebugSymbol(dst);
+            scope[i].DebugVars(dst);
         } 
     } 
-};
-struct Context{
-    Scope scope;
-    Registers regs;
-    int offset;
-
-    std::string make_label (std::string label){
-        static int unique = 0 ;
-        return label + std::to_string(unique++);
-    }
 
 };
+
 
 #endif

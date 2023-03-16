@@ -1,15 +1,10 @@
 #ifndef ast_block_hpp
 #define ast_block_hpp
 
-#include <string>
-#include <vector>
-#include <iostream>
-#include <map>
-#include <unordered_map>
 
-#include <memory>
+#include "ast_structs.hpp"
 
-#include "ast.hpp"
+
 
 class Block;
 
@@ -28,7 +23,7 @@ public:
     //     throw std::runtime_error("Not implemented."); 
     // }
 
-    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const=0 ;
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const {};
 
     // virtual std::string getType() { return "error " };
 

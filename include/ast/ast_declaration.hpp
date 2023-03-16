@@ -6,38 +6,36 @@
 class Declaration : public Block {
 private:
     std::string type;
-    BlockPtr declarator;
+    BlockPtr init_declarator;
 public:
     Declaration(std::string _type, BlockPtr _declarator)
         : type(_type)
-        , declarator(_declarator)
+        , init_declarator(_declarator)
     {}
     
     ~Declaration() {
-        delete declarator;
+        delete init_declarator;
     }
 
     std::string getType() const { return type; }
 
-    BlockPtr getDeclarator() const { return declarator; }
+    BlockPtr getDeclarator() const { return init_declarator; }
 
     virtual void print(std::ostream &dst) const override {
         dst << "\n        Declaration [ Variable Type: [ ";
         dst << type << " ] ";
-        declarator->print(dst);
+        init_declarator->print(dst);
         dst<<"]";
-    }
+    } 
+
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string reg = context.regs.nextFreeReg();
-        context.regs.useReg(reg);
-        std::string varname = declarator->getIdentifier();
-        int offset = context.scope[-1]->getCurrentOffset() - 4;
-        
-  
-        declarator->generateRISC(dst, context, reg);
+        std::string varname = init_declarator->getIdentifier();
+        int offset = context.scope.back().getCurrentOffset() - 4;
+        context.addVar(varname, type, offset);
+        init_declarator->generateRISC(dst, context, destReg);
+   
     }
-
 
 
  

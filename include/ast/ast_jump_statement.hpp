@@ -26,8 +26,21 @@ public:
         getExpression()->print(dst);  
     }
 
-    // virtual void evaluate(std::ostream &dst) const override {
-    //     getExpression()->evaluate(dst);
-    // }
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        try{
+            if (type == "return") {
+                std::string reg = context.regs.nextFreeReg();
+                context.regs.useReg(reg);
+                expression->generateRISC(dst, context, reg);
+                dst << "mv " << destReg << ", " << reg << std::endl;
+                context.regs.freeReg(reg);
+            }
+        }
+        catch (...) {
+            dst<<"Error in Jump Statement";
+        }
+    }
+
+    
 };
 #endif
