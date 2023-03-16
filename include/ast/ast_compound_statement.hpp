@@ -27,7 +27,7 @@ public:
         }
     }
 
-    // int getSize() { 
+    // int getSize() {
     //     int size = 0;
     //     for (auto it : *slist){
     //         size += it->getSize();
@@ -57,27 +57,41 @@ public:
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         try{
             context.newScope();
-            dst<<"\naddi sp,sp ";
-            context.offset += (dlist->size() * - 4 /*+ slist->size() * -4*/);
-            dst<<context.offset;
-            dst<<"\n";
-            dst<<"sw ra " << - 4 - context.offset << "(sp)\n";
-            dst<<"sw s0 " << - 8 - context.offset << "(sp)\n";
-            dst<<"addi s0,sp," <<  - 1 * context.offset << "\n";
+            int o;
+            if (dlist){
+                o=dlist->size() * -4 ;
+            }
+            else{
+                o=0;
+            }
+            context.offset += o;
+            // dst<<context.offset;
+
+            Three_reg(dst,"addi","sp","sp",std::to_string(o));
+            // dst<<"sw ra, " << - 4 - context.offset << "(sp)" << std::endl;
+            sw_lw(dst,"sw","ra",-4-context.offset,"sp");
+            // dst<<"sw s0 " << - 8 - context.offset << "(sp)\n";
+            sw_lw(dst,"sw","s0",-8-context.offset,"sp");
+            // dst<<"addi s0,sp," <<  - 1 * context.offset << "\n";
+            Three_reg(dst,"addi","s0","sp",std::to_string(-1*context.offset));
+
             if (dlist != nullptr) {
                 for (auto i : *dlist){
                     i->generateRISC(dst, context, destReg);
                 }
             }
             for (auto i : *slist){
+
                 // std::string reg = context.regs.nextFreeReg();
                 // context.regs.useReg("reg")
                 i->generateRISC(dst, context, destReg);
                 // context.regs.freeReg("reg")
             }
-            dst<<"lw s0," << - 8 - context.offset << "(sp)\n";
-            dst<<"addi sp,sp," << -1 * context.offset << "\n";
-            context.offset += (dlist->size() * 4 /*+ slist->size() * 4*/);
+            // dst<<"lw s0," << - 8 - context.offset << "(sp)\n";
+            sw_lw(dst,"lw","s0",-8-context.offset,"sp");
+            // dst<<"addi sp,sp," << -1 * context.offset << "\n";
+            Three_reg(dst,"addi","sp","sp",std::to_string(-1*context.offset));
+            context.offset += (o * 4 );
             context.popScope();
         }
         catch (...) {
@@ -85,6 +99,6 @@ public:
         }
 
     }
-    
+
 };
 #endif

@@ -30,7 +30,7 @@ struct VarMap{
     bool findVar(std::string var){
         if (bindings.find(var) == bindings.end()){
             return false;
-        }      
+        }
         return true;
     }
 
@@ -41,10 +41,10 @@ struct VarMap{
     int getCurrentOffset(){
         int offset = -16;
         for (auto& it: bindings) {
-            if (it.second.offset < offset) { 
+            if (it.second.offset < offset) {
                 offset = it.second.offset;
             }
-        } 
+        }
         return offset;
     }
 
@@ -64,23 +64,23 @@ struct VarMap{
         dst<<"Bindings:\n";
         for (auto& it: bindings) {
             dst<<"var: [ "<< it.first<<" ] type: [ "<<it.second.type<<" ] offset [ "<<it.second.offset<<" ]\n";
-        } 
+        }
     }
 };
 
 struct Registers{
 
     std::unordered_map<std::string,bool> reg_used;
-    
-    Registers () {   
-        reg_used["zero"]=true; reg_used["ra"]=true;   reg_used["sp"]=true;   reg_used["gp"]=true;   
-        reg_used["tp"]=true;   reg_used["t0"]=false;  reg_used["t1"]=false;  reg_used["t2"]=false;  
-        reg_used["s0"]=true;   reg_used["s1"]=false;  reg_used["a0"]=true;   reg_used["a1"]=false;  
-        reg_used["a2"]=false;  reg_used["a3"]=false;  reg_used["a4"]=false;  reg_used["a5"]=false;  
+
+    Registers () {
+        reg_used["zero"]=true; reg_used["ra"]=true;   reg_used["sp"]=true;   reg_used["gp"]=true;
+        reg_used["tp"]=true;   reg_used["t0"]=false;  reg_used["t1"]=false;  reg_used["t2"]=false;
+        reg_used["s0"]=true;   reg_used["s1"]=false;  reg_used["a0"]=true;   reg_used["a1"]=false;
+        reg_used["a2"]=false;  reg_used["a3"]=false;  reg_used["a4"]=false;  reg_used["a5"]=false;
         reg_used["a6"]=false;  reg_used["a7"]=false;  reg_used["s2"]=false;  reg_used["s3"]=false;
-        reg_used["s4"]=false;  reg_used["s5"]=false;  reg_used["s6"]=false;  reg_used["s7"]=false;  
-        reg_used["s8"]=false;  reg_used["s9"]=false;  reg_used["s10"]=false; reg_used["s11"]=false; 
-        reg_used["t3"]=false;  reg_used["t4"]=false;  reg_used["t5"]=false;  reg_used["t6"]=false;  
+        reg_used["s4"]=false;  reg_used["s5"]=false;  reg_used["s6"]=false;  reg_used["s7"]=false;
+        reg_used["s8"]=false;  reg_used["s9"]=false;  reg_used["s10"]=false; reg_used["s11"]=false;
+        reg_used["t3"]=false;  reg_used["t4"]=false;  reg_used["t5"]=false;  reg_used["t6"]=false;
     }
 
     std::string nextFreeReg(){
@@ -93,11 +93,11 @@ struct Registers{
     }
 
     void useReg(std::string reg){
-        reg_used[reg] = true;        
+        reg_used[reg] = true;
     }
-    
+
     void freeReg(std::string reg){
-        reg_used[reg] = false;        
+        reg_used[reg] = false;
     }
 
     void showRegUsed(std::ostream &dst) {
@@ -130,7 +130,7 @@ struct Context{
 
     void addGlobal(std::string var, Params varinfo) {
         scope[0].addVar(var, varinfo);
-    }   
+    }
 
     void addVar (std::string _varname, std::string _type, int _offset){
         scope[scope.size()-1].bindings[_varname] = Params(_type, _offset);
@@ -138,9 +138,9 @@ struct Context{
 
     void addVar(std::string var, Params varinfo) {
         scope.back().addVar(var, varinfo);
-    } 
+    }
 
-    void newScope() { 
+    void newScope() {
         VarMap _vars;
         scope.push_back(_vars);
     }
@@ -148,15 +148,26 @@ struct Context{
     void popScope() {
         scope.pop_back();
     }
-    
+
     void debugScope(std::ostream &dst) {
         for (int i = scope.size()-1; i>-1; i--){
             dst<<"Scope Level "<< i << ":\n";
             scope[i].DebugVars(dst);
-        } 
-    } 
+        }
+    }
 
 };
 
+void Three_reg(std::ostream &dst,std::string inst,std::string dstReg, std::string reg1, std::string reg2){
+    dst<<inst<<" "<<dstReg<<","<<reg1<<","<<reg2<<std::endl;
+};
+
+void Two_reg(std::ostream &dst,std::string inst,std::string dstReg,std::string reg){
+    dst<<inst<<" "<<dstReg<<","<<reg<<std::endl;
+};
+
+void sw_lw(std::ostream &dst ,std::string inst ,std::string reg , int off , std::string offReg){
+    dst<<inst<<" "<<reg<<","<<off<<"("<<offReg<<")"<<std::endl;
+};
 
 #endif

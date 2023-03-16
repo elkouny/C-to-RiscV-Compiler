@@ -27,7 +27,7 @@ public:
 
     // virtual std::string getType() { return "error " };
 
-    virtual std::string getVar() { return "error"; };
+    virtual std::string getVar() const { return "error"; }
 
     virtual std::string getIdentifier() const { return "error "; }
 

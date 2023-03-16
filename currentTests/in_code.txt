@@ -1,6 +1,18 @@
-int main () { 
+int main () {
     int x=0;
     int y =5;
-    y = x;
+    x++;
+    --y;
+    x = x + y;
+    x = x - y;
+    x = x * y;
+    x = x / y;
+    x = x & y;
+    x = x | y;
+    x = x ^ y;
+    x = y;
+    x = x == y;
+    x = y;
+    x = x != y;
     return x;
 }

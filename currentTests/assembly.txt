@@ -11,7 +11,79 @@ li t4,5
 sw t4, -24(s0)
 
 lw t4,-20(s0)
-sw t4, 0(s0)
+addi t4 , 1
+sw t4, -20(s0)
+
+lw t4,-24(s0)
+addi t4 ,  -1 
+sw t4 , -24(s0)
+
+
+lw t4,-20(s0)
+
+lw a2,-24(s0)
+add t4 , t4 , a2
+sw t4, -20(s0)
+
+lw t4,-20(s0)
+
+lw a2,-24(s0)
+sub t4 , t4 , a2
+sw t4, -20(s0)
+
+lw t4,-20(s0)
+
+lw a2,-24(s0)
+mul t4 , t4 , a2
+sw t4, -20(s0)
+
+lw t4,-20(s0)
+
+lw a2,-24(s0)
+div t4 , t4 , a2
+sw t4, -20(s0)
+
+lw t4,-20(s0)
+
+lw a2,-24(s0)
+andi t4 , t4 , a2
+sw t4, -20(s0)
+
+lw t4,-20(s0)
+
+lw a2,-24(s0)
+ori t4 , t4 , a2
+sw t4, -20(s0)
+
+lw t4,-20(s0)
+
+lw a2,-24(s0)
+xori t4 , t4 , a2
+sw t4, -20(s0)
+
+lw t4,-24(s0)
+
+sw t4, -20(s0)
+
+lw t4,-20(s0)
+
+lw a2,-24(s0)
+sub t4 , t4 , a2
+seqz t4 , t4
+andi t4 , t4 ,0xff
+sw t4, -20(s0)
+
+lw t4,-24(s0)
+
+sw t4, -20(s0)
+
+lw t4,-20(s0)
+
+lw a2,-24(s0)
+sub t4 , t4 , a2
+snez t4t4
+andi t4 , t4 ,0xff
+sw t4, -20(s0)
 
 lw t4,-20(s0)
 mv a0, t4

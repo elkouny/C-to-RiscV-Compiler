@@ -33,13 +33,13 @@ public:
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         try{
-            std::string varname = var->getIdentifier();
+            std::string varname = var->getVar();
             std::string reg = context.regs.nextFreeReg();
-            context.regs.useReg(reg);
+            // context.regs.useReg(reg);
             expression->generateRISC(dst, context, reg);
             int offset = context.getVarInfo(varname).offset;
-            dst << "sw " << reg << ", " << offset << "(s0)" << std::endl;
-            context.regs.freeReg(reg);
+            dst << "\nsw " << reg << ", " << offset << "(s0)" << std::endl;
+            // context.regs.freeReg(reg);
         }
         
         catch (...) {

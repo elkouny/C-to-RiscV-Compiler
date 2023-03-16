@@ -11,12 +11,12 @@ private:
 // protected:
 public:
     Function(std::string s, BlockPtr d, BlockPtr c) : specifier(s), declarator(d), cstatement(c) {}
-    
+
     virtual ~Function() {
         delete declarator;
         delete cstatement;
     }
-    
+
     std::string getSpecifier() const {
         return specifier;
     }
@@ -43,13 +43,13 @@ public:
 
     virtual void generateRISC(std::ostream &dst , Context &context , std::string destReg) const override {
         try{
-            dst<<declarator->getIdentifier()<<":";
+            dst<<declarator->getIdentifier()<<":"<<std::endl;
             // std::string reg = context.regs.nextFreeReg();
             // context.regs.useReg(reg);
             cstatement->generateRISC(dst, context, "a0");
             // dst<<"\nmv a0,"+reg+"\njr ra";
             // context.regs.freeReg(reg);
-            dst<<"\njr ra";
+            dst<<"jr ra"<<std::endl;
             // EVALUATE SIZE OF SYMBOLS USED IN COMPOUND STATEMENT
         }
         catch (...) {
@@ -58,7 +58,7 @@ public:
 
 
     }
-    
+
 
 };
 

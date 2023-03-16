@@ -47,11 +47,12 @@ public:
             context.regs.useReg(reg);
             initializer->generateRISC(dst, context, reg);
             int offset = context.getVarInfo(varname).offset;
-            dst << "sw " << reg << ", " << offset << "(s0)" << std::endl;
+            // dst << "sw " << reg << ", " << offset << "(s0)" << std::endl;
+            sw_lw(dst,"sw",reg,offset,"s0");
             context.regs.freeReg(reg);
         }
     }
-   
+
 };
 
 #endif

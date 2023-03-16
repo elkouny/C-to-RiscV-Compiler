@@ -12,7 +12,7 @@ public:
         : type(_type)
         , expression(_expression)
     {}
-   
+
     ~jump_statement() {
         delete expression;
     }
@@ -23,7 +23,7 @@ public:
     virtual void print(std::ostream &dst) const override {
         dst << "\n        Jump Statement [ ";
         dst << type << " ]";
-        getExpression()->print(dst);  
+        getExpression()->print(dst);
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
@@ -32,7 +32,8 @@ public:
                 std::string reg = context.regs.nextFreeReg();
                 context.regs.useReg(reg);
                 expression->generateRISC(dst, context, reg);
-                dst << "mv " << destReg << ", " << reg << std::endl;
+                // dst << "mv " << destReg << ", " << reg << std::endl;
+                Two_reg(dst,"mv",destReg,reg);
                 context.regs.freeReg(reg);
             }
         }
@@ -41,6 +42,6 @@ public:
         }
     }
 
-    
+
 };
 #endif
