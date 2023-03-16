@@ -158,15 +158,15 @@ struct Context{
 
 };
 
-void Three_reg(std::ostream &dst,std::string inst,std::string dstReg, std::string reg1, std::string reg2){
+void inline Three_reg(std::ostream &dst,std::string inst,std::string dstReg, std::string reg1, std::string reg2){
     dst<<inst<<" "<<dstReg<<","<<reg1<<","<<reg2<<std::endl;
 };
 
-void Two_reg(std::ostream &dst,std::string inst,std::string dstReg,std::string reg){
+void inline Two_reg(std::ostream &dst,std::string inst,std::string dstReg,std::string reg){
     dst<<inst<<" "<<dstReg<<","<<reg<<std::endl;
 };
 
-void sw_lw(std::ostream &dst ,std::string inst ,std::string reg , int off , std::string offReg){
+void inline sw_lw(std::ostream &dst ,std::string inst ,std::string reg , int off , std::string offReg){
     dst<<inst<<" "<<reg<<","<<off<<"("<<offReg<<")"<<std::endl;
 };
 

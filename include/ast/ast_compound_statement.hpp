@@ -67,7 +67,7 @@ public:
             context.offset += o;
             // dst<<context.offset;
 
-            Three_reg(dst,"addi","sp","sp",std::to_string(o));
+            Three_reg(dst,"addi","sp","sp",std::to_string(context.offset));
             // dst<<"sw ra, " << - 4 - context.offset << "(sp)" << std::endl;
             sw_lw(dst,"sw","ra",-4-context.offset,"sp");
             // dst<<"sw s0 " << - 8 - context.offset << "(sp)\n";

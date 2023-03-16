@@ -2,7 +2,7 @@
 
 %{
 extern "C" int fileno(FILE *stream);
-#include "parser.tab.hpp"
+#include "Parser.tab.hpp"
 %}
 
 D  [0-9]

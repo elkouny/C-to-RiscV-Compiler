@@ -1,5 +1,5 @@
-// #include "../include/ast.hpp"
-// #include "../include/ast/ast_structs.hpp"
+// #include "../../include/ast.hpp"
+// #include "../../include/ast/ast_structs.hpp"
 
 // int main()
 // {

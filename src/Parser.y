@@ -1,18 +1,18 @@
 %code requires{
-    #include "ast.hpp"
+    #include "../include/ast.hpp"
 
 	#include <cassert>
 
 	// rename expression later
-    extern const Block *g_root; 
+    extern const Block *g_root;
 
 
     int yylex(void);
-    void yyerror(const char *);  
+    void yyerror(const char *);
 }
 
 %union{
-    /*rename pointer ^*/ 
+    /*rename pointer ^*/
 	const Block *block;
 	std::vector<BlockPtr> *list;
     std::string *string;
@@ -20,23 +20,23 @@
 
 %token SIZEOF
 %token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
-%token AND_OP OR_OP 
+%token AND_OP OR_OP
 %token LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
-%token XOR_ASSIGN OR_ASSIGN 
+%token XOR_ASSIGN OR_ASSIGN
 %token TYPEDEF EXTERN STATIC AUTO REGISTER
 %token CONST VOLATILE
 %token STRUCT UNION ENUM ELLIPSIS
 
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK
 
-%token <string> MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN SUB_ASSIGN 
+%token <string> MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN SUB_ASSIGN
 
 %token <string> IDENTIFIER CONSTANT STRING_LITERAL
 
 %token <string> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID TYPE_NAME
 
 %token <string> RETURN
-/* 
+/*
 %token <string> IDENTIFIER CONSTANT STRING_LITERAL
 
 %token <string> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID TYPE_NAME
@@ -113,7 +113,7 @@ declaration
 	;
 
 init_declarator
-	: declarator { $$ = new Init_Declarator($1);} 
+	: declarator { $$ = new Init_Declarator($1);}
 	| declarator '=' assignment_expression { $$ = new Init_Declarator($1, $3);}
 	;
 
@@ -174,7 +174,7 @@ statement
 	| selection_statement { $$ = $1; }
 	| iteration_statement { $$ = $1; }
 	;
-	
+
 jump_statement
 	: RETURN expression ';' {$$= new jump_statement(*$1,$2); delete $1;}
 	;
@@ -196,10 +196,10 @@ iteration_statement
 
 expression
 	: assignment_expression { $$ = $1; }
-	; 
+	;
 
 
-	
+
 /* postfix_expression
 	: primary_expression { $$ = $1;} */
 
@@ -299,7 +299,7 @@ assignment_operator
 
 
 
-const Block *g_root; 
+const Block *g_root;
 
 const Block *parseAST() {
     g_root = 0;

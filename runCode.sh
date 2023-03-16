@@ -16,4 +16,4 @@ bin/print_parsed < $TestFolder/in_code.txt > $TestFolder/out_code.txt 2> $TestFo
 
 echo "Generated Code"
 
-make clean
+# make clean

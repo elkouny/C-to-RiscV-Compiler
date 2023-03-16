@@ -1,7 +1,7 @@
 # CPPFLAGS += -std=c++11 -W -Wall -g -Wno-unused-parameter
 # CPPFLAGS += -I include
-# PARSER += currentParser
-# LEXER += Lexer
+PARSER += Parser
+LEXER += Lexer
 # .PHONY = default
 
 # default: bin/c_compiler
@@ -49,25 +49,25 @@ OBJS = $(patsubst %.cpp,%.o,$(CPPFILES))
 
 all : $(LINK_TARGET)
 
-$(LINK_TARGET) : src/lexer.yy.o src/parser.tab.o $(OBJS)
+$(LINK_TARGET) : src/$(LEXER).yy.o src/$(PARSER).tab.o $(OBJS)
 	$(CC) $(CPPFLAGS) $^ -o $@
 
 src/%.o: src/%.cpp $(HPPFILES)
 	$(CC) $(CPPFLAGS) -c -o $@ $<
 
-src/parser.tab.cpp src/parser.tab.hpp: src/parser.y
-	bison -v -d src/parser.y -o src/parser.tab.cpp
+src/$(PARSER).tab.cpp src/$(PARSER).tab.hpp: src/$(PARSER).y
+	bison -v -d src/$(PARSER).y -o src/$(PARSER).tab.cpp
 	mkdir -p bin;
 
-src/lexer.yy.cpp : src/lexer.flex src/parser.tab.hpp
-	flex -o src/lexer.yy.cpp src/lexer.flex
+src/$(LEXER).yy.cpp : src/$(LEXER).flex src/$(PARSER).tab.hpp
+	flex -o src/$(LEXER).yy.cpp src/$(LEXER).flex
 
 makeobj:
 	$(CC) $(CPPFLAGS) src/$(CPPALLTEST) -o bin/testout
 
-lexer: src/lexer.yy.cpp
+$(LEXER): src/$(LEXER).yy.cpp
 
-parser: src/parser.tab.cpp src/parser.tab.hpp
+$(PARSER): src/$(PARSER).tab.cpp src/$(PARSER).tab.hpp
 
 bin/compiler: src/c_compiler.output
 

@@ -43,6 +43,8 @@ public:
 
     virtual void generateRISC(std::ostream &dst , Context &context , std::string destReg) const override {
         try{
+            dst<<".text"<<std::endl;
+            dst<<".globl "<<declarator->getIdentifier()<<std::endl;
             dst<<declarator->getIdentifier()<<":"<<std::endl;
             // std::string reg = context.regs.nextFreeReg();
             // context.regs.useReg(reg);
