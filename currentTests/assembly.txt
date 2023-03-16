@@ -1,17 +1,21 @@
+.text
+.globl main
 main:
-addi sp,sp,-28
-sw ra,24(sp)
-sw s0,20(sp)
-addi s0,sp,28
-li t4,0
+addi sp,sp,-36
+sw ra,32(sp)
+sw s0,28(sp)
+addi s0,sp,36
+li t4,6
 sw t4,-20(s0)
-li t4,1
+li t4,5
 sw t4,-24(s0)
-lw t4,-20(s0)
-lw a2,-24(s0)
-add t4,t4,a2
+li t4,6
+sw t4,-28(s0)
+li t4,0
+sw t4,-32(s0)
+lw t4,-32(s0)
 mv a0,t4
-lw s0,20(sp)
-addi sp,sp,28
+lw s0,28(sp)
+addi sp,sp,36
 jr ra
 

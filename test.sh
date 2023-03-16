@@ -8,7 +8,12 @@ shopt -s globstar
 
 clear
 
+
 make clean
+
+sed -i 's/#*//g' Makefile
+sed -i '3,37 s/^/#/' Makefile
+sed -i 's/^/\/\/\ /g' src/compiler_code/*
 
 make bin/c_compiler
 
