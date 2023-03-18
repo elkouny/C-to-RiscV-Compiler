@@ -5,7 +5,7 @@
 #include <iostream>
 #include <map>
 #include <unordered_map>
-
+#include <ranges> 
 #include <memory>
 
 struct Params{

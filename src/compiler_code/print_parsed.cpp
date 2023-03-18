@@ -9,9 +9,9 @@ int main()
     ast->print(std::cout);
     std::cout<<std::endl;
 
-    // std::cerr<<".text"<<std::endl;
-    // ast->generateRISC(std::cerr, context, "a0");
-    // std::cerr<<std::endl;
+    std::cerr<<".text"<<std::endl;
+    ast->generateRISC(std::cerr, context, "a0");
+    std::cerr<<std::endl;
 
     return 0;
 }

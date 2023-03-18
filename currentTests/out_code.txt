@@ -1,0 +1,9 @@
+New Function: [ Function Type: [ int ] Function Name: [ f ] Parameters [ 
+        Parameter Declaration [ Variable Type: [ int ] Variable Name : [ x ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable Name : [ y ] ] ] ] [
+    Compound Statement [
+    Statement List [
+        Jump Statement [ return ] Addition:  [  Expression [ String: [ x ] ] +  Expression [ String: [ y ] ] ] 
+    ]
+    ]
+] 

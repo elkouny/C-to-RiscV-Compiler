@@ -24,6 +24,7 @@ public:
     }
     
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+            context.regs.useReg(destReg);
             translation_unit->generateRISC(dst,context,destReg);
             external_declaration->generateRISC(dst,context,destReg);
             context.regs.freeReg(destReg);

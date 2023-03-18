@@ -1,4 +1,5 @@
-int f(int x)
-{
-    return g();
+int f(int x, int y){
+    return x + y;
+
+    
 }

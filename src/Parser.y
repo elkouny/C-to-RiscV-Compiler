@@ -168,9 +168,9 @@ parameter_list
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator { $$ = new ParameterDeclaration($1, $2);}
+	: declaration_specifiers declarator { $$ = new ParameterDeclaration(*$1, $2);}
 	/* | declaration_specifiers abstract_declarator { $$ = new ParameterDeclaration($1, $2);} */
-	| declaration_specifiers { $$ = new ParameterDeclaration($1);}
+	| declaration_specifiers { $$ = new ParameterDeclaration(*$1);}
 	;
 
 compound_statement

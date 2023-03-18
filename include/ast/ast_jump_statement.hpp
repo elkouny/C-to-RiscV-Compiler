@@ -22,7 +22,7 @@ public:
 
     virtual void print(std::ostream &dst) const override {
         dst << "\n        Jump Statement [ ";
-        dst << type << " ]";
+        dst << type << " ] ";
         getExpression()->print(dst);
     }
 

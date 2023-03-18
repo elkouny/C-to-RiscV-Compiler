@@ -1,1 +1,18 @@
-./runCode.sh: line 22: bin/print_parsed: No such file or directory
+.text
+.globl f
+f:
+addi sp,sp,-20
+sw ra,16(sp)
+sw s0,12(sp)
+addi s0,sp,20
+lw t6,0(s0)
+lw t4,0(s0)
+add t6,t6,t4
+j return0
+return0:
+mv a0,t6
+lw ra,16(sp)
+lw s0,12(sp)
+addi sp,sp,20
+jr ra
+

@@ -11,8 +11,8 @@ private:
 public:
     FunctionCall(BlockPtr _function) {
         function = _function;
-        std::vector<BlockPtr> *empty;
-        argList = empty;
+        // std::vector<BlockPtr> *empty;
+        // argList = empty;
     }
 
     FunctionCall(BlockPtr _function, std::vector<BlockPtr> *_argList) {
@@ -22,27 +22,39 @@ public:
 
     ~FunctionCall() {
         delete function;
-        for (auto i : *argList){
-            delete i;
+        if ( argList != nullptr ) {
+            for (auto i : *argList){
+                delete i;
+            }
         }
     };
+
+    
 
     virtual void print(std::ostream &dst) const override {
         dst<<" FunctionCall [ Function [ ";
         function->print(dst);
         dst<<" ] Args [ ";
-        for (auto i : *argList){
-            i->print(dst);
+        if ( argList != nullptr ) {
+            for (auto arg : *argList){
+                arg->print(dst);
+            }
         }
         dst<<" ] ]";
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         std::string func_name = function->getVar();
-        // std::string reg = context.regs.nextFreeReg();
+        if ( argList != nullptr) {
+            int index = 0;
+            for (auto arg : *argList){
+                arg->generateRISC(dst,context,("a"+std::to_string(index)));
+                index++;
+            } 
+
+        }
         One_op(dst,"call",func_name);
         Two_op(dst,"mv",destReg,"a0");
-
     }
 };
 
