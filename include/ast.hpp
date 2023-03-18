@@ -15,6 +15,8 @@
 #include "ast/ast_iteration_statement.hpp"
 #include "ast/ast_function_call.hpp"
 #include "ast/ast_translation_unit.hpp"
+#include "ast/ast_function_declarator.hpp"
+#include "ast/ast_parameter_declaration.hpp"
 
 extern const Block *parseAST();
 

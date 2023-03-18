@@ -7,31 +7,31 @@ class FunctionCall : public Block
 {
 private:
     BlockPtr function;
-    std::vector<BlockPtr> argList;
+    std::vector<BlockPtr> *argList;
 public:
     FunctionCall(BlockPtr _function) {
         function = _function;
-        std::vector<BlockPtr> empty;
+        std::vector<BlockPtr> *empty;
         argList = empty;
     }
 
-    FunctionCall(BlockPtr _function, std::vector<BlockPtr> _argList) {
+    FunctionCall(BlockPtr _function, std::vector<BlockPtr> *_argList) {
         function = _function;
         argList = _argList;
     }
 
     ~FunctionCall() {
         delete function;
-        for (auto i : argList){
+        for (auto i : *argList){
             delete i;
         }
-    };   
+    };
 
     virtual void print(std::ostream &dst) const override {
         dst<<" FunctionCall [ Function [ ";
         function->print(dst);
         dst<<" ] Args [ ";
-        for (auto i : argList){
+        for (auto i : *argList){
             i->print(dst);
         }
         dst<<" ] ]";

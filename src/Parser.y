@@ -43,38 +43,43 @@
 
 %token RETURN */
 
-%type <block> primary_expression // etc
-%type <block> expression
-%type <block> declarator
-%type <block> direct_declarator
-%type <block> statement
-%type <block> compound_statement
-%type <block> jump_statement
 %type <block> translation_unit
 %type <block> external_declaration
 %type <block> function_definition
+
 %type <block> declaration
-%type <block> assignment_expression
+%type <block> parameter_declaration
 %type <block> init_declarator
-%type <block> expression_statement
-%type <block> postfix_expression
+%type <block> declarator
+%type <block> direct_declarator
+
 %type <list> statement_list
 %type <list> declaration_list
+%type <list> argument_expression_list
+%type <list> parameter_list
 /* %type <block> conditional_expression */
-%type <block> unary_expression
-%type <block> multiplicative_expression
-%type <block> additive_expression
-%type <block> relational_expression
-%type <block> equality_expression
-%type <block> and_expression
-%type <block> exclusive_or_expression
-%type <block> inclusive_or_expression
-%type <block> logical_and_expression
+
+%type <block> expression
+%type <block> assignment_expression
 %type <block> logical_or_expression
+%type <block> logical_and_expression
+%type <block> inclusive_or_expression
+%type <block> exclusive_or_expression
+%type <block> and_expression
+%type <block> equality_expression
+%type <block> relational_expression
+%type <block> additive_expression
+%type <block> multiplicative_expression
+%type <block> unary_expression
+%type <block> postfix_expression
+%type <block> primary_expression // etc
+
+%type <block> compound_statement
+%type <block> statement
+%type <block> jump_statement
+%type <block> expression_statement
 %type <block> selection_statement
 %type <block> iteration_statement
-
-
 
 %type <string> assignment_operator
 %type <string> declaration_specifiers
@@ -123,7 +128,7 @@ init_declarator
 
 function_definition
 	: declaration_specifiers declarator compound_statement { $$ = new Function(*$1, $2, $3); }  // $1 type, $2 main(), $3 block: {}
-	| declaration_specifiers declarator declaration_list compound_statement { $$ = new Function(*$1, $2, $3, $4); }  // $1 type, $2 main(), $3 block: {}
+	/* | declaration_specifiers declarator declaration_list compound_statement { $$ = new Function(*$1, $2, $3, $4); }  // $1 type, $2 main(), $3 block: {} */
 	/* | expression ';' { $$ = $1; } */
 	/* |compound_statement { $$ = $1; } */
 	| jump_statement { $$ = $1; }
@@ -153,10 +158,21 @@ declarator
 direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); delete $1;}
 	| '(' declarator ')' { $$ = $2; }
+	| direct_declarator '(' parameter_list ')' { $$ = new FunctionDeclarator($1, $3); }
 	| direct_declarator '(' ')' { $$ = $1;}
 	;
 
-/* change decleration to decleration list */
+parameter_list
+	: parameter_declaration { std::vector<BlockPtr>* BlockList = new std::vector<BlockPtr>(); BlockList->push_back($1);  $$ = BlockList; }
+	| parameter_list ',' parameter_declaration { $1->push_back($3); $$ = $1;}
+	;
+
+parameter_declaration
+	: declaration_specifiers declarator { $$ = new ParameterDeclaration($1, $2);}
+	/* | declaration_specifiers abstract_declarator { $$ = new ParameterDeclaration($1, $2);} */
+	| declaration_specifiers { $$ = new ParameterDeclaration($1);}
+	;
+
 compound_statement
 	: '{' '}' { $$ = new Expression("null"); }
 	/* | '{' statement '}' { $$ = $2; } */
@@ -211,11 +227,16 @@ postfix_expression
 	: primary_expression { $$ = $1;}
 	/* | postfix_expression '[' expression ']' { $$ = new ArrayAccess($1, $3);} */
 	| postfix_expression '(' ')' { $$ = new FunctionCall($1);}
-	/* | postfix_expression '(' argument_expression_list ')' { $$ = new FunctionCall($1, $3);} */
+	| postfix_expression '(' argument_expression_list ')' { $$ = new FunctionCall($1, $3);}
 	/* | postfix_expression '.' IDENTIFIER { $$ = new MemberAccess($1, $3);} */
 	/* | postfix_expression PTR_OP IDENTIFIER { $$ = new PointerAccess($1, $3);} */
 	| postfix_expression INC_OP { $$ = new Inc($1);}
 	| postfix_expression DEC_OP { $$ = new Dec($1);}
+	;
+
+argument_expression_list
+	: assignment_expression { std::vector<BlockPtr>* BlockList = new std::vector<BlockPtr>(); BlockList->push_back($1);  $$ = BlockList; }
+	| argument_expression_list ',' assignment_expression { $1->push_back($3); $$ = $1; }
 	;
 
 unary_expression
