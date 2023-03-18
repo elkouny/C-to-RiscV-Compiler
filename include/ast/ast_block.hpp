@@ -18,10 +18,7 @@ public:
     //! Tell and expression to print itself to the given stream
     virtual void print(std::ostream &dst) const =0;
 
-
-
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const {};
-
 
     virtual std::string getVar() const { return "error"; }
 

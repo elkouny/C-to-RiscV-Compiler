@@ -43,7 +43,6 @@ public:
         }
         else if (type == 1) {
             int offset = context.getVarInfo(variable).offset;
-       
             sw_lw(dst,"lw",destReg,offset,"s0");
         }
     }

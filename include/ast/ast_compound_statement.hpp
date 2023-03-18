@@ -63,7 +63,6 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-       
         context.newScope();
         if (dlist != nullptr) {
             for (auto i : *dlist){
@@ -71,14 +70,9 @@ public:
             }
         }
         for (auto i : *slist){
-
             i->generateRISC(dst, context, destReg);
-        
         }
         context.popScope();
-       
-
     }
-
 };
 #endif

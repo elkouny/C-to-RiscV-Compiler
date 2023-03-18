@@ -20,9 +20,6 @@ public:
         dst<<getIdentifier();
     }
     
-
-    
-    
 };
 
 #endif
