@@ -23,6 +23,17 @@ public:
         value->print(dst);
         dst << " ] ";
     }
+    
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        std::string varname = value->getVar();
+        std::string reg = context.regs.nextFreeReg();
+        int offset = context.getVarInfo(varname).offset;
+        context.regs.useReg(reg);
+        value->generateRISC(dst,context,reg);
+        Two_op(dst,"addi",reg,"1");
+        sw_lw(dst,"sw",reg,offset,"s0");
+        context.regs.freeReg(reg);
+    }
 
 };
 class Dec : public Block {
@@ -44,6 +55,17 @@ public:
         dst << " [ ";
         value->print(dst);
         dst << " ] ";
+    }
+    
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        std::string var = value->getVar();
+        value->generateRISC(dst,context,reg);
+        int off = context.getVarInfo(var).offset;
+        Two_op(dst,"addi",reg,"-1");
+        sw_lw(dst,"sw",reg,off,"s0");
+        context.regs.freeReg(reg);
     }
 
 };
@@ -73,6 +95,18 @@ public:
         dst << " * ";
         right->print(dst);
         dst << " ] ";
+    }
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"mul",destReg,destReg,reg);
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
     }
 
 };
@@ -105,6 +139,18 @@ public:
         dst << " ] ";
     }
 
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"div",destReg,destReg,reg);
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
+    }
+
 };
 
 class Addition : public Block {
@@ -134,6 +180,18 @@ public:
         dst << " ] ";
     }
 
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"add",destReg,destReg,reg);
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
+    }
 };
 
 class Subtraction : public Block {
@@ -162,6 +220,19 @@ public:
         right->print(dst);
         dst << " ] ";
     }
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"sub",destReg,destReg,reg);
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
+    }
+
 
 };
 
@@ -192,6 +263,19 @@ public:
         dst << " ] ";
     }
 
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"slt",destReg,destReg,reg);
+        Three_op(dst,"andi",destReg,destReg,"0xff");
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
+    }
+
 };
 
 class GreaterThan : public Block {
@@ -219,6 +303,18 @@ public:
         dst << " > ";
         right->print(dst);
         dst << " ] ";
+    }
+      virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"sgt",destReg,destReg,reg);
+        Three_op(dst,"andi",destReg,destReg,"0xff");
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
     }
 
 };
@@ -250,6 +346,21 @@ public:
         dst << " ] ";
     }
 
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"sgt",destReg,destReg,reg);
+        Three_op(dst,"xori",destReg,destReg,"1");
+        Three_op(dst,"andi",destReg,destReg,"0xff");
+
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
+    }
+
 };
 
 class GreaterThanEqual : public Block {
@@ -278,6 +389,21 @@ public:
         right->print(dst);
         dst << " ] ";
     }
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"slt",destReg,destReg,reg);
+        Three_op(dst,"xori",destReg,destReg,"1");
+        Three_op(dst,"andi",destReg,destReg,"0xff");
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
+    }
+
 
 };
 
@@ -308,13 +434,27 @@ public:
         dst << " ] ";
     }
 
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"sub",destReg,destReg,reg);
+        Two_op(dst,"seqz",destReg,destReg);
+        Three_op(dst,"andi",destReg,destReg,"0xff");
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+    }
+
+
 };
 
 class NotEqual : public Block {
 private:
     BlockPtr left;
     BlockPtr right;
-    
+
 public:
     NotEqual(BlockPtr _left, BlockPtr _right)
         : left(_left)
@@ -337,6 +477,19 @@ public:
         dst << " ] ";
     }
 
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"sub",destReg,destReg,reg);
+        Two_op(dst,"sneqz",destReg,destReg);
+        Three_op(dst,"andi",destReg,destReg,"0xff");
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+    }
+
 };
 
 class BitwiseAnd : public Block {
@@ -345,7 +498,7 @@ private:
     BlockPtr right;
 public:
     BitwiseAnd(BlockPtr _left, BlockPtr _right): left(_left), right(_right) {}
-    
+
     ~BitwiseAnd() {
         delete left;
         delete right;
@@ -354,7 +507,7 @@ public:
     BlockPtr getLeft() const { return left; }
 
     BlockPtr getRight() const { return right; }
-    
+
     virtual void print(std::ostream &dst) const override {
         dst << "Bitwise And: ";
         dst << " [ : ";
@@ -362,6 +515,18 @@ public:
         dst << " & ";
         right->print(dst);
         dst << " ] ";
+    }
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"andi",destReg,destReg,reg);
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
     }
 };
 
@@ -371,9 +536,9 @@ private:
     BlockPtr left;
     BlockPtr right;
 public:
-    
+
     BitwiseXor(BlockPtr _left, BlockPtr _right) : left(_left), right(_right) {}
-    
+
     ~BitwiseXor() {
         delete left;
         delete right;
@@ -382,7 +547,7 @@ public:
     BlockPtr getLeft() const { return left; }
 
     BlockPtr getRight() const { return right; }
-    
+
     virtual void print(std::ostream &dst) const override {
         dst << "Bitwise Xor: ";
         dst << " [ ";
@@ -391,8 +556,20 @@ public:
         right->print(dst);
         dst << " ] ";
     }
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"xori",destReg,destReg,reg);
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
+    }
 };
-    
+
 
 class BitwiseOr : public Block {
 private:
@@ -400,7 +577,7 @@ private:
     BlockPtr right;
 public:
     BitwiseOr(BlockPtr _left, BlockPtr _right): left(_left), right(_right) {}
-    
+
     ~BitwiseOr() {
         delete left;
         delete right;
@@ -409,7 +586,7 @@ public:
     BlockPtr getLeft() const { return left; }
 
     BlockPtr getRight() const { return right; }
-    
+
     virtual void print(std::ostream &dst) const override {
         dst << "Bitwise Or: ";
         dst << " [ ";
@@ -417,6 +594,18 @@ public:
         dst << " | ";
         right->print(dst);
         dst << " ] ";
+    }
+    
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        std::string reg = context.regs.nextFreeReg();
+        context.regs.useReg(reg);
+        right->generateRISC(dst,context,reg);
+        Three_op(dst,"ori",destReg,destReg,reg);
+        context.regs.freeReg(destReg);
+        context.regs.freeReg(reg);
+
     }
 };
 
@@ -427,7 +616,7 @@ private:
     BlockPtr right;
 public:
     LogicalAnd(BlockPtr _left, BlockPtr _right): left(_left), right(_right) {}
-    
+
     ~LogicalAnd() {
         delete left;
         delete right;
@@ -436,7 +625,7 @@ public:
     BlockPtr getLeft() const { return left; }
 
     BlockPtr getRight() const { return right; }
-    
+
     virtual void print(std::ostream &dst) const override {
         dst << "Logical And: ";
         dst << " [ ";
@@ -444,6 +633,23 @@ public:
         dst << " && ";
         right->print(dst);
         dst << " ] ";
+    }
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override{
+        std::string l2 = context.make_label(".L");
+        std::string l3 = context.make_label(".L");
+    
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        Three_op(dst,"beq",destReg,"zero",l2);
+        right->generateRISC(dst,context,destReg);
+        Three_op(dst,"beq",destReg,"zero",l2);
+        Two_op(dst,"li",destReg,"1");
+        One_op(dst,"j",l3);
+        label(dst,l2);
+        Two_op(dst,"li",destReg,"0");
+        label(dst,l3);
+        context.regs.freeReg(destReg);
+
     }
 };
 
@@ -453,7 +659,7 @@ private:
     BlockPtr right;
 public:
     LogicalOr(BlockPtr _left, BlockPtr _right): left(_left), right(_right) {}
-    
+
     ~LogicalOr() {
         delete left;
         delete right;
@@ -462,7 +668,7 @@ public:
     BlockPtr getLeft() const { return left; }
 
     BlockPtr getRight() const { return right; }
-    
+
     virtual void print(std::ostream &dst) const override {
         dst << "Logical Or: ";
         dst << " [ ";
@@ -471,10 +677,24 @@ public:
         right->print(dst);
         dst << " ] ";
     }
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override{
+        std::string l2 = context.make_label(".L");
+        std::string l3 = context.make_label(".L");
+        std::string l4 = context.make_label(".L");
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        Three_op(dst,"bne",destReg,"zero",l2);
+        right->generateRISC(dst,context,destReg);
+        Three_op(dst,"beq",destReg,"zero",l3);
+        label(dst,l2);
+        Two_op(dst,"li",destReg,"1");
+        One_op(dst,"j",l4);
+        label(dst,l3);
+        Two_op(dst,"li",destReg,"0");
+        label(dst,l4);
+        context.regs.freeReg(destReg);
+    }
 };
-
-
-
-
 
 #endif

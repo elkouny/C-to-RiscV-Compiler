@@ -1,21 +1,22 @@
-main:
-addi sp,sp -28
-sw ra 24(sp)
-sw s0 20(sp)
-addi s0,sp,28
-
-li t4,0
-sw t4, -20(s0)
-
-li t4,5
-sw t4, -24(s0)
-
-lw t4,-20(s0)
-sw t4, 0(s0)
-
-lw t4,-20(s0)
-mv a0, t4
-lw s0,20(sp)
-addi sp,sp,28
-
+.text
+.globl f
+f:
+addi sp,sp,-20
+sw ra,16(sp)
+sw s0,12(sp)
+addi s0,sp,20
+li t4,1
+sw t4,-20(s0)
+lw a0,-20(s0)
+beq a0,zero,.L1
+li t4,2
+sw t4,-24(s0)
+.L1:
+lw t6,-20(s0)
+j return0
+return0:
+mv a0,t6
+lw s0,12(sp)
+addi sp,sp,20
 jr ra
+

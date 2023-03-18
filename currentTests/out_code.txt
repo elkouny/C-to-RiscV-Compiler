@@ -1,11 +1,15 @@
-New Function: [ Function Type: [ int ] Function Name: [ main ] ] [
+New Function: [ Function Type: [ int ] Function Name: [ f ] ] [
     Compound Statement [
     Declaration List [
-        Declaration [ Variable Type: [ int ] Variable Name: [ x ] Variable assignment : [ Expression [ Constant: [ 0 ] ] ] ]
-        Declaration [ Variable Type: [ int ] Variable Name: [ y ] Variable assignment : [ Expression [ Constant: [ 5 ] ] ] ]
+        Declaration [ Variable Type: [ int ] Variable Name: [ x ] Variable assignment : [ Expression [ Constant: [ 1 ] ] ] ]
     ]
     Statement List [
-        New Assignment: [  Expression [ String: [ y ] ] Operator: [ = ]  Expression [ String: [ x ] ] ]
+    IF [  Expression [ String: [ x ] ] ]
+    Compound Statement [
+    Statement List [
+        Declaration [ Variable Type: [ int ] Variable Name: [ x ] Variable assignment : [ Expression [ Constant: [ 2 ] ] ] ]
+    ]
+    ]
         Jump Statement [ return ] Expression [ String: [ x ] ]
     ]
     ]

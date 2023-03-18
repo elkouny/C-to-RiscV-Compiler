@@ -27,15 +27,23 @@ public:
         }
     }
 
-    // int getSize() { 
+    // int getSize() {
     //     int size = 0;
     //     for (auto it : *slist){
     //         size += it->getSize();
     //     }
     // }
+    
+    std::vector<BlockPtr> getDec()  const override { 
+        if (dlist != nullptr) {
+            return *dlist;
+        } else {
+            std::vector<BlockPtr> empty;
+            return empty;
+        }
+    }
 
-    std::vector<BlockPtr> getDec()  const { return *dlist; }
-    std::vector<BlockPtr> getList() const { return *slist; }
+    std::vector<BlockPtr> getList() const override { return *slist; }
 
     virtual void print(std::ostream &dst) const override {
         dst << "\n    Compound Statement [";
@@ -55,36 +63,16 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        try{
-            context.newScope();
-            dst<<"\naddi sp,sp ";
-            context.offset += (dlist->size() * - 4 /*+ slist->size() * -4*/);
-            dst<<context.offset;
-            dst<<"\n";
-            dst<<"sw ra " << - 4 - context.offset << "(sp)\n";
-            dst<<"sw s0 " << - 8 - context.offset << "(sp)\n";
-            dst<<"addi s0,sp," <<  - 1 * context.offset << "\n";
-            if (dlist != nullptr) {
-                for (auto i : *dlist){
-                    i->generateRISC(dst, context, destReg);
-                }
-            }
-            for (auto i : *slist){
-                // std::string reg = context.regs.nextFreeReg();
-                // context.regs.useReg("reg")
+        context.newScope();
+        if (dlist != nullptr) {
+            for (auto i : *dlist){
                 i->generateRISC(dst, context, destReg);
-                // context.regs.freeReg("reg")
             }
-            dst<<"lw s0," << - 8 - context.offset << "(sp)\n";
-            dst<<"addi sp,sp," << -1 * context.offset << "\n";
-            context.offset += (dlist->size() * 4 /*+ slist->size() * 4*/);
-            context.popScope();
         }
-        catch (...) {
-            dst<<"Error in Compound Statement";
+        for (auto i : *slist){
+            i->generateRISC(dst, context, destReg);
         }
-
+        context.popScope();
     }
-    
 };
 #endif

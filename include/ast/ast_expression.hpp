@@ -13,20 +13,18 @@ private:
 public:
     Expression(int c) : constant(c), type(0) {}
     Expression(std::string v ) : variable(v), type(1) {}
-    
+
     ~Expression() {};
 
     int getConstant() const {
         return constant;
     }
 
-    std::string getVar() const {
+    std::string getVar() const override {
         return variable;
     }
 
-    // int getSize() {
-    //     return 1;
-    // }
+   
 
     virtual void print(std::ostream &dst) const override {
         dst<<" Expression [ ";
@@ -40,19 +38,14 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-   
         if (type == 0) {
-            dst<<"\nli "<<destReg<<","<<constant<<"\n";
+            Two_op(dst,"li",destReg,std::to_string(constant));
         }
         else if (type == 1) {
             int offset = context.getVarInfo(variable).offset;
-            dst<<"\nlw "<<destReg<<","<<offset<<"(s0)"<<"\n";
+            sw_lw(dst,"lw",destReg,offset,"s0");
         }
-      
-    
-        
     }
-
 };
 
 #endif

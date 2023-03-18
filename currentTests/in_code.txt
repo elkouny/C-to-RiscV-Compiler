@@ -1,6 +1,9 @@
-int main () { 
-    int x=0;
-    int y =5;
-    y = x;
+int f()
+{
+    int x = 1; 
+    if(x)
+{
+    int x = 2;
+}   
     return x;
 }
