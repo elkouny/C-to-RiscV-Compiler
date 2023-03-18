@@ -1,9 +1,4 @@
-int f()
+int f(int x)
 {
-    int x = 1; 
-    if(x)
-{
-    int x = 2;
-}   
-    return x;
+    return g();
 }

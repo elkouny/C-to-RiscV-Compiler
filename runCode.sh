@@ -5,13 +5,13 @@ TestFolder=currentTests
 clear
 make clean
 
-sed -i 's/#*//g' Makefile
-sed -i '39,84 s/^/#/' Makefile
+sed -i -r 's/#*//g' Makefile
+sed -i -r '39,84 s/^/#/' Makefile
 # sed -i '39,84 s/#*//g' Makefile
 
-sed -i 's/^\/\/\ //g' src/compiler_code/*
+sed -i -r 's/^(\/\/\ )+//g' src/compiler_code/*
 
-make bin/print_parsed -B
+make bin/print_parsed -B\
 
 if [[ "$?" -ne 0 ]]; then
     echo "Build Failed.";

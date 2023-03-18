@@ -4,7 +4,7 @@
 	#include <cassert>
 
 	// rename expression later
-    extern const Block *g_root;
+    extern const std::vector<BlockPtr> *g_root;
 
 
     int yylex(void);
@@ -95,8 +95,10 @@ ROOT : translation_unit { g_root = $1; }
 
 /* Top level entity */
 translation_unit
-	: external_declaration { $$ = $1; }
-	| translation_unit external_declaration { $$ = new TranslationUnit($2, $1); }
+    : external_declaration { std::vector<BlockPtr>* BlockList = new std::vector<BlockPtr>(); BlockList->push_back($1);  $$ = BlockList; }
+	| translation_unit external_declaration { $1->push_back($2); $$ = $1; }
+	/* : external_declaration { $$ = $1; }
+	| translation_unit external_declaration { $$ = $1; } */
 	;
 
 external_declaration
@@ -107,8 +109,6 @@ external_declaration
 declaration_list
 	: declaration { std::vector<BlockPtr>* BlockList = new std::vector<BlockPtr>(); BlockList->push_back($1);  $$ = BlockList; }
 	| declaration_list declaration { $1->push_back($2); $$ = $1; }
-	/* | declaration_list ',' declaration { $1->push_back($3); $$ = $1; }
-	| '(' declaration_list ')' { $$ = $2; } */
 	;
 
 declaration
@@ -123,7 +123,6 @@ init_declarator
 
 function_definition
 	: declaration_specifiers declarator compound_statement { $$ = new Function(*$1, $2, $3); }  // $1 type, $2 main(), $3 block: {}
-	| declaration_specifiers declarator declaration_list compound_statement { $$ = new Function(*$1, $2, $3, $4); }  // $1 type, $2 main(), $3 block: {}
 	/* | expression ';' { $$ = $1; } */
 	/* |compound_statement { $$ = $1; } */
 	| jump_statement { $$ = $1; }

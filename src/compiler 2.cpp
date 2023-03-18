@@ -12,7 +12,6 @@ void compile(std::ostream &w)
 
     Context context;
 
-    w<<".text"<<std::endl;
     ast->generateRISC(w, context, "a0");
 
 }

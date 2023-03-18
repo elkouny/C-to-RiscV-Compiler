@@ -7,14 +7,19 @@ class Function : public Block {
 private:
     std::string specifier;
     BlockPtr declarator;
+    std::vector<BlockPtr> args;
     BlockPtr cstatement;
 // protected:
 public:
     Function(std::string s, BlockPtr d, BlockPtr c) : specifier(s), declarator(d), cstatement(c) {}
+    Function(std::string s, BlockPtr d, std::vector<BlockPtr> a, BlockPtr c) : specifier(s), declarator(d), args(a), cstatement(c) {}
 
     virtual ~Function() {
         delete declarator;
         delete cstatement;
+        for (auto arg : args) {
+            delete arg;
+        }
     }
 
     std::string getSpecifier() const {
@@ -35,6 +40,10 @@ public:
         dst<<"[ "<<getSpecifier()<<" ] ";
         dst<<"Function Name: [ ";
         getDeclarator()->print(dst);
+        dst<<" ] Arguments: [ ";
+        for (auto arg : args){
+            arg->print(dst);
+        }
         dst<<" ] ] [";
         getStatement()->print(dst);
         dst<<"\n] ";
@@ -42,7 +51,6 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst , Context &context , std::string destReg) const override { 
-        dst<<".text"<<std::endl;
         dst<<".globl "<<declarator->getIdentifier()<<std::endl;
         label(dst,declarator->getIdentifier());
         context.ret_label = make_label("return");
@@ -61,6 +69,7 @@ public:
         cstatement->generateRISC(dst, context, "a0");
         label(dst,context.ret_label);
         Two_op(dst,"mv","a0","t6");
+        sw_lw(dst,"lw","ra",-4-context.offset,"sp");
         sw_lw(dst,"lw","s0",-8-context.offset,"sp");
         Three_op(dst,"addi","sp","sp",std::to_string(-1*context.offset));
         context.offset += (o * 4 );
