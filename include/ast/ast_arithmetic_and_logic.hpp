@@ -23,17 +23,14 @@ public:
         value->print(dst);
         dst << " ] ";
     }
-     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+    
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         std::string varname = value->getVar();
         std::string reg = context.regs.nextFreeReg();
         int offset = context.getVarInfo(varname).offset;
-        // dst<< "VARNAME: " << varname << " OFFSET: " << offset << "\n";
-        // context.debugScope(dst);
         context.regs.useReg(reg);
         value->generateRISC(dst,context,reg);
-        // dst<<"addi " << reg << " , " << "1";
-        Two_reg(dst,"addi",reg,"1");
-        // dst << "\nsw " << reg << ", " << offset << "(s0)" << std::endl;
+        Two_op(dst,"addi",reg,"1");
         sw_lw(dst,"sw",reg,offset,"s0");
         context.regs.freeReg(reg);
     }
@@ -59,16 +56,14 @@ public:
         value->print(dst);
         dst << " ] ";
     }
-     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+    
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         std::string var = value->getVar();
         value->generateRISC(dst,context,reg);
         int off = context.getVarInfo(var).offset;
-
-        // dst<<"addi " << reg << " , " << " -1 ";
-        Two_reg(dst,"addi",reg,"-1");
-        // dst <<"\nsw " << reg << " , " << off << "(s0)";
+        Two_op(dst,"addi",reg,"-1");
         sw_lw(dst,"sw",reg,off,"s0");
         context.regs.freeReg(reg);
     }
@@ -108,8 +103,7 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"mul " << destReg << " , " << destReg << " , "<< reg;
-        Three_reg(dst,"mul",destReg,destReg,reg);
+        Three_op(dst,"mul",destReg,destReg,reg);
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -151,8 +145,7 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"div " << destReg << " , " << destReg << " , "<< reg;
-        Three_reg(dst,"div",destReg,destReg,reg);
+        Three_op(dst,"div",destReg,destReg,reg);
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -194,8 +187,7 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"add " << destReg << " , " << destReg << " , "<< reg;
-        Three_reg(dst,"add",destReg,destReg,reg);
+        Three_op(dst,"add",destReg,destReg,reg);
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -235,8 +227,7 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"sub " << destReg << " , " << destReg << " , "<< reg;
-        Three_reg(dst,"sub",destReg,destReg,reg);
+        Three_op(dst,"sub",destReg,destReg,reg);
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -278,10 +269,8 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"slt " << destReg << " , " << destReg << " , "<< reg;
-        // dst<<"\nandi " << destReg << " , "<< destReg << " , 0xff";
-        Three_reg(dst,"slt",destReg,destReg,reg);
-        Three_reg(dst,"andi",destReg,destReg,"0xff");
+        Three_op(dst,"slt",destReg,destReg,reg);
+        Three_op(dst,"andi",destReg,destReg,"0xff");
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -321,10 +310,8 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"sgt" << destReg << " , " << destReg << " , "<< reg;
-        // dst <<"\nandi" << destReg << " , " << destReg << " , "<< "0xff";
-        Three_reg(dst,"sgt",destReg,destReg,reg);
-        Three_reg(dst,"andi",destReg,destReg,"0xff");
+        Three_op(dst,"sgt",destReg,destReg,reg);
+        Three_op(dst,"andi",destReg,destReg,"0xff");
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -365,12 +352,9 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"sgt " << destReg << " , " << destReg << " , "<< reg;
-        // dst<<"\nxori " << destReg << " , " << destReg << " ,1";
-        // dst<<"\nandi " << destReg << " , " << destReg << " ,0xff";
-        Three_reg(dst,"sgt",destReg,destReg,reg);
-        Three_reg(dst,"xori",destReg,destReg,"1");
-        Three_reg(dst,"andi",destReg,destReg,"0xff");
+        Three_op(dst,"sgt",destReg,destReg,reg);
+        Three_op(dst,"xori",destReg,destReg,"1");
+        Three_op(dst,"andi",destReg,destReg,"0xff");
 
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
@@ -412,12 +396,9 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"slt " << destReg << " , " << destReg << " , "<< reg;
-        // dst<<"\nxori " << destReg << " , " << destReg << " ,1";
-        // dst<<"\nandi " << destReg << " , " << destReg << " ,0xff";
-        Three_reg(dst,"slt",destReg,destReg,reg);
-        Three_reg(dst,"xori",destReg,destReg,"1");
-        Three_reg(dst,"andi",destReg,destReg,"0xff");
+        Three_op(dst,"slt",destReg,destReg,reg);
+        Three_op(dst,"xori",destReg,destReg,"1");
+        Three_op(dst,"andi",destReg,destReg,"0xff");
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -459,15 +440,11 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"sub " << destReg << " , " << destReg << " , "<< reg;
-        // dst<<"\nseqz " << destReg << " , " << destReg;
-        // dst<<"\nandi " << destReg << " , " << destReg << " ,0xff";
-        Three_reg(dst,"sub",destReg,destReg,reg);
-        Two_reg(dst,"seqz",destReg,destReg);
-        Three_reg(dst,"andi",destReg,destReg,"0xff");
+        Three_op(dst,"sub",destReg,destReg,reg);
+        Two_op(dst,"seqz",destReg,destReg);
+        Three_op(dst,"andi",destReg,destReg,"0xff");
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
-
     }
 
 
@@ -499,21 +476,18 @@ public:
         right->print(dst);
         dst << " ] ";
     }
+
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         context.regs.useReg(destReg);
         left->generateRISC(dst,context,destReg);
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"sub " << destReg << " , " << destReg << " , "<< reg;
-        // dst<<"\nsnez " << destReg << destReg;
-        // dst<<"\nandi " << destReg << " , " << destReg << " ,0xff";
-        Three_reg(dst,"sub",destReg,destReg,reg);
-        Two_reg(dst,"sneqz",destReg,destReg);
-        Three_reg(dst,"andi",destReg,destReg,"0xff");
+        Three_op(dst,"sub",destReg,destReg,reg);
+        Two_op(dst,"sneqz",destReg,destReg);
+        Three_op(dst,"andi",destReg,destReg,"0xff");
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
-
     }
 
 };
@@ -542,14 +516,14 @@ public:
         right->print(dst);
         dst << " ] ";
     }
+
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         context.regs.useReg(destReg);
         left->generateRISC(dst,context,destReg);
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"andi " << destReg << " , " << destReg << " , "<< reg;
-        Three_reg(dst,"andi",destReg,destReg,reg);
+        Three_op(dst,"andi",destReg,destReg,reg);
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -582,14 +556,14 @@ public:
         right->print(dst);
         dst << " ] ";
     }
+
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         context.regs.useReg(destReg);
         left->generateRISC(dst,context,destReg);
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"xori " << destReg << " , " << destReg << " , "<< reg;
-        Three_reg(dst,"xori",destReg,destReg,reg);
+        Three_op(dst,"xori",destReg,destReg,reg);
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -621,14 +595,14 @@ public:
         right->print(dst);
         dst << " ] ";
     }
-      virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+    
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         context.regs.useReg(destReg);
         left->generateRISC(dst,context,destReg);
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        // dst<<"ori " << destReg << " , " << destReg << " , "<< reg;
-        Three_reg(dst,"ori",destReg,destReg,reg);
+        Three_op(dst,"ori",destReg,destReg,reg);
         context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
 
@@ -660,6 +634,23 @@ public:
         right->print(dst);
         dst << " ] ";
     }
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override{
+        std::string l2 = context.make_label(".L");
+        std::string l3 = context.make_label(".L");
+    
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        Three_op(dst,"beq",destReg,"zero",l2);
+        right->generateRISC(dst,context,destReg);
+        Three_op(dst,"beq",destReg,"zero",l2);
+        Two_op(dst,"li",destReg,"1");
+        One_op(dst,"j",l3);
+        label(dst,l2);
+        Two_op(dst,"li",destReg,"0");
+        label(dst,l3);
+        context.regs.freeReg(destReg);
+
+    }
 };
 
 class LogicalOr : public Block {
@@ -685,6 +676,24 @@ public:
         dst << " || ";
         right->print(dst);
         dst << " ] ";
+    }
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override{
+        std::string l2 = context.make_label(".L");
+        std::string l3 = context.make_label(".L");
+        std::string l4 = context.make_label(".L");
+        context.regs.useReg(destReg);
+        left->generateRISC(dst,context,destReg);
+        Three_op(dst,"bne",destReg,"zero",l2);
+        right->generateRISC(dst,context,destReg);
+        Three_op(dst,"beq",destReg,"zero",l3);
+        label(dst,l2);
+        Two_op(dst,"li",destReg,"1");
+        One_op(dst,"j",l4);
+        label(dst,l3);
+        Two_op(dst,"li",destReg,"0");
+        label(dst,l4);
+        context.regs.freeReg(destReg);
     }
 };
 

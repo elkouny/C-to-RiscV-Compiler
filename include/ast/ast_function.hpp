@@ -41,24 +41,30 @@ public:
 
     }
 
-    virtual void generateRISC(std::ostream &dst , Context &context , std::string destReg) const override {
-        try{
-            dst<<".text"<<std::endl;
-            dst<<".globl "<<declarator->getIdentifier()<<std::endl;
-            dst<<declarator->getIdentifier()<<":"<<std::endl;
-            // std::string reg = context.regs.nextFreeReg();
-            // context.regs.useReg(reg);
-            cstatement->generateRISC(dst, context, "a0");
-            // dst<<"\nmv a0,"+reg+"\njr ra";
-            // context.regs.freeReg(reg);
-            dst<<"jr ra"<<std::endl;
-            // EVALUATE SIZE OF SYMBOLS USED IN COMPOUND STATEMENT
+    virtual void generateRISC(std::ostream &dst , Context &context , std::string destReg) const override { 
+        dst<<".text"<<std::endl;
+        dst<<".globl "<<declarator->getIdentifier()<<std::endl;
+        label(dst,declarator->getIdentifier());
+        context.ret_label = make_label("return");
+        int o;
+        if (cstatement->getDec().empty()){
+            o=(cstatement->getDec().size()) * - 4 ;
         }
-        catch (...) {
-            dst<<"Error in Function";
+        else{
+            o=0;
         }
-
-
+        context.offset += o;
+        Three_op(dst,"addi","sp","sp",std::to_string(context.offset));   
+        sw_lw(dst,"sw","ra",-4-context.offset,"sp");
+        sw_lw(dst,"sw","s0",-8-context.offset,"sp");
+        Three_op(dst,"addi","s0","sp",std::to_string(-1*context.offset));
+        cstatement->generateRISC(dst, context, "a0");
+        label(dst,context.ret_label);
+        Two_op(dst,"mv","a0","t6");
+        sw_lw(dst,"lw","s0",-8-context.offset,"sp");
+        Three_op(dst,"addi","sp","sp",std::to_string(-1*context.offset));
+        context.offset += (o * 4 );
+        One_op(dst,"jr","ra");
     }
 
 

@@ -80,7 +80,7 @@ struct Registers{
         reg_used["a6"]=false;  reg_used["a7"]=false;  reg_used["s2"]=false;  reg_used["s3"]=false;
         reg_used["s4"]=false;  reg_used["s5"]=false;  reg_used["s6"]=false;  reg_used["s7"]=false;
         reg_used["s8"]=false;  reg_used["s9"]=false;  reg_used["s10"]=false; reg_used["s11"]=false;
-        reg_used["t3"]=false;  reg_used["t4"]=false;  reg_used["t5"]=false;  reg_used["t6"]=false;
+        reg_used["t3"]=false;  reg_used["t4"]=false;  reg_used["t5"]=false;  reg_used["t6"]=true;
     }
 
     std::string nextFreeReg(){
@@ -96,6 +96,7 @@ struct Registers{
         reg_used[reg] = true;
     }
 
+
     void freeReg(std::string reg){
         reg_used[reg] = false;
     }
@@ -110,9 +111,10 @@ struct Registers{
 struct Context{
 
     std::vector<VarMap> scope;
+    std::string ret_label;
     Registers regs;
     int offset = -20;
-
+  
     std::string make_label (std::string label){
         static int unique = 0 ;
         return label + std::to_string(unique++);
@@ -128,12 +130,22 @@ struct Context{
         return error;
     }
 
+        
+    int getOverallOffset(){
+        int min = -16;
+        for(auto i : scope){
+            min= std::min(min,i.getCurrentOffset());
+        }
+        return min;
+
+    }
+
     void addGlobal(std::string var, Params varinfo) {
         scope[0].addVar(var, varinfo);
     }
 
     void addVar (std::string _varname, std::string _type, int _offset){
-        scope[scope.size()-1].bindings[_varname] = Params(_type, _offset);
+        scope.back().bindings[_varname] = Params(_type, _offset);
     }
 
     void addVar(std::string var, Params varinfo) {
@@ -158,16 +170,29 @@ struct Context{
 
 };
 
-void inline Three_reg(std::ostream &dst,std::string inst,std::string dstReg, std::string reg1, std::string reg2){
+inline void Three_op(std::ostream &dst,std::string inst,std::string dstReg, std::string reg1, std::string reg2){
     dst<<inst<<" "<<dstReg<<","<<reg1<<","<<reg2<<std::endl;
 };
 
-void inline Two_reg(std::ostream &dst,std::string inst,std::string dstReg,std::string reg){
+inline void Two_op(std::ostream &dst,std::string inst,std::string dstReg,std::string reg){
     dst<<inst<<" "<<dstReg<<","<<reg<<std::endl;
 };
 
-void inline sw_lw(std::ostream &dst ,std::string inst ,std::string reg , int off , std::string offReg){
+inline void One_op(std::ostream &dst,std::string inst,std::string dstReg){
+    dst<<inst<<" "<<dstReg<<std::endl;
+};
+
+inline void sw_lw(std::ostream &dst ,std::string inst ,std::string reg , int off , std::string offReg){
     dst<<inst<<" "<<reg<<","<<off<<"("<<offReg<<")"<<std::endl;
 };
+
+inline void label(std::ostream &dst , std::string lbl){
+    dst<<lbl<<":"<<std::endl;
+};
+static int unique = 0 ;
+inline std::string make_label (std::string label){
+        
+        return label + std::to_string(unique++);
+}
 
 #endif

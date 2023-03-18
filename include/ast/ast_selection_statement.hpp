@@ -35,6 +35,26 @@ public:
             dst << " ]";
         }
     }
+    
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override{
+        std::string l2  = make_label(".L");
+        std::string l3 = make_label(".L");
+        context.regs.useReg(destReg);
+        expression->generateRISC(dst,context,destReg);
+        Three_op(dst,"beq",destReg,"zero",l2);
+        statement->generateRISC(dst,context,destReg);
+        if(else_statement!=nullptr){
+            One_op(dst,"j",l3);
+            label(dst,l2);
+            else_statement->generateRISC(dst,context,destReg);
+            label(dst,l3);
+        }
+        else{
+            label(dst,l2);
+        }
+        context.regs.freeReg(destReg);
+    }
+
 };
 
 #endif

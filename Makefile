@@ -20,11 +20,11 @@ LEXER += Lexer
 #	mkdir -p bin
 #	g++ $(CPPFLAGS) -o bin/print_parsed $^
 #
-#bin/print_canonical : src/compiler_code/print_canonical.o bin/currentParser.tab.o bin/Lexer.yy.o bin/currentParser.tab.o
+#bin/print_canonical : src/compiler_code/print_canonical.o bin/$(PARSER).tab.o bin/$(LEXER).yy.o bin/$(PARSER).tab.o
 #	mkdir -p bin
 #	g++ $(CPPFLAGS) -o bin/print_canonical $^
 #
-#bin/cumpile : src/compiler_code/cumpile.o bin/currentParser.tab.o bin/Lexer.yy.o bin/currentParser.tab.o
+#bin/cumpile : src/compiler_code/cumpile.o bin/$(PARSER).tab.o bin/$(LEXER).yy.o bin/$(PARSER).tab.o
 #	mkdir -p bin
 #	g++ $(CPPFLAGS) -o bin/cumpile $^
 #

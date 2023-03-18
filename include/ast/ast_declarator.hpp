@@ -20,13 +20,9 @@ public:
         dst<<getIdentifier();
     }
     
-// virtual void print(std::ostream &dst, unsigned indentLevel = 0) const override {
-//     std::string indent(indentLevel * 4, ' ');
-//     dst << indent << "Identifier: " << getIdentifier() << std::endl;
-// }
 
     
-    // virtual void  generateRISC(std::ostream &dst, Context &context, int destReg) const override { }
+    
 };
 
 #endif
