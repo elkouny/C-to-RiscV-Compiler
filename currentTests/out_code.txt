@@ -1,14 +1,22 @@
 
-        Declaration [ Variable Type: [ int ] Variable Name: [  Function Declarator [ Function [ g ] Parameters [ 
-        Parameter Declaration [ Variable Type: [ int ] Variable [ a ] ]
-        Parameter Declaration [ Variable Type: [ int ] Variable [ b ] ]
-        Parameter Declaration [ Variable Type: [ int ] Variable [ c ] ]
-        Parameter Declaration [ Variable Type: [ int ] Variable [ d ] ]
-        Parameter Declaration [ Variable Type: [ int ] Variable [ e ] ] ] ] ] ]
-New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [  ] ] ] ] [
+        Declaration [ Variable Type: [ int ] Variable Name: [  Function Declarator [ Function [ r2 ] Parameters [ 
+        Parameter Declaration [ Variable Type: [ int ] Variable [ n ] ] ] ] ] ]
+New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ r1 ] Parameters [ 
+        Parameter Declaration [ Variable Type: [ int ] Variable [ n ] ] ] ] ] ] [
     Compound Statement [
     Statement List [
-        Jump Statement [ return ]  FunctionCall [ Function [  Expression [ String: [ g ] ] ] Args [  Expression [ Constant: [ 1 ] ] Expression [ Constant: [ 2 ] ] Expression [ Constant: [ 3 ] ] Expression [ Constant: [ 4 ] ] Expression [ Constant: [ 5 ] ] ] ]
+    IF [ Equal:  [  Expression [ String: [ n ] ] ==  Expression [ Constant: [ 0 ] ] ]  ]
+    Compound Statement [
+    Statement List [
+        Jump Statement [ return ]  Expression [ Constant: [ 1 ] ]
+    ]
+    ]
+    Else [ 
+    Compound Statement [
+    Statement List [
+        Jump Statement [ return ] Addition:  [  FunctionCall [ Function [  Expression [ String: [ r2 ] ] ] Args [ Subtraction:  [  Expression [ String: [ n ] ] -  Expression [ Constant: [ 1 ] ] ]  ] ] +  FunctionCall [ Function [  Expression [ String: [ r2 ] ] ] Args [ Subtraction:  [  Expression [ String: [ n ] ] -  Expression [ Constant: [ 1 ] ] ]  ] ] ] 
+    ]
+    ] ]
     ]
     ]
 ] 

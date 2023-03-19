@@ -8,12 +8,18 @@
 
 void compile(std::ostream &w)
 {
-    const Block *ast=parseAST();
+    try{
+        const Block *ast=parseAST();
 
-    Context context;
+        Context context;
 
-    w<<".text"<<std::endl;
-    ast->generateRISC(w, context, "a0");
+        w<<".text"<<std::endl;
+        ast->generateRISC(w, context, "a0");
+    } catch(...) {
+        w<<".text"<<std::endl;
+        
+    }
+    
 
 }
 

@@ -38,7 +38,7 @@ public:
         int offset = context.getOverallOffset()-4;
         context.addVar(varname, type, offset);
         sw_lw(dst,"sw",destReg,offset,"s0");
-        // declarator->generateRISC(dst, context, destReg);
+  
     }
 
 

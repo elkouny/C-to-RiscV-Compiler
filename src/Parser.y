@@ -160,7 +160,7 @@ direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); delete $1;}
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '(' parameter_list ')' { $$ = new FunctionDeclarator($1, $3); }
-	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1);}
+	| direct_declarator '(' ')' { $$ = $1;}
 	;
 
 parameter_list

@@ -30,13 +30,12 @@ public:
 
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        if (!init_declarator->isFunction()){
-            std::string varname = init_declarator->getIdentifier();
-            int offset = context.getOverallOffset()-4;
-            context.addVar(varname, type, offset);
-            init_declarator->generateRISC(dst, context, destReg);
-        }
-        // context.debugScope(dst);
+    
+        std::string varname = init_declarator->getIdentifier();
+        int offset = context.getOverallOffset()-4;
+        context.addVar(varname, type, offset);
+        init_declarator->generateRISC(dst, context, destReg);
+        
     }
 };
 #endif

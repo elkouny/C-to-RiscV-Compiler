@@ -1480,7 +1480,7 @@ yyreduce:
 
   case 28: /* direct_declarator: direct_declarator '(' ')'  */
 #line 163 "src/Parser.y"
-                                    { (yyval.block) = new FunctionDeclarator((yyvsp[-2].block));}
+                                    { (yyval.block) = (yyvsp[-2].block);}
 #line 1485 "src/Parser.tab.cpp"
     break;
 

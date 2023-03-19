@@ -77,10 +77,9 @@ public:
         for (auto i : *slist){
             i->generateRISC(dst, context, destReg);
         }
-        // context.debugScope(dst);
-        // if (!context.is_function){
+        
         context.popScope();
-        // }
+      
     }
 };
 #endif

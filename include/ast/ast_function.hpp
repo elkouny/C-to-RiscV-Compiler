@@ -73,20 +73,15 @@ public:
         if (!function_declarator->getDec().empty()){
             function_declarator->generateRISC(dst,context,destReg);
         }
-
+        
         cstatement->generateRISC(dst, context, "a0");
         label(dst,context.ret_label);
         Two_op(dst,"mv","a0","t6");
         sw_lw(dst,"lw","ra",-4-context.offset,"sp");
         sw_lw(dst,"lw","s0",-8-context.offset,"sp");
         Three_op(dst,"addi","sp","sp",std::to_string(-1*context.offset));
-        context.offset += (o * 4);
+        context.offset -= o;
         One_op(dst,"jr","ra");
-
-        // context.debugScope(dst);
-
-        // context.popScope();
-
     }
 
 };

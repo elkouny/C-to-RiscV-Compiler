@@ -1,8 +1,10 @@
-int g(int a, int b, int c, int d, int e);
+int r2(int n);
 
-int f()
+int r1(int n)
 {
-    return g(1,2,3,4,5);
+    if(n==0){
+        return 1;
+    }else{
+        return r2(n-1)+r2(n-1);
+    }
 }
-
-
