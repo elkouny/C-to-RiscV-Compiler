@@ -20,8 +20,10 @@ public:
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const {};
 
-    virtual std::string getVar() const { return "error"; }
+    virtual int isFunction() const { return 0; }
 
+    virtual std::string getVar() const { return "error"; }
+    
     virtual std::string getIdentifier() const { return "error "; }
 
     virtual std::vector<BlockPtr> getDec() const {std::vector<BlockPtr> declarations; return declarations;}

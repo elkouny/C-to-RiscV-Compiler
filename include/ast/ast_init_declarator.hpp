@@ -23,6 +23,10 @@ public:
         }
     }
 
+    virtual int isFunction() const override {
+        return declarator->isFunction();
+    }
+
     virtual std::string getIdentifier() const override {
         return declarator->getIdentifier();
     }

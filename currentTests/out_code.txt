@@ -1,10 +1,14 @@
 
         Declaration [ Variable Type: [ int ] Variable Name: [  Function Declarator [ Function [ g ] Parameters [ 
-        Parameter Declaration [ Variable Type: [ int ] Variable [ x ] ] ] ] ] ]
-New Function: [ Function Type: [ int ] Function Name: [ f ] ] [
+        Parameter Declaration [ Variable Type: [ int ] Variable [ a ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ b ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ c ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ d ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ e ] ] ] ] ] ]
+New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [  ] ] ] ] [
     Compound Statement [
     Statement List [
-        Jump Statement [ return ]  FunctionCall [ Function [  Expression [ String: [ g ] ] ] Args [  ] ]
+        Jump Statement [ return ]  FunctionCall [ Function [  Expression [ String: [ g ] ] ] Args [  Expression [ Constant: [ 1 ] ] Expression [ Constant: [ 2 ] ] Expression [ Constant: [ 3 ] ] Expression [ Constant: [ 4 ] ] Expression [ Constant: [ 5 ] ] ] ]
     ]
     ]
 ] 

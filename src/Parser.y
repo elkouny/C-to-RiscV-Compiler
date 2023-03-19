@@ -132,7 +132,7 @@ function_definition
 	/* | declaration_specifiers declarator declaration_list compound_statement { $$ = new Function(*$1, $2, $3, $4); }  // $1 type, $2 main(), $3 block: {} */
 	/* | expression ';' { $$ = $1; } */
 	/* |compound_statement { $$ = $1; } */
-	| jump_statement { $$ = $1; }
+	/* | jump_statement { $$ = $1; } */
 	;
 
 declaration_specifiers
@@ -160,7 +160,7 @@ direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); delete $1;}
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '(' parameter_list ')' { $$ = new FunctionDeclarator($1, $3); }
-	| direct_declarator '(' ')' { $$ = $1;}
+	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1);}
 	;
 
 parameter_list
