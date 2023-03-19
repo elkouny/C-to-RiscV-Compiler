@@ -1,22 +1,11 @@
-
-        Declaration [ Variable Type: [ int ] Variable Name: [  Function Declarator [ Function [ r2 ] Parameters [ 
-        Parameter Declaration [ Variable Type: [ int ] Variable [ n ] ] ] ] ] ]
-New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ r1 ] Parameters [ 
+New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ r5 ] Parameters [ 
         Parameter Declaration [ Variable Type: [ int ] Variable [ n ] ] ] ] ] ] [
     Compound Statement [
-    Statement List [
-    IF [ Equal:  [  Expression [ String: [ n ] ] ==  Expression [ Constant: [ 0 ] ] ]  ]
-    Compound Statement [
-    Statement List [
-        Jump Statement [ return ]  Expression [ Constant: [ 1 ] ]
+    Declaration List [
+        Declaration [ Variable Type: [ int ] Variable Name: [ x ] Variable assignment : [ Expression [ Constant: [ 1 ] ] ] ]
     ]
-    ]
-    Else [ 
-    Compound Statement [
     Statement List [
-        Jump Statement [ return ] Addition:  [  FunctionCall [ Function [  Expression [ String: [ r2 ] ] ] Args [ Subtraction:  [  Expression [ String: [ n ] ] -  Expression [ Constant: [ 1 ] ] ]  ] ] +  FunctionCall [ Function [  Expression [ String: [ r2 ] ] ] Args [ Subtraction:  [  Expression [ String: [ n ] ] -  Expression [ Constant: [ 1 ] ] ]  ] ] ] 
-    ]
-    ] ]
+        Jump Statement [ return ]  Expression [ String: [ x ] ]
     ]
     ]
 ] 

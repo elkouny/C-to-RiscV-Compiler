@@ -1,38 +1,19 @@
 .text
-.globl r1
-r1:
-addi sp,sp,-24
-sw ra,20(sp)
-sw s0,16(sp)
-addi s0,sp,24
+.globl r5
+r5:
+addi sp,sp,-28
+sw ra,24(sp)
+sw s0,20(sp)
+addi s0,sp,28
 sw a0,-20(s0)
-lw a0,-20(s0)
-li t4,0
-sub a0,a0,t4
-seqz a0,a0
-andi a0,a0,0xff
-beq a0,zero,.L1
-li t6,1
-j return0
-j .L2
-.L1:
-lw a0,-20(s0)
 li t4,1
-sub a0,a0,t4
-call r2
-mv t6,a0
-lw a0,-20(s0)
-li a2,1
-sub a0,a0,a2
-call r2
-mv t4,a0
-add t6,t6,t4
+sw t4,-24(s0)
+lw t6,-24(s0)
 j return0
-.L2:
 return0:
 mv a0,t6
-lw ra,20(sp)
-lw s0,16(sp)
-addi sp,sp,24
+lw ra,24(sp)
+lw s0,20(sp)
+addi sp,sp,28
 jr ra
 

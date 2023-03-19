@@ -73,7 +73,7 @@ public:
         if (!function_declarator->getDec().empty()){
             function_declarator->generateRISC(dst,context,destReg);
         }
-        
+    
         cstatement->generateRISC(dst, context, "a0");
         label(dst,context.ret_label);
         Two_op(dst,"mv","a0","t6");

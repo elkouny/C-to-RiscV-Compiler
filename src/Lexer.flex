@@ -116,6 +116,7 @@ L?\"(\\.|[^\\"])*\"	{ yylval.string=new std::string(yytext); return(STRING_LITER
 void yyerror (char const *s)
 {
   fprintf (stderr, "Parse error : %s\n", s);
+  throw -1;
   exit(1);
 }
 

@@ -4,8 +4,6 @@
 
 #include "ast_structs.hpp"
 
-
-
 class Block;
 
 typedef const Block *BlockPtr;
@@ -31,6 +29,5 @@ public:
     virtual std::vector<BlockPtr> getList() const  { std::vector<BlockPtr> declarations; return declarations; }
     // virtual int getConstant() const { return -1 }; 
 };
-
 
 #endif
