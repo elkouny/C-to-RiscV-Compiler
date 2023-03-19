@@ -128,6 +128,7 @@ init_declarator
 
 function_definition
 	: declaration_specifiers declarator compound_statement { $$ = new Function(*$1, $2, $3); }  // $1 type, $2 main(), $3 block: {}
+	/* | declaration_specifiers declarator { $$ = new Function(*$1, $2); } */
 	/* | declaration_specifiers declarator declaration_list compound_statement { $$ = new Function(*$1, $2, $3, $4); }  // $1 type, $2 main(), $3 block: {} */
 	/* | expression ';' { $$ = $1; } */
 	/* |compound_statement { $$ = $1; } */
@@ -212,6 +213,8 @@ selection_statement
 iteration_statement
 	: WHILE '(' expression ')' statement { $$ = new While($3, $5);}
 	| DO statement WHILE '(' expression ')' ';' { $$ = new While($5, $2);}
+	| FOR '(' expression_statement expression_statement ')' statement { $$ = new For($3, $4, $6);}
+	| FOR '(' expression_statement expression_statement expression ')' statement { $$ = new For($3, $4, $5, $7);}
 	;
 
 expression
@@ -299,7 +302,6 @@ logical_or_expression
 	| logical_or_expression OR_OP logical_and_expression { $$ = new LogicalOr($1, $3);}
 	;
 
-
 assignment_expression
 	: logical_or_expression { $$ = $1;}
 	| unary_expression assignment_operator assignment_expression { $$ = new Assignment($1, *$2, $3);}
@@ -321,8 +323,6 @@ assignment_operator
 	| SUB_ASSIGN { $$ = $1;}
 
 %%
-
-
 
 const Block *g_root;
 

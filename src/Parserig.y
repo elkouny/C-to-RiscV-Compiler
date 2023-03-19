@@ -476,8 +476,8 @@ selection_statement
 iteration_statement
 	: WHILE '(' expression ')' statement	{ $$ = new IterationStatement($3, $5);}
 	| DO statement WHILE '(' expression ')' ';'	{ $$ = new IterationStatement($2, $4);}
-	| FOR '(' expression_statement expression_statement ')' statement	{ $$ = new IterationStatement($3, $4, $6);}
-	| FOR '(' expression_statement expression_statement expression ')' statement	{ $$ = new IterationStatement($3, $4, $5, $7);}
+	/* | FOR '(' expression_statement expression_statement ')' statement	{ $$ = new IterationStatement($3, $4, $6);}
+	| FOR '(' expression_statement expression_statement expression ')' statement	{ $$ = new IterationStatement($3, $4, $5, $7);} */
 	;
 
 jump_statement

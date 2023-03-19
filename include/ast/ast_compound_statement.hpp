@@ -63,7 +63,12 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        context.newScope();
+        if (context.is_function){
+            context.is_function = 0;
+        }else {
+            context.newScope();
+        }
+
         if (dlist != nullptr) {
             for (auto i : *dlist){
                 i->generateRISC(dst, context, destReg);
@@ -72,7 +77,10 @@ public:
         for (auto i : *slist){
             i->generateRISC(dst, context, destReg);
         }
+        // context.debugScope(dst);
+        // if (!context.is_function){
         context.popScope();
+        // }
     }
 };
 #endif

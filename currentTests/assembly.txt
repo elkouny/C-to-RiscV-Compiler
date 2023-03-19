@@ -5,9 +5,8 @@ addi sp,sp,-20
 sw ra,16(sp)
 sw s0,12(sp)
 addi s0,sp,20
-lw t6,0(s0)
-lw t4,0(s0)
-add t6,t6,t4
+call g
+mv t6,a0
 j return0
 return0:
 mv a0,t6

@@ -30,7 +30,7 @@ public:
         int offset = context.getVarInfo(varname).offset;
         context.regs.useReg(reg);
         value->generateRISC(dst,context,reg);
-        Two_op(dst,"addi",reg,"1");
+        Three_op(dst,"addi",reg,reg,"1");
         sw_lw(dst,"sw",reg,offset,"s0");
         context.regs.freeReg(reg);
     }
@@ -63,7 +63,7 @@ public:
         std::string var = value->getVar();
         value->generateRISC(dst,context,reg);
         int off = context.getVarInfo(var).offset;
-        Two_op(dst,"addi",reg,"-1");
+        Three_op(dst,"addi",reg,reg,"-1");
         sw_lw(dst,"sw",reg,off,"s0");
         context.regs.freeReg(reg);
     }

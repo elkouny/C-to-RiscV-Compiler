@@ -1,4 +1,4 @@
-      #ifndef ast_function_declarator_hpp
+#ifndef ast_function_declarator_hpp
 #define ast_function_declarator_hpp
 
 #include "ast_block.hpp"
@@ -29,6 +29,10 @@ public:
         }
     };
 
+    virtual std::string getIdentifier() const override {
+        return declarator->getIdentifier();
+    }
+
     std::vector<BlockPtr> getDec()  const override { 
         if (paramList != nullptr) {
             return *paramList;
@@ -38,12 +42,9 @@ public:
         }
     }
 
-    virtual std::string getIdentifier() const override {
-        return declarator->getIdentifier();
-    }
 
     virtual void print(std::ostream &dst) const override {
-        // dst<<" Function Declarator [ Function [ ";
+        dst<<" Function Declarator [ Function [ ";
         declarator->print(dst);
         dst<<" ] Parameters [ ";
         if (paramList != nullptr){
@@ -51,21 +52,21 @@ public:
                 param->print(dst);
             }
         }
+        dst<<" ] ]";
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         std::string func_name = declarator->getVar();
-        int index = 0;
-        if (paramList != nullptr){
+        context.newScope();
+        context.is_function = 1;
+        if (paramList != nullptr ){ // && (context.is_function)
+            int x = 0;
             for (auto param : *paramList){
-                param->generateRISC(dst,context,"a"+std::to_string(index));
-                index++;
+                param->generateRISC(dst,context,"a"+std::to_string(x));
+                x++;
             }
         }
-        // std::string reg = context.regs.nextFreeReg();
-        // One_op(dst,"call",func_name);
-        // Two_op(dst,"mv",destReg,"a0");
-
+        // context.debugScope(dst);
     }
 };
 

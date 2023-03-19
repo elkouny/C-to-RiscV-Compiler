@@ -6,14 +6,14 @@
 class Function : public Block {
 private:
     std::string specifier;
-    BlockPtr declarator;
+    BlockPtr function_declarator;
     BlockPtr cstatement;
 // protected:
 public:
-    Function(std::string s, BlockPtr d, BlockPtr c) : specifier(s), declarator(d), cstatement(c) {}
+    Function(std::string s, BlockPtr d, BlockPtr c) : specifier(s), function_declarator(d), cstatement(c) {}
 
     virtual ~Function() {
-        delete declarator;
+        delete function_declarator;
         delete cstatement;
     }
 
@@ -22,7 +22,7 @@ public:
     }
 
     BlockPtr getDeclarator() const {
-        return declarator;
+        return function_declarator;
     }
 
     BlockPtr getStatement() const {
@@ -38,42 +38,56 @@ public:
         dst<<" ] ] [";
         getStatement()->print(dst);
         dst<<"\n] ";
-
     }
 
     virtual void generateRISC(std::ostream &dst , Context &context , std::string destReg) const override { 
-        dst<<".globl "<<declarator->getIdentifier()<<std::endl;
-        label(dst,declarator->getIdentifier());
+        dst<<".globl "<<function_declarator->getIdentifier()<<std::endl;
+        
+
+        label(dst,function_declarator->getIdentifier());
         context.ret_label = make_label("return");
-        int o;
+
+        int o=0;
         if (!cstatement->getDec().empty()){
-            o=(cstatement->getDec().size()) * - 4 ;
+            o+=(cstatement->getDec().size()) * - 4;
         }
         else{
-            o=0;
+            o+=0;
         }
+
+        if (!function_declarator->getDec().empty()){
+            o+=(function_declarator->getDec().size()) * - 4;
+        }
+        else{
+            o+=0;
+        }
+
         context.offset += o;
+
         Three_op(dst,"addi","sp","sp",std::to_string(context.offset));   
         sw_lw(dst,"sw","ra",-4-context.offset,"sp");
         sw_lw(dst,"sw","s0",-8-context.offset,"sp");
         Three_op(dst,"addi","s0","sp",std::to_string(-1*context.offset));
-        /*
-        
-        
-        
-        
-        
-        */
+
+
+        if (!function_declarator->getDec().empty()){
+            function_declarator->generateRISC(dst,context,destReg);
+        }
+
         cstatement->generateRISC(dst, context, "a0");
         label(dst,context.ret_label);
         Two_op(dst,"mv","a0","t6");
         sw_lw(dst,"lw","ra",-4-context.offset,"sp");
         sw_lw(dst,"lw","s0",-8-context.offset,"sp");
         Three_op(dst,"addi","sp","sp",std::to_string(-1*context.offset));
-        context.offset += (o * 4 );
+        context.offset += (o * 4);
         One_op(dst,"jr","ra");
-    }
 
+        // context.debugScope(dst);
+
+        // context.popScope();
+
+    }
 
 };
 

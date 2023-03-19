@@ -114,7 +114,8 @@ struct Context{
     std::string ret_label;
     Registers regs;
     int offset = -20;
-  
+    int is_function = 0;
+
     std::string make_label (std::string label){
         static int unique = 0 ;
         return label + std::to_string(unique++);

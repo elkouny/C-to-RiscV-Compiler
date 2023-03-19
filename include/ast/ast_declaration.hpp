@@ -36,7 +36,5 @@ public:
         init_declarator->generateRISC(dst, context, destReg);
     }
 
-
- 
 };
 #endif

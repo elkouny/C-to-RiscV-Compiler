@@ -12,9 +12,10 @@ public:
         : type(_type)
         , declarator(_declarator)
     {}
+
     ParameterDeclaration(std::string _type)
         : type(_type)
-         {}
+    {}
     
     ~ParameterDeclaration() {
         delete declarator;
@@ -26,7 +27,8 @@ public:
 
     virtual void print(std::ostream &dst) const override {
         dst << "\n        Parameter Declaration [ Variable Type: [ ";
-        dst << type << " ] Variable Name : [ ";
+        dst << type << " ] ";
+        dst<< "Variable [ ";
         declarator->print(dst);
         dst<<" ] ]";
     }
@@ -35,8 +37,8 @@ public:
         std::string varname = declarator->getIdentifier();
         int offset = context.getOverallOffset()-4;
         context.addVar(varname, type, offset);
-        declarator->generateRISC(dst, context, destReg);
-        // sw_lw(dst,"sw",destReg,offset,"s0");
+        sw_lw(dst,"sw",destReg,offset,"s0");
+        // declarator->generateRISC(dst, context, destReg);
     }
 
 

@@ -29,8 +29,6 @@ public:
         }
     };
 
-    
-
     virtual void print(std::ostream &dst) const override {
         dst<<" FunctionCall [ Function [ ";
         function->print(dst);
@@ -50,8 +48,7 @@ public:
             for (auto arg : *argList){
                 arg->generateRISC(dst,context,("a"+std::to_string(index)));
                 index++;
-            } 
-
+            }
         }
         One_op(dst,"call",func_name);
         Two_op(dst,"mv",destReg,"a0");
