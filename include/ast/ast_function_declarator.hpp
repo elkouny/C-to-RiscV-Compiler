@@ -60,7 +60,7 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string func_name = declarator->getVar();
+        std::string func_name = declarator->getIdentifier();
         context.newScope();
         context.is_function = 1;
         if (paramList != nullptr ){ // && (context.is_function)

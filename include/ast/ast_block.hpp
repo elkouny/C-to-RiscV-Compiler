@@ -18,16 +18,23 @@ public:
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const {};
 
+    virtual int isArray() const { return 0; }
+
     virtual int isFunction() const { return 0; }
 
-    virtual std::string getVar() const { return "error"; }
+    // virtual int initSize() const { return 0; }
+
+    virtual int evalExpression() const { return 0; }
+    // virtual int evalExpression() const { return -1 };
+    virtual BlockPtr getIndex() const { return nullptr; }
     
+    virtual BlockPtr getDeclarator() const { return nullptr; }
+
     virtual std::string getIdentifier() const { return "error "; }
 
     virtual std::vector<BlockPtr> getDec() const {std::vector<BlockPtr> declarations; return declarations;}
 
     virtual std::vector<BlockPtr> getList() const  { std::vector<BlockPtr> declarations; return declarations; }
-    // virtual int getConstant() const { return -1 }; 
 };
 
 #endif

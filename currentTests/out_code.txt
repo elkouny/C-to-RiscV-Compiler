@@ -1,11 +1,15 @@
-New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ r5 ] Parameters [ 
-        Parameter Declaration [ Variable Type: [ int ] Variable [ n ] ] ] ] ] ] [
+New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [  ] ] ] ] [
     Compound Statement [
     Declaration List [
-        Declaration [ Variable Type: [ int ] Variable Name: [ x ] Variable assignment : [ Expression [ Constant: [ 1 ] ] ] ]
+        Declaration [ Variable Type: [ int ] Variable Name: [  Array Declarator [ Array [ y ] Size [  Expression [ Constant: [ 2 ] ] ] ] ] ]
+        Declaration [ Variable Type: [ int ] Variable Name: [  Array Declarator [ Array [ x ] Size [  Expression [ Constant: [ 3 ] ] ] ] ] ]
+        Declaration [ Variable Type: [ int ] Variable Name: [ t ] Variable assignment : [ Expression [ Constant: [ 1 ] ] ] ]
+        Declaration [ Variable Type: [ int ] Variable Name: [ i ] Variable assignment : [ Expression [ Constant: [ 2 ] ] ] ]
     ]
     Statement List [
-        Jump Statement [ return ]  Expression [ String: [ x ] ]
+        New Assignment: [  Array Expression [ Array [  Expression [ String: [ x ] ] ] Index [  Expression [ String: [ t ] ] ] ] Operator: [ = ]  Expression [ Constant: [ 23 ] ] ]
+        New Assignment: [  Array Expression [ Array [  Expression [ String: [ y ] ] ] Index [  Expression [ String: [ i ] ] ] ] Operator: [ = ]  Expression [ Constant: [ 42 ] ] ]
+        Jump Statement [ return ] Addition:  [  Array Expression [ Array [  Expression [ String: [ x ] ] ] Index [  Expression [ String: [ t ] ] ] ] +  Array Expression [ Array [  Expression [ String: [ y ] ] ] Index [  Expression [ String: [ i ] ] ] ] ] 
     ]
     ]
 ] 

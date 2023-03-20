@@ -49,17 +49,18 @@ public:
 
         int o=0;
         if (!cstatement->getDec().empty()){
-            o+=(cstatement->getDec().size()) * - 4;
-        }
-        else{
-            o+=0;
+           for (auto i : cstatement->getDec()){
+                if (i->getDeclarator()->isArray()){
+                    o += -4 * i->getDeclarator()->evalExpression();
+                }
+                else{
+                    o += -4;
+                }
+            }
         }
 
         if (!function_declarator->getDec().empty()){
             o+=(function_declarator->getDec().size()) * - 4;
-        }
-        else{
-            o+=0;
         }
 
         context.offset += o;

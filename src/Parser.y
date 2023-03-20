@@ -57,9 +57,11 @@
 %type <list> declaration_list
 %type <list> argument_expression_list
 %type <list> parameter_list
+%type <list> initializer_list
 /* %type <block> conditional_expression */
 
 %type <block> expression
+%type <block> initializer
 %type <block> assignment_expression
 %type <block> logical_or_expression
 %type <block> logical_and_expression
@@ -73,6 +75,7 @@
 %type <block> unary_expression
 %type <block> postfix_expression
 %type <block> primary_expression // etc
+%type <block> shift_expression // etc
 
 %type <block> compound_statement
 %type <block> statement
@@ -122,9 +125,20 @@ declaration
 
 init_declarator
 	: declarator { $$ = new Init_Declarator($1);}
-	| declarator '=' assignment_expression { $$ = new Init_Declarator($1, $3);}
+	| declarator '=' initializer { $$ = new Init_Declarator($1, $3);}
 	;
 
+initializer
+	: assignment_expression { $$ = $1;}
+	| '{' initializer_list '}' { $$ = new ArrayInitializer($2);}
+	/* | '{' initializer_list ',' '}' { $$ = new ArrayInitializer($2);} */
+	;
+	
+	
+initializer_list
+	: initializer { std::vector<BlockPtr>* BlockList = new std::vector<BlockPtr>(); BlockList->push_back($1);  $$ = BlockList; }
+	| initializer_list ',' initializer { $1->push_back($3); $$ = $1; }
+	;
 
 function_definition
 	: declaration_specifiers declarator compound_statement { $$ = new Function(*$1, $2, $3); }  // $1 type, $2 main(), $3 block: {}
@@ -161,6 +175,9 @@ direct_declarator
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '(' parameter_list ')' { $$ = new FunctionDeclarator($1, $3); }
 	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1);}
+	// ARRAYs
+	| direct_declarator '[' logical_or_expression ']' { $$ = new ArrayDeclarator($1, $3);} // was constant_expression
+	/* | direct_declarator '[' ']' { $$ = new DirectDeclarator($1);} */
 	/* | direct_declarator '(' ')' { $$ = $1;} */
 	;
 
@@ -224,16 +241,11 @@ expression
 
 
 
-/* postfix_expression
-	: primary_expression { $$ = $1;} */
-
 postfix_expression
 	: primary_expression { $$ = $1;}
-	/* | postfix_expression '[' expression ']' { $$ = new ArrayAccess($1, $3);} */
+	| postfix_expression '[' expression ']' { $$ = new ArrayExpression($1, $3);}
 	| postfix_expression '(' ')' { $$ = new FunctionCall($1);}
 	| postfix_expression '(' argument_expression_list ')' { $$ = new FunctionCall($1, $3);}
-	/* | postfix_expression '.' IDENTIFIER { $$ = new MemberAccess($1, $3);} */
-	/* | postfix_expression PTR_OP IDENTIFIER { $$ = new PointerAccess($1, $3);} */
 	| postfix_expression INC_OP { $$ = new Inc($1);}
 	| postfix_expression DEC_OP { $$ = new Dec($1);}
 	;
@@ -264,8 +276,15 @@ additive_expression
 	| additive_expression '-' multiplicative_expression { $$ = new Subtraction($1, $3);}
 	;
 
-relational_expression
+shift_expression
 	: additive_expression { $$ = $1;}
+	| shift_expression LEFT_OP additive_expression { $$ = new LeftShift($1, $3);}
+	| shift_expression RIGHT_OP additive_expression	{ $$ = new RightShift($1, $3);}
+	;
+
+
+relational_expression
+	: shift_expression { $$ = $1;}
 	| relational_expression '<' additive_expression { $$ = new LessThan($1, $3);}
 	| relational_expression '>' additive_expression { $$ = new GreaterThan($1, $3);}
 	| relational_expression LE_OP additive_expression { $$ = new LessThanEqual($1, $3);}
@@ -306,12 +325,12 @@ logical_or_expression
 assignment_expression
 	: logical_or_expression { $$ = $1;}
 	| unary_expression assignment_operator assignment_expression { $$ = new Assignment($1, *$2, $3);}
-	;
+	; 
 
 primary_expression
 	: IDENTIFIER { $$ = new Expression(*$1); delete $1;}
 	| CONSTANT { $$ = new Expression(stoi(*$1)); delete $1;}
-	| STRING_LITERAL { $$ = new Expression(*$1); delete $1;}
+	/* | STRING_LITERAL { $$ = new Expression(*$1); delete $1;} */
 	| '(' expression ')' { $$ = $2; }
 	;
 

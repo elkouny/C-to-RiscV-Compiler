@@ -31,7 +31,13 @@ public:
         return declarator->getIdentifier();
     }
 
+    virtual int isArray() const { return declarator->isArray(); }
+
     BlockPtr getInitializer() const { return initializer; }
+
+    virtual int evalExpression() const override { 
+        return declarator->evalExpression();
+    }
 
     virtual void print(std::ostream &dst) const override {
         dst<<"Variable Name: [ ";
@@ -45,15 +51,59 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        if (initializer != nullptr) {
-            std::string varname = declarator->getIdentifier();
-            std::string reg = context.regs.nextFreeReg();
-            context.regs.useReg(reg);
-            initializer->generateRISC(dst, context, reg);
-            int offset = context.getVarInfo(varname).offset;
-            sw_lw(dst,"sw",reg,offset,"s0");
-            context.regs.freeReg(reg);
+        if (!declarator->isArray()){
+            if (initializer != nullptr) {
+                std::string varname = declarator->getIdentifier();
+                std::string reg = context.regs.nextFreeReg();
+                context.regs.useReg(reg);
+                initializer->generateRISC(dst, context, reg);
+                int offset = context.getVarInfo(varname).offset;
+                sw_lw(dst,"sw",reg,offset,"s0");
+                context.regs.freeReg(reg);
+            }
         }
+        else {
+            if(context.scope.size()==1){
+                int array_length = declarator->evalExpression();
+                int init_length = 0;
+                if (initializer == nullptr){
+                    init_length = 0;
+                }
+                
+                else {
+                    init_length = initializer->getList().size();
+                }
+
+                label(dst,getIdentifier());
+                for (int i = 0; i < array_length; i++) {
+                    if (i > init_length-1){
+                        One_op(dst,".word","0");
+                    } 
+                    else{
+                        int value = initializer->getList()[i]->evalExpression();
+                        One_op(dst,".word",std::to_string(value));
+                    }
+                }        
+            }
+            else if(initializer!=nullptr){
+                int init_len = initializer->getList().size();
+                // int array_length = declarator->evalExpression();
+                for (int i = 0; i < init_len; i++) {
+                    std::string varname = getIdentifier()+"["+std::to_string(i)+"]";
+                    std::string reg = context.regs.nextFreeReg();
+                    context.regs.useReg(reg);
+                    initializer->getList()[i]->generateRISC(dst, context, reg);
+                    int offset = context.getVarInfo(varname).offset;
+                    sw_lw(dst,"sw",reg,offset,"s0");
+                    context.regs.freeReg(reg);
+                }
+            }
+
+            
+        }  
+
+        
+        
     }
 
 };

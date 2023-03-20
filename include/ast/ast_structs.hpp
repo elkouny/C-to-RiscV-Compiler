@@ -186,6 +186,12 @@ inline void One_op(std::ostream &dst,std::string inst,std::string dstReg){
 inline void sw_lw(std::ostream &dst ,std::string inst ,std::string reg , int off , std::string offReg){
     dst<<inst<<" "<<reg<<","<<off<<"("<<offReg<<")"<<std::endl;
 };
+inline void lui(std::ostream &dst ,std::string inst ,std::string reg , std::string off , std::string offReg){
+    dst<<inst<<" "<<reg<<","<<off<<"("<<offReg<<")"<<std::endl;
+};
+inline void addi(std::ostream &dst ,std::string inst ,std::string destReg,std::string reg,  std::string off , std::string offReg){
+    dst<<inst<<" "<<destReg<<","<<reg<<","<<off<<"("<<offReg<<")"<<std::endl;
+};
 
 inline void label(std::ostream &dst , std::string lbl){
     dst<<lbl<<":"<<std::endl;

@@ -17,6 +17,11 @@
 #include "ast/ast_function_declarator.hpp"
 #include "ast/ast_parameter_declaration.hpp"
 #include "ast/ast_for.hpp"
+#include "ast/ast_init_array.hpp"
+#include "ast/ast_array_declarator.hpp"
+#include "ast/ast_array_expression.hpp"
+#include "ast/ast_for.hpp"
+
 
 extern const Block *parseAST();
 

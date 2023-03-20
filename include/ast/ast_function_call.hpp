@@ -42,7 +42,7 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string func_name = function->getVar();
+        std::string func_name = function->getIdentifier();
         if ( argList != nullptr) {
             int index = 0;
             for (auto arg : *argList){

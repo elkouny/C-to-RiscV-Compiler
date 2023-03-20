@@ -16,16 +16,14 @@ public:
 
     ~Expression() {};
 
-    int getConstant() const {
+    int evalExpression() const override {
         return constant;
     }
-
-    std::string getVar() const override {
+ 
+    std::string getIdentifier() const override {
         return variable;
     }
-
    
-
     virtual void print(std::ostream &dst) const override {
         dst<<" Expression [ ";
         if (type==0) {

@@ -308,6 +308,7 @@ struct_declaration
 	: specifier_qualifier_list struct_declarator_list ';' { $$ = new StructDeclaration($1, $2);}
 	;
 
+
 specifier_qualifier_list
 	: type_specifier specifier_qualifier_list { $$ = new SpecifierQualifierList($1, $2);}
 	| type_specifier { $$ = new SpecifierQualifierList($1);}
