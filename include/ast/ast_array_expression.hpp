@@ -58,8 +58,8 @@ public:
             addi(dst,"addi",destReg,destReg,"%%lo",arrayname);
             Two_op(dst,"li",reg4,"4");
             Three_op(dst,"mul",ireg,ireg,reg4);
-            Three_op(dst,"add",ireg,destReg,ireg);
-            lui(dst,"lw",destReg,"0",ireg);
+            Three_op(dst,"add",ireg,ireg,destReg);
+            sw_lw(dst,"lw",destReg,0,ireg);
         }
         else{
             context.regs.useReg(reg4);
@@ -68,9 +68,8 @@ public:
             Three_op(dst,"mul",ireg,ireg,reg4);
             Two_op(dst,"li",oreg,std::to_string(offset));
             Three_op(dst,"sub",ireg,oreg,ireg);
-            Three_op(dst,"add",ireg,"s0",ireg);
-            // Three_op(dst,"addi",ireg,ireg,std::to_string(offset));
-            lui(dst,"lw",destReg,"0",ireg);
+            Three_op(dst,"add",ireg,ireg,"s0");
+            sw_lw(dst,"lw",destReg,0,ireg);
         }
         context.regs.freeReg(ireg);
         context.regs.freeReg(reg4);

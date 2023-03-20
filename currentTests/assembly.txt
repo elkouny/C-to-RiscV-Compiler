@@ -1,0 +1,29 @@
+.text
+.globl f
+f:
+addi sp,sp,-52
+sw ra,48(sp)
+sw s0,44(sp)
+addi s0,sp,52
+li t4,23
+li a2,0
+li a4,4
+mul a2,a2,a4
+li a6,-20
+sub a2,a6,a2
+add a2,a2,s0
+sw t4,0(a2)
+li t4,0
+li a2,4
+mul t4,t4,a2
+li a4,-20
+sub t4,a4,t4
+lw t6,t4(s0)
+j return0
+return0:
+mv a0,t6
+lw ra,48(sp)
+lw s0,44(sp)
+addi sp,sp,52
+jr ra
+

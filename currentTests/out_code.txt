@@ -1,0 +1,11 @@
+New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [  ] ] ] ] [
+    Compound Statement [
+    Declaration List [
+        Declaration [ Variable Type: [ int ] Variable Name: [  Array Declarator [ Array [ x ] Size [  Expression [ Constant: [ 8 ] ] ] ] ] ]
+    ]
+    Statement List [
+        New Assignment: [  Array Expression [ Array [  Expression [ String: [ x ] ] ] Index [  Expression [ Constant: [ 0 ] ] ] ] Operator: [ = ]  Expression [ Constant: [ 23 ] ] ]
+        Jump Statement [ return ]  Array Expression [ Array [  Expression [ String: [ x ] ] ] Index [  Expression [ Constant: [ 0 ] ] ] ]
+    ]
+    ]
+]
