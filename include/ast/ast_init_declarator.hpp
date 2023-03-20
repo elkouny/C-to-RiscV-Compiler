@@ -35,7 +35,7 @@ public:
 
     BlockPtr getInitializer() const { return initializer; }
 
-    virtual int evalExpression() const override { 
+    virtual int evalExpression() const override {
         return declarator->evalExpression();
     }
 
@@ -69,7 +69,6 @@ public:
                 if (initializer == nullptr){
                     init_length = 0;
                 }
-                
                 else {
                     init_length = initializer->getList().size();
                 }
@@ -77,13 +76,13 @@ public:
                 label(dst,getIdentifier());
                 for (int i = 0; i < array_length; i++) {
                     if (i > init_length-1){
-                        One_op(dst,".word","0");
-                    } 
+                        One_op(dst,".zero","4");
+                    }
                     else{
                         int value = initializer->getList()[i]->evalExpression();
                         One_op(dst,".word",std::to_string(value));
                     }
-                }        
+                }
             }
             else if(initializer!=nullptr){
                 int init_len = initializer->getList().size();
@@ -99,11 +98,11 @@ public:
                 }
             }
 
-            
-        }  
 
-        
-        
+        }
+
+
+
     }
 
 };

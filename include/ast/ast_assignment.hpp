@@ -40,6 +40,8 @@ public:
             std::string reg = context.regs.nextFreeReg();
             expression->generateRISC(dst, context, reg);
             sw_lw(dst,"sw",reg,offset,"s0");
+
+            // context.debugScope(dst);
         }
         else {
 
@@ -51,8 +53,8 @@ public:
             expression->generateRISC(dst, context, reg);
 
             if (offset == 0){
-                lui(dst,"lui",destReg,"%%hi",var->getIdentifier());
-                addi(dst,"addi",destReg,destReg,"%%lo",var->getIdentifier());
+                lui(dst,"lui",destReg,"%hi",var->getIdentifier());
+                addi(dst,"addi",destReg,destReg,"%lo",var->getIdentifier());
 
                 std::string ireg = context.regs.nextFreeReg();
                 context.regs.useReg(ireg);
@@ -87,6 +89,7 @@ public:
                 context.regs.freeReg(ireg);
                 context.regs.freeReg(reg4);
             }
+            // context.debugScope(dst);
         }
     }
 };
