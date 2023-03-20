@@ -6,7 +6,7 @@ private:
     BlockPtr var;
     std::string op;
     BlockPtr expression;
-    
+
 public:
     Assignment(BlockPtr _var,std::string _op , BlockPtr _expression )
         : var(_var)
@@ -36,7 +36,7 @@ public:
 
             std::string varname = var->getIdentifier();
             int offset = context.getVarInfo(varname).offset;
-            
+
             std::string reg = context.regs.nextFreeReg();
             // context.regs.useReg(reg);
             expression->generateRISC(dst, context, reg);
@@ -68,7 +68,8 @@ public:
 
                 Two_op(dst,"li",reg4,"4");
                 Three_op(dst,"mul",ireg,ireg,reg4);
-                lui(dst,"sw",reg,ireg,destReg);
+                Three_op(dst,"add",ireg,destReg,ireg);
+                lui(dst,"sw",reg,"0",ireg);
 
                 context.regs.freeReg(reg);
                 context.regs.freeReg(ireg);
@@ -81,15 +82,14 @@ public:
                 std::string reg4 = context.regs.nextFreeReg();
                 context.regs.useReg(reg4);
                 std::string oreg = context.regs.nextFreeReg();
-                
+
                 Two_op(dst,"li",reg4,"4");
                 Three_op(dst,"mul",ireg,ireg,reg4);
                 Two_op(dst,"li",oreg,std::to_string(offset));
                 Three_op(dst,"sub",ireg,oreg,ireg);
-                // Three_op(dst,"addi",ireg,ireg,std::to_string(offset));
-                
-                lui(dst,"sw",reg,ireg,"s0");
-                
+                Three_op(dst,"add",ireg,"s0",ireg);
+                lui(dst,"sw",reg,"0",ireg);
+
                 context.regs.freeReg(reg);
                 context.regs.freeReg(ireg);
                 context.regs.freeReg(reg4);
@@ -102,7 +102,7 @@ public:
         // else{
         //     int exprindex = expression->evalExpression();
         //     int varindex = var->evalExpression();
-            
+
 
 
 
@@ -141,7 +141,7 @@ public:
         //         sw_lw(dst,"sw",destReg,oVar,destReg);
         //         sw_lw(dst,"lw",destReg,oExpr,"s0");
         //     }
-        // }   
+        // }
     }
 };
 
