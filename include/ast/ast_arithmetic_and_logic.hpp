@@ -162,7 +162,6 @@ public:
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
         Three_op(dst,"div",destReg,destReg,reg);
-        //context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
     }
 
