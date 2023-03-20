@@ -133,8 +133,8 @@ initializer
 	| '{' initializer_list '}' { $$ = new ArrayInitializer($2);}
 	/* | '{' initializer_list ',' '}' { $$ = new ArrayInitializer($2);} */
 	;
-	
-	
+
+
 initializer_list
 	: initializer { std::vector<BlockPtr>* BlockList = new std::vector<BlockPtr>(); BlockList->push_back($1);  $$ = BlockList; }
 	| initializer_list ',' initializer { $1->push_back($3); $$ = $1; }
@@ -195,9 +195,9 @@ parameter_declaration
 compound_statement
 	: '{' '}' { $$ = new Expression("null"); }
 	/* | '{' statement '}' { $$ = $2; } */
-	| '{' statement_list '}' {$$ = new Compound_Statement($2);}
+	| '{' statement_list '}' {$$ = new Compound_Statement($2,"slist");}
 	| '{' declaration_list statement_list '}' {$$ = new Compound_Statement($2, $3);}
-	| '{' declaration_list '}' {$$ = new Compound_Statement($2);}
+	| '{' declaration_list '}' {$$ = new Compound_Statement($2,"dlist");}
 	;
 
 statement_list
@@ -325,7 +325,7 @@ logical_or_expression
 assignment_expression
 	: logical_or_expression { $$ = $1;}
 	| unary_expression assignment_operator assignment_expression { $$ = new Assignment($1, *$2, $3);}
-	; 
+	;
 
 primary_expression
 	: IDENTIFIER { $$ = new Expression(*$1); delete $1;}

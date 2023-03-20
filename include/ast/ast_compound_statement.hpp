@@ -12,13 +12,27 @@ private:
 public:
     Compound_Statement(std::vector<BlockPtr> * _dlist, std::vector<BlockPtr> * _list) : dlist(_dlist), slist(_list) {}
 
-    Compound_Statement(std::vector<BlockPtr> *_list) : slist(_list) {}
+    Compound_Statement(std::vector<BlockPtr> *_list, std::string list_type) {
+        // slist =_list;
+        if (list_type == "dlist"){
+            dlist = _list;
+            slist = nullptr;
+        } else {
+            dlist = nullptr;
+            slist = _list;
+        }
+    }
 
     ~Compound_Statement() {
-        for (auto i : *slist){
-            delete i;
+        // for (auto i : *slist){
+        //     delete i;
+        // }
+        if (slist != nullptr){
+            for (auto i : *slist){
+                delete i;
+            }
+            delete slist;
         }
-        delete slist;
         if (dlist != nullptr){
             for (auto i : *dlist){
                 delete i;
@@ -27,14 +41,7 @@ public:
         }
     }
 
-    // int getSize() {
-    //     int size = 0;
-    //     for (auto it : *slist){
-    //         size += it->getSize();
-    //     }
-    // }
-    
-    std::vector<BlockPtr> getDec()  const override { 
+    std::vector<BlockPtr> getDec()  const override {
         if (dlist != nullptr) {
             return *dlist;
         } else {
@@ -43,7 +50,14 @@ public:
         }
     }
 
-    std::vector<BlockPtr> getList() const override { return *slist; }
+    std::vector<BlockPtr> getList() const override {
+        if (slist != nullptr) {
+            return *slist;
+        } else {
+            std::vector<BlockPtr> empty;
+            return empty;
+        }
+    }
 
     virtual void print(std::ostream &dst) const override {
         dst << "\n    Compound Statement [";
@@ -54,15 +68,18 @@ public:
             }
             dst<<"\n    ]";
         }
-        dst << "\n    Statement List [";
-        for (auto i : *slist){
-            i->print(dst);
+        if (slist != nullptr) {
+            dst << "\n    Statement List [";
+            for (auto i : *slist){
+                i->print(dst);
+            }
+            dst<<"\n    ]";
+            dst<<"\n    ]";
         }
-        dst<<"\n    ]";
-        dst<<"\n    ]";
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        // dst<<"here";
         if (context.is_function){
             context.is_function = 0;
         }else {
@@ -74,10 +91,12 @@ public:
                 i->generateRISC(dst, context, destReg);
             }
         }
-        for (auto i : *slist){
-            i->generateRISC(dst, context, destReg);
-        }
 
+        if (slist != nullptr) {
+            for (auto i : *slist){
+                i->generateRISC(dst, context, destReg);
+            }
+        }
         // context.debugScope(dst);
         context.popScope();
     }
