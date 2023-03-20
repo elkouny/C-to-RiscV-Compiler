@@ -239,8 +239,6 @@ expression
 	: assignment_expression { $$ = $1; }
 	;
 
-
-
 postfix_expression
 	: primary_expression { $$ = $1;}
 	| postfix_expression '[' expression ']' { $$ = new ArrayExpression($1, $3);}
@@ -268,6 +266,7 @@ multiplicative_expression
 	: unary_expression { $$ = $1;}
 	| multiplicative_expression '*' unary_expression  { $$ = new Multiplication($1, $3);}
 	| multiplicative_expression '/' unary_expression { $$ = new Division($1, $3);}
+	| multiplicative_expression '%' unary_expression { $$ = new Modulo($1, $3);}
 	;
 
 additive_expression
@@ -325,6 +324,16 @@ logical_or_expression
 assignment_expression
 	: logical_or_expression { $$ = $1;}
 	| unary_expression assignment_operator assignment_expression { $$ = new Assignment($1, *$2, $3);}
+	/*
+	| unary_expression '=' assignment_expression { $$ = new Assignment($1, *$2, $3);}
+	| unary_expression MUL_ASSIGN assignment_expression { $$ = new Assignment($1, "*=", new Multiplication($1, $3));}
+	| unary_expression DIV_ASSIGN assignment_expression { $$ = new Assignment($1, "/=", new Division($1, $3));}
+	| unary_expression MOD_ASSIGN assignment_expression { $$ = new Assignment($1, "%=", new Modulo$1, $3));}
+	| unary_expression ADD_ASSIGN assignment_expression { $$ = new Assignment($1, "+=", new Addition($1, $3));}
+	| unary_expression SUB_ASSIGN assignment_expression { $$ = new Assignment($1, "-=", new Subtraction($1, $3));}
+
+	| unary_expression MOD_ASSIGN assignment_expression { $$ = new Assignment($1, *$2, $3);}
+	*/
 	;
 
 primary_expression
@@ -334,6 +343,7 @@ primary_expression
 	| '(' expression ')' { $$ = $2; }
 	;
 
+// DONT NEED THIS
 assignment_operator
 	: '='  { $$ = new std::string("=");}
 	| MUL_ASSIGN { $$ = $1;}

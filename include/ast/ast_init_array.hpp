@@ -19,8 +19,6 @@ public:
 
     virtual int isArray() const override { return 1; }
 
-    // virtual int initSize() const override { vals->size(); }
-
     virtual std::vector<BlockPtr> getList() const override { return *vals; }
 
     virtual void print(std::ostream &dst) const override {

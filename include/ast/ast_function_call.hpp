@@ -29,6 +29,10 @@ public:
         }
     };
 
+    virtual int isFunction() const override {
+        return 1;
+    }
+
     virtual void print(std::ostream &dst) const override {
         dst<<" FunctionCall [ Function [ ";
         function->print(dst);
