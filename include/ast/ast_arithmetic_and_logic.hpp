@@ -23,7 +23,7 @@ public:
         value->print(dst);
         dst << " ] ";
     }
-    
+
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         std::string varname = value->getIdentifier();
         std::string reg = context.regs.nextFreeReg();
@@ -37,7 +37,7 @@ public:
 
     virtual int evalExpression() const override {
         return value->evalExpression() +1;
-       
+
     }
 
 };
@@ -61,7 +61,7 @@ public:
         value->print(dst);
         dst << " ] ";
     }
-    
+
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
@@ -72,7 +72,7 @@ public:
         sw_lw(dst,"sw",reg,off,"s0");
         context.regs.freeReg(reg);
     }
-    
+
     virtual int evalExpression()const override{
         return value->evalExpression() - 1;
     }
@@ -119,10 +119,10 @@ public:
         context.regs.freeReg(reg);
 
     }
-    
+
     virtual int evalExpression() const override{
         return  left->evalExpression() * right->evalExpression();
-    }  
+    }
 
 
 };
@@ -168,7 +168,7 @@ public:
 
     virtual int evalExpression()const override{
         return  left->evalExpression() / right->evalExpression();
-    }  
+    }
 
 };
 
@@ -213,7 +213,7 @@ public:
 
     virtual int evalExpression() const override{
         return  left->evalExpression() + right->evalExpression();
-    }  
+    }
 };
 
 class Subtraction : public Block {
@@ -301,7 +301,7 @@ public:
 
     virtual int evalExpression()const override{
         return  left->evalExpression() << right->evalExpression();
-    }  
+    }
 
 
 };
@@ -335,7 +335,7 @@ public:
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         context.regs.useReg(destReg);
 
-        left->generateRISC(dst,context,destReg);  
+        left->generateRISC(dst,context,destReg);
         std::string reg = context.regs.nextFreeReg();
         // dst<<"DESTREG: "<<destReg<<" REG: "<<reg<<std::endl; /// HERE
         context.regs.useReg(reg);
@@ -347,7 +347,7 @@ public:
 
     virtual int evalExpression()const override{
         return  left->evalExpression() >> right->evalExpression();
-    }  
+    }
 
 
 };
@@ -624,7 +624,7 @@ public:
     }
     virtual int evalExpression()const override{
         return  left->evalExpression() != right->evalExpression();
-    }  
+    }
 
 };
 
@@ -659,7 +659,7 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        Three_op(dst,"andi",destReg,destReg,reg);
+        Three_op(dst,"and",destReg,destReg,reg);
         //context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
     }
@@ -702,11 +702,11 @@ public:
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        Three_op(dst,"xori",destReg,destReg,reg);
+        Three_op(dst,"xor",destReg,destReg,reg);
         //context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
     }
-    
+
     virtual int evalExpression()const override{
         return  left->evalExpression() ^ right->evalExpression();
     }
@@ -737,21 +737,21 @@ public:
         right->print(dst);
         dst << " ] ";
     }
-    
+
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         context.regs.useReg(destReg);
         left->generateRISC(dst,context,destReg);
         std::string reg = context.regs.nextFreeReg();
         context.regs.useReg(reg);
         right->generateRISC(dst,context,reg);
-        Three_op(dst,"ori",destReg,destReg,reg);
+        Three_op(dst,"or",destReg,destReg,reg);
         //context.regs.freeReg(destReg);
         context.regs.freeReg(reg);
     }
 
     virtual int evalExpression()const override{
         return  left->evalExpression() | right->evalExpression();
-    }  
+    }
 };
 
 
@@ -782,7 +782,7 @@ public:
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override{
         std::string l2 = context.make_label(".L");
         std::string l3 = context.make_label(".L");
-    
+
         context.regs.useReg(destReg);
         left->generateRISC(dst,context,destReg);
         Three_op(dst,"beq",destReg,"zero",l2);
@@ -798,8 +798,8 @@ public:
     }
 
     virtual int evalExpression()const override{
-        return  left->evalExpression() && right->evalExpression();  
-    }  
+        return  left->evalExpression() && right->evalExpression();
+    }
 };
 
 class LogicalOr : public Block {
@@ -846,8 +846,8 @@ public:
     }
 
     virtual int evalExpression()const override{
-        return  left->evalExpression() || right->evalExpression(); 
-    }  
+        return  left->evalExpression() || right->evalExpression();
+    }
 };
 
 #endif
