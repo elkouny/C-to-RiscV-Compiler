@@ -66,7 +66,9 @@ for DRIVER in compiler_tests/**/*_driver.c; do
     fi
 
     spike pk "${OUT}" > "${LOG_PATH}.simulation.log"
-    if [ $? -eq 0 ]; then
+    RETURNED=$?
+    echo "RETURNED " =  ${RETURNED}
+    if [ ${RETURNED} -eq 0 ]; then
         echo -e "\t> Pass"
         (( PASSING++ ))
 

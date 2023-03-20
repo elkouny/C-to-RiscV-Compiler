@@ -19,7 +19,7 @@ else
     echo "Build Complete."
 fi
 
-bin/print_parsed < $TestFolder/in_code.txt > $TestFolder/out_code.txt 2> $TestFolder/assembly.txt
+bin/print_parsed < $TestFolder/in_code.c > $TestFolder/out_code.txt 2> $TestFolder/assembly.asm
 
 echo "Generated Code"
 
