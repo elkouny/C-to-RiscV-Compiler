@@ -1,2 +1,105 @@
-Parse error : syntax error
-terminate called after throwing an instance of 'int'
+.text
+.text
+.globl g
+g:
+addi sp,sp,-96
+sw ra,92(sp)
+sw s0,88(sp)
+sw s1,84(sp)
+sw s2,80(sp)
+sw s3,76(sp)
+sw s4,72(sp)
+sw s5,68(sp)
+sw s6,64(sp)
+sw s7,60(sp)
+sw s8,56(sp)
+sw s9,52(sp)
+sw s10,48(sp)
+sw s11,44(sp)
+addi s0,sp,96
+sw a0,-64(s0)
+sw a1,-68(s0)
+sw a2,-72(s0)
+sw a3,-76(s0)
+sw a4,-80(s0)
+sw a5,-84(s0)
+sw a6,-88(s0)
+sw a7,-92(s0)
+lw t6,4(s0)
+j return0
+return0:
+mv a0,t6
+lw ra,92(sp)
+lw s0,88(sp)
+lw s1,84(sp)
+lw s2,80(sp)
+lw s3,76(sp)
+lw s4,72(sp)
+lw s5,68(sp)
+lw s6,64(sp)
+lw s7,60(sp)
+lw s8,56(sp)
+lw s9,52(sp)
+lw s10,48(sp)
+lw s11,44(sp)
+addi sp,sp,96
+jr ra
+.text
+.globl f
+f:
+addi sp,sp,-64
+sw ra,60(sp)
+sw s0,56(sp)
+sw s1,52(sp)
+sw s2,48(sp)
+sw s3,44(sp)
+sw s4,40(sp)
+sw s5,36(sp)
+sw s6,32(sp)
+sw s7,28(sp)
+sw s8,24(sp)
+sw s9,20(sp)
+sw s10,16(sp)
+sw s11,12(sp)
+addi s0,sp,64
+li a0,1
+li a1,2
+li a2,3
+li a3,4
+li a4,5
+li a5,6
+li a6,7
+li a7,8
+li t4,9
+sw t4,0(sp)
+li t4,10
+sw t4,4(sp)
+li t4,11
+sw t4,8(sp)
+li t4,12
+sw t4,12(sp)
+li t4,13
+sw t4,16(sp)
+li t4,14
+sw t4,20(sp)
+call g
+mv t6,a0
+j return1
+return1:
+mv a0,t6
+lw ra,60(sp)
+lw s0,56(sp)
+lw s1,52(sp)
+lw s2,48(sp)
+lw s3,44(sp)
+lw s4,40(sp)
+lw s5,36(sp)
+lw s6,32(sp)
+lw s7,28(sp)
+lw s8,24(sp)
+lw s9,20(sp)
+lw s10,16(sp)
+lw s11,12(sp)
+addi sp,sp,64
+jr ra
+

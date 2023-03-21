@@ -41,6 +41,7 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst , Context &context , std::string destReg) const override { 
+        dst<<".text"<<std::endl;
         dst<<".globl "<<function_declarator->getIdentifier()<<std::endl;
         
 
@@ -60,14 +61,21 @@ public:
         }
 
         if (!function_declarator->getDec().empty()){
-            o+=(function_declarator->getDec().size()) * - 4;
+            int number_of_args = function_declarator->getDec().size();
+            if (number_of_args <= 8){
+                o+=number_of_args * - 4;
+            }else{
+                o-=32;
+            } 
         }
-
+        o-=44;
         context.offset += o;
 
         Three_op(dst,"addi","sp","sp",std::to_string(context.offset));   
         sw_lw(dst,"sw","ra",-4-context.offset,"sp");
-        sw_lw(dst,"sw","s0",-8-context.offset,"sp");
+        for (int i = 0; i < 12; i++ ){
+            sw_lw(dst,"sw","s"+std::to_string(i),-4*(i+2)-context.offset,"sp");
+        }
         Three_op(dst,"addi","s0","sp",std::to_string(-1*context.offset));
 
 
@@ -79,7 +87,9 @@ public:
         label(dst,context.ret_label);
         Two_op(dst,"mv","a0","t6");
         sw_lw(dst,"lw","ra",-4-context.offset,"sp");
-        sw_lw(dst,"lw","s0",-8-context.offset,"sp");
+        for (int i = 0; i < 12; i++ ){
+            sw_lw(dst,"lw","s"+std::to_string(i),-4*(i+2)-context.offset,"sp");
+        }
         Three_op(dst,"addi","sp","sp",std::to_string(-1*context.offset));
         context.offset -= o;
         One_op(dst,"jr","ra");

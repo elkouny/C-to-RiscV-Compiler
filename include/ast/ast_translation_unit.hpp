@@ -27,6 +27,7 @@ public:
         context.regs.useReg(destReg);
         translation_unit->generateRISC(dst,context,destReg);
         external_declaration->generateRISC(dst,context,destReg);
+        // dst<<".text"<<std::endl;
         context.regs.freeReg(destReg);   
     }
 };

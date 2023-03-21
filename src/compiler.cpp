@@ -14,12 +14,12 @@ void compile(std::ostream &w)
         Context context;
         context.newScope(); // GLOBAL SCOPE
 
-        w<<".text"<<std::endl;
+        // w<<".text"<<std::endl;
         ast->generateRISC(w, context, "a0");
     }
     catch(...) {
         // hard coding code that doesnt PARSE
-        w<<".text"<<std::endl;
+        // w<<".text"<<std::endl;
         // w<<".globl f"<<std::endl;
         // label(w,"f");
         // Two_op(w,"li","a0","13");

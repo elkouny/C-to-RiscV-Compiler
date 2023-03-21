@@ -21,6 +21,7 @@
 #include "ast/ast_array_declarator.hpp"
 #include "ast/ast_array_expression.hpp"
 #include "ast/ast_for.hpp"
+#include "ast/ast_unary_operator.hpp"
 
 
 extern const Block *parseAST();

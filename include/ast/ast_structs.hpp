@@ -39,7 +39,7 @@ struct VarMap{
     }
 
     int getCurrentOffset(){
-        int offset = -16;
+        int offset = -60;
         for (auto& it: bindings) {
             if (it.second.offset < offset) {
                 offset = it.second.offset;
@@ -72,6 +72,7 @@ struct Registers{
 
     std::unordered_map<std::string,bool> reg_used;
 
+
     Registers () {
         reg_used["zero"]=true; reg_used["ra"]=true;   reg_used["sp"]=true;   reg_used["gp"]=true;
         reg_used["tp"]=true;   reg_used["t0"]=false;  reg_used["t1"]=false;  reg_used["t2"]=false;
@@ -87,6 +88,17 @@ struct Registers{
         for (auto& it : reg_used) {
             if (it.second == false) {
                 return it.first;
+            }
+        }
+        return "-1";
+    }
+
+    std::string nextFreeStoreReg(){
+        for (auto& it : reg_used) {
+            if (it.first.find("s")==0){
+                if (it.second == false) {
+                    return it.first;
+                }
             }
         }
         return "-1";
@@ -133,7 +145,7 @@ struct Context{
 
         
     int getOverallOffset(){
-        int min = -16;
+        int min = -60;
         for(auto i : scope){
             min= std::min(min,i.getCurrentOffset());
         }

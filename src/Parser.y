@@ -76,6 +76,7 @@
 %type <block> postfix_expression
 %type <block> primary_expression // etc
 %type <block> shift_expression // etc
+/* %type <block> unary_operator // etc */
 
 %type <block> compound_statement
 %type <block> statement
@@ -84,7 +85,8 @@
 %type <block> selection_statement
 %type <block> iteration_statement
 
-%type <string> assignment_operator
+/* %type <string> assignment_operator */
+%type <string> unary_operator
 %type <string> declaration_specifiers
 %type <string> type_specifier
 
@@ -257,9 +259,18 @@ unary_expression
 	: postfix_expression { $$ = $1;}
 	| INC_OP unary_expression { $$ = new Inc($2);}
 	| DEC_OP unary_expression { $$ = new Dec($2);}
-	/* | unary_operator cast_expression { $$ = new UnaryOperator($1, $2);}
-	| SIZEOF unary_expression { $$ = new Sizeof($2);}
+	| unary_operator unary_expression { $$ = new UnaryOperator(*$1, $2);}
+	/* | SIZEOF unary_expression { $$ = new Sizeof($2);}
 	| SIZEOF '(' type_name ')' { $$ = new Sizeof($3);} */
+	;
+
+unary_operator
+	: '&' { $$ = new std::string("=");}
+	| '*' { $$ = new std::string("*");}
+	| '+' { $$ = new std::string("+");}
+	| '-' { $$ = new std::string("-");}
+	| '~' { $$ = new std::string("~");} // BITWISE NOT
+	| '!' { $$ = new std::string("!");} // LOGICAL NOT
 	;
 
 multiplicative_expression
@@ -323,17 +334,14 @@ logical_or_expression
 
 assignment_expression
 	: logical_or_expression { $$ = $1;}
-	| unary_expression assignment_operator assignment_expression { $$ = new Assignment($1, *$2, $3);}
-	/*
-	| unary_expression '=' assignment_expression { $$ = new Assignment($1, *$2, $3);}
+	/* | unary_expression assignment_operator assignment_expression { $$ = new Assignment($1, *$2, $3);} */
+	| unary_expression '=' assignment_expression { $$ = new Assignment($1, "=", $3);}
 	| unary_expression MUL_ASSIGN assignment_expression { $$ = new Assignment($1, "*=", new Multiplication($1, $3));}
 	| unary_expression DIV_ASSIGN assignment_expression { $$ = new Assignment($1, "/=", new Division($1, $3));}
-	| unary_expression MOD_ASSIGN assignment_expression { $$ = new Assignment($1, "%=", new Modulo$1, $3));}
+	| unary_expression MOD_ASSIGN assignment_expression { $$ = new Assignment($1, "%=", new Modulo($1, $3));}
 	| unary_expression ADD_ASSIGN assignment_expression { $$ = new Assignment($1, "+=", new Addition($1, $3));}
 	| unary_expression SUB_ASSIGN assignment_expression { $$ = new Assignment($1, "-=", new Subtraction($1, $3));}
-
-	| unary_expression MOD_ASSIGN assignment_expression { $$ = new Assignment($1, *$2, $3);}
-	*/
+	
 	;
 
 primary_expression
@@ -344,13 +352,13 @@ primary_expression
 	;
 
 // DONT NEED THIS
-assignment_operator
+/* assignment_operator
 	: '='  { $$ = new std::string("=");}
 	| MUL_ASSIGN { $$ = $1;}
 	| DIV_ASSIGN { $$ = $1;}
 	| MOD_ASSIGN { $$ = $1;}
 	| ADD_ASSIGN { $$ = $1;}
-	| SUB_ASSIGN { $$ = $1;}
+	| SUB_ASSIGN { $$ = $1;} */
 
 %%
 

@@ -66,7 +66,12 @@ public:
         if (paramList != nullptr ){ // && (context.is_function)
             int x = 0;
             for (auto param : *paramList){
-                param->generateRISC(dst,context,"a"+std::to_string(x));
+                if (x < 8){
+                    param->generateRISC(dst,context,"a"+std::to_string(x));
+                }
+                else {
+                    param->generateRISC(dst,context,std::to_string(x-8));
+                }
                 x++;
             }
         }

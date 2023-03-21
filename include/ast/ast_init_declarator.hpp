@@ -72,7 +72,8 @@ public:
                 else {
                     init_length = initializer->getList().size();
                 }
-
+                // One_op(dst,".data",getIdentifier());
+                dst<<".data"<<std::endl;
                 label(dst,getIdentifier());
                 for (int i = 0; i < array_length; i++) {
                     if (i > init_length-1){
@@ -97,14 +98,9 @@ public:
                     context.regs.freeReg(reg);
                 }
             }
-
-
         }
-
-
-
+        // context.debugScope(dst);
     }
-
 };
 
 #endif

@@ -34,11 +34,19 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string varname = declarator->getIdentifier();
-        int offset = context.getOverallOffset()-4;
-        context.addVar(varname, type, offset);
-        sw_lw(dst,"sw",destReg,offset,"s0");
-  
+        if (destReg.find("a")!= std::string::npos){
+            std::string varname = declarator->getIdentifier();
+            int offset = context.getOverallOffset()-4;
+            context.addVar(varname, type, offset);
+            sw_lw(dst,"sw",destReg,offset,"s0");
+        }
+        else{
+            std::string varname = declarator->getIdentifier();
+            int offset = std::stoi(destReg) * 4;
+            context.addVar(varname, type, offset);
+            // sw_lw(dst,"sw",destReg,offset,"s0");
+        }
+        // dst<<"param working?"<<std::endl;
     }
 
 

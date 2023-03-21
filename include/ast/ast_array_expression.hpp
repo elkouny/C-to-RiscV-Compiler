@@ -45,17 +45,18 @@ public:
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         std::string arrayname = getIdentifier();
-        // int arrayindex = evalExpression();
 
+        context.regs.useReg(destReg);
         std::string ireg = context.regs.nextFreeReg();
         context.regs.useReg(ireg);
         index->generateRISC(dst,context,ireg);
         std::string reg4 = context.regs.nextFreeReg();
+        context.regs.useReg(reg4);
 
         int offset = context.getVarInfo(arrayname+"[0]").offset;
         if (offset==0){
-            lui(dst,"lui",destReg,"%%hi",arrayname);
-            addi(dst,"addi",destReg,destReg,"%%lo",arrayname);
+            lui(dst,"lui",destReg,"%hi",arrayname);
+            addi(dst,"addi",destReg,destReg,"%lo",arrayname);
             Two_op(dst,"li",reg4,"4");
             Three_op(dst,"mul",ireg,ireg,reg4);
             Three_op(dst,"add",ireg,ireg,destReg);
@@ -71,6 +72,7 @@ public:
             Three_op(dst,"add",ireg,ireg,"s0");
             sw_lw(dst,"lw",destReg,0,ireg);
         }
+        context.regs.freeReg(destReg);
         context.regs.freeReg(ireg);
         context.regs.freeReg(reg4);
     }

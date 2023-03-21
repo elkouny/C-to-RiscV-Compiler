@@ -50,7 +50,15 @@ public:
         if ( argList != nullptr) {
             int index = 0;
             for (auto arg : *argList){
-                arg->generateRISC(dst,context,("a"+std::to_string(index)));
+                if (index < 8){
+                    arg->generateRISC(dst,context,("a"+std::to_string(index)));
+                }
+                else {
+                    std::string reg = context.regs.nextFreeReg();
+                    arg->generateRISC(dst,context,reg);
+                    sw_lw(dst,"sw",reg, (index-8) * 4,"sp");
+                    
+                }
                 index++;
             }
         }

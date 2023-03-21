@@ -1,11 +1,28 @@
+New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ g ] Parameters [ 
+        Parameter Declaration [ Variable Type: [ int ] Variable [ a ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ b ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ c ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ d ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ e ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ f ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ g ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ h ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ i ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ j ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ k ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ l ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ m ] ]
+        Parameter Declaration [ Variable Type: [ int ] Variable [ n ] ] ] ] ] ] [
+    Compound Statement [
+    Statement List [
+        Jump Statement [ return ]  Expression [ String: [ j ] ]
+    ]
+    ]
+] 
 New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [  ] ] ] ] [
     Compound Statement [
-    Declaration List [
-        Declaration [ Variable Type: [ int ] Variable Name: [  Array Declarator [ Array [ x ] Size [  Expression [ Constant: [ 8 ] ] ] ] ] ]
-    ]
     Statement List [
-        New Assignment: [  Array Expression [ Array [  Expression [ String: [ x ] ] ] Index [  Expression [ Constant: [ 0 ] ] ] ] Operator: [ = ]  Expression [ Constant: [ 23 ] ] ]
-        Jump Statement [ return ]  Array Expression [ Array [  Expression [ String: [ x ] ] ] Index [  Expression [ Constant: [ 0 ] ] ] ]
+        Jump Statement [ return ]  FunctionCall [ Function [  Expression [ String: [ g ] ] ] Args [  Expression [ Constant: [ 1 ] ] Expression [ Constant: [ 2 ] ] Expression [ Constant: [ 3 ] ] Expression [ Constant: [ 4 ] ] Expression [ Constant: [ 5 ] ] Expression [ Constant: [ 6 ] ] Expression [ Constant: [ 7 ] ] Expression [ Constant: [ 8 ] ] Expression [ Constant: [ 9 ] ] Expression [ Constant: [ 10 ] ] Expression [ Constant: [ 11 ] ] Expression [ Constant: [ 12 ] ] Expression [ Constant: [ 13 ] ] Expression [ Constant: [ 14 ] ] ] ]
     ]
     ]
-]
+] 

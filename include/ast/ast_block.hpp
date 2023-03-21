@@ -21,6 +21,8 @@ public:
     virtual int isArray() const { return 0; }
 
     virtual int isFunction() const { return 0; }
+   
+    virtual std::vector<int>  arrIndexes() const { return {0}; }
 
     // virtual int initSize() const { return 0; }
 
