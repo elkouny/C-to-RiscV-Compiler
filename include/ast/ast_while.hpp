@@ -25,18 +25,22 @@ public:
     }
     
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-            std::string whilet = make_label("WHILE");
-            std::string endw = make_label("ENDW");
-            label(dst,whilet);
-            context.regs.useReg(destReg);
-            expression->generateRISC(dst,context,destReg);
-            context.regs.freeReg(destReg);
-            Three_op(dst,"beq",destReg,"zero",endw);
-            context.regs.useReg(destReg);
-            cstatement->generateRISC(dst,context,destReg);
-            context.regs.freeReg(destReg);
-            One_op(dst,"j",whilet);
-            label(dst,endw);
+        std::string whilet = make_label("WHILE");
+        std::string endw = make_label("ENDW");
+        context.addLoopLabel(whilet,endw);
+        label(dst,whilet);
+        context.regs.useReg(destReg);
+        expression->generateRISC(dst,context,destReg);
+        context.regs.freeReg(destReg);
+        Three_op(dst,"beq",destReg,"zero",endw);
+        context.regs.useReg(destReg);
+        cstatement->generateRISC(dst,context,destReg);
+        context.regs.freeReg(destReg);
+        One_op(dst,"j",whilet);
+        label(dst,endw);
+        if (context.getCurrentLoopBegin() == whilet){
+            context.popLoopLabel();
+        }
     }
 };
 

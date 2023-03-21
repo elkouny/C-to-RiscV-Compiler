@@ -55,14 +55,20 @@ public:
         std::string startf = context.make_label("startf");
         std::string endf = context.make_label("endf");
         std::string loopf = context.make_label("loopf");
+        std::string continuef = context.make_label("continuef");
+        context.addLoopLabel(continuef,endf);
         label(dst,startf);
         condition->generateRISC(dst,context,destReg);
         Three_op(dst,"beq",destReg,"zero",endf);
         label(dst,loopf);
         cstatement->generateRISC(dst,context,destReg);
+        label(dst,continuef);
         increment->generateRISC(dst,context,destReg);
         Three_op(dst,"beq","zero","zero",startf);
         label(dst,endf);
+        if(context.getCurrentLoopBegin() == startf){        
+            context.popLoopLabel();
+        }
     }
 };
 

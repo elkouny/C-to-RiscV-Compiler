@@ -27,7 +27,7 @@
 %token CONST VOLATILE
 %token STRUCT UNION ENUM ELLIPSIS
 
-%token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK
+%token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO 
 
 %token <string> MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN SUB_ASSIGN
 
@@ -35,7 +35,7 @@
 
 %token <string> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID TYPE_NAME
 
-%token <string> RETURN
+%token <string> RETURN CONTINUE BREAK
 /*
 %token <string> IDENTIFIER CONSTANT STRING_LITERAL
 
@@ -217,7 +217,10 @@ statement
 	;
 
 jump_statement
-	: RETURN expression ';' {$$= new jump_statement(*$1,$2); delete $1;}
+	: RETURN expression ';' { std::cout << "here"; $$= new JumpStatement(*$1,$2); delete $1;}
+	| CONTINUE ';'	{ $$ = new JumpStatement(*$1); delete $1;}
+	| BREAK ';'	{ $$ = new JumpStatement(*$1); delete $1;}
+	| RETURN ';'	{ $$ = new JumpStatement(*$1); delete $1;}
 	;
 
 expression_statement

@@ -3,18 +3,24 @@
 
 #include "ast_block.hpp"
 
-class jump_statement : public Block {
+class JumpStatement : public Block {
 private:
     std::string type;
     BlockPtr expression;
 public:
-    jump_statement(std::string _type, BlockPtr _expression)
+    JumpStatement(std::string _type, BlockPtr _expression)
         : type(_type)
         , expression(_expression)
     {}
 
-    ~jump_statement() {
-        delete expression;
+    JumpStatement(std::string _type)
+        : type(_type)
+    {}
+
+    ~JumpStatement() {
+        if (expression!=nullptr) {
+            delete expression;
+        }
     }
 
     std::string getType() const { return type; }
@@ -23,13 +29,24 @@ public:
     virtual void print(std::ostream &dst) const override {
         dst << "\n        Jump Statement [ ";
         dst << type << " ] ";
-        getExpression()->print(dst);
+        if (expression!=nullptr) {
+            getExpression()->print(dst);
+        }
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
         if (type == "return") {
-            expression->generateRISC(dst, context,"t6");
+            if (expression != nullptr){
+                expression->generateRISC(dst, context,"t6");
+            }
             One_op(dst,"j",context.ret_label);
+        }
+        if (type == "break") {
+            One_op(dst,"j",context.getCurrentLoopEnd());
+            context.popLoopLabel();
+        }
+        if (type == "continue") {
+            One_op(dst,"j",context.getCurrentLoopBegin());
         }
     }
 

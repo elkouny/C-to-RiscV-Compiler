@@ -1,105 +1,91 @@
 .text
 .text
-.globl g
-g:
-addi sp,sp,-96
-sw ra,92(sp)
-sw s0,88(sp)
-sw s1,84(sp)
-sw s2,80(sp)
-sw s3,76(sp)
-sw s4,72(sp)
-sw s5,68(sp)
-sw s6,64(sp)
-sw s7,60(sp)
-sw s8,56(sp)
-sw s9,52(sp)
-sw s10,48(sp)
-sw s11,44(sp)
-addi s0,sp,96
-sw a0,-64(s0)
-sw a1,-68(s0)
-sw a2,-72(s0)
-sw a3,-76(s0)
-sw a4,-80(s0)
-sw a5,-84(s0)
-sw a6,-88(s0)
-sw a7,-92(s0)
-lw t6,4(s0)
-j return0
-return0:
-mv a0,t6
-lw ra,92(sp)
-lw s0,88(sp)
-lw s1,84(sp)
-lw s2,80(sp)
-lw s3,76(sp)
-lw s4,72(sp)
-lw s5,68(sp)
-lw s6,64(sp)
-lw s7,60(sp)
-lw s8,56(sp)
-lw s9,52(sp)
-lw s10,48(sp)
-lw s11,44(sp)
-addi sp,sp,96
-jr ra
-.text
 .globl f
 f:
-addi sp,sp,-64
-sw ra,60(sp)
-sw s0,56(sp)
-sw s1,52(sp)
-sw s2,48(sp)
-sw s3,44(sp)
-sw s4,40(sp)
-sw s5,36(sp)
-sw s6,32(sp)
-sw s7,28(sp)
-sw s8,24(sp)
-sw s9,20(sp)
-sw s10,16(sp)
-sw s11,12(sp)
-addi s0,sp,64
-li a0,1
-li a1,2
-li a2,3
-li a3,4
-li a4,5
-li a5,6
-li a6,7
-li a7,8
-li t4,9
-sw t4,0(sp)
-li t4,10
-sw t4,4(sp)
-li t4,11
-sw t4,8(sp)
-li t4,12
-sw t4,12(sp)
-li t4,13
-sw t4,16(sp)
-li t4,14
-sw t4,20(sp)
-call g
-mv t6,a0
-j return1
-return1:
+addi sp,sp,-68
+sw ra,64(sp)
+sw s0,60(sp)
+sw s1,56(sp)
+sw s2,52(sp)
+sw s3,48(sp)
+sw s4,44(sp)
+sw s5,40(sp)
+sw s6,36(sp)
+sw s7,32(sp)
+sw s8,28(sp)
+sw s9,24(sp)
+sw s10,20(sp)
+sw s11,16(sp)
+addi s0,sp,68
+li t4,0
+sw t4,-64(s0)
+startf0:
+lw s7,-64(s0)
+li s3,10
+slt a0,s7,s3
+andi a0,a0,0xff
+beq a0,zero,endf1
+loopf2:
+lw s7,-64(s0)
+li s3,4
+sub a0,s7,s3
+seqz a0,a0
+andi a0,a0,0xff
+beq a0,zero,.L1
+j endf1
+Scope Level 3:
+Variables:
+Enums:
+Scope Level 2:
+Variables:
+Enums:
+Scope Level 1:
+Variables:
+var: [ i ] type: [ int ] offset [ -64 ]
+Enums:
+Scope Level 0:
+Variables:
+Enums:
+.L1:
+Scope Level 2:
+Variables:
+Enums:
+Scope Level 1:
+Variables:
+var: [ i ] type: [ int ] offset [ -64 ]
+Enums:
+Scope Level 0:
+Variables:
+Enums:
+lw t4,-64(s0)
+addi t4,t4,1
+sw t4,-64(s0)
+beq zero,zero,startf0
+endf1:
+lw t6,-64(s0)
+j return0
+Scope Level 1:
+Variables:
+var: [ i ] type: [ int ] offset [ -64 ]
+Enums:
+Scope Level 0:
+Variables:
+Enums:
+return0:
 mv a0,t6
-lw ra,60(sp)
-lw s0,56(sp)
-lw s1,52(sp)
-lw s2,48(sp)
-lw s3,44(sp)
-lw s4,40(sp)
-lw s5,36(sp)
-lw s6,32(sp)
-lw s7,28(sp)
-lw s8,24(sp)
-lw s9,20(sp)
-lw s10,16(sp)
-lw s11,12(sp)
-addi sp,sp,64
+lw ra,64(sp)
+lw s0,60(sp)
+lw s1,56(sp)
+lw s2,52(sp)
+lw s3,48(sp)
+lw s4,44(sp)
+lw s5,40(sp)
+lw s6,36(sp)
+lw s7,32(sp)
+lw s8,28(sp)
+lw s9,24(sp)
+lw s10,20(sp)
+lw s11,16(sp)
+addi sp,sp,68
 jr ra
 

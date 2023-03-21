@@ -26,6 +26,29 @@ struct Params{
 struct VarMap{
 
     std::unordered_map<std::string,Params> bindings;
+    std::unordered_map<std::string,int> enums;
+
+    bool findEnum(std::string var){
+        if (enums.find(var) == enums.end()){
+            return false;
+        }
+        return true;
+    }
+
+    int getEnum(std::string var){
+        return enums[var];
+    }
+
+    void addEnum(std::string var,int enum_val){
+        enums[var]=enum_val;
+    }
+
+    void DebugEnums(std::ostream &dst) {
+        dst<<"Enums:\n";
+        for (auto& it: enums) {
+            dst<<"enum: [ "<< it.first <<" ] value: [ "<<it.second<<" ]\n";
+        }
+    }
 
     bool findVar(std::string var){
         if (bindings.find(var) == bindings.end()){
@@ -61,13 +84,12 @@ struct VarMap{
     }
 
     void DebugVars (std::ostream &dst) {
-        dst<<"Bindings:\n";
+        dst<<"Variables:\n";
         for (auto& it: bindings) {
             dst<<"var: [ "<< it.first<<" ] type: [ "<<it.second.type<<" ] offset [ "<<it.second.offset<<" ]\n";
         }
     }
 };
-
 struct Registers{
 
     std::unordered_map<std::string,bool> reg_used;
@@ -119,14 +141,44 @@ struct Registers{
             }
     }
 };
+struct loopLabels
+{
+    std::string begin;
+    std::string end;
+
+    loopLabels(std::string b, std::string e) {
+        begin = b;
+        end = e;
+    }
+};
 
 struct Context{
-
+    std::vector<loopLabels> loops;
     std::vector<VarMap> scope;
     std::string ret_label;
     Registers regs;
     int offset = -20;
     int is_function = 0;
+    Context(){
+        loops.push_back(loopLabels("f","return0"));
+    }
+
+    void addLoopLabel(std::string start,std::string end){
+        loopLabels label = loopLabels(start,end);
+        loops.push_back(label);
+    }
+    
+    void popLoopLabel(){
+        loops.pop_back();
+    }
+
+    std::string getCurrentLoopBegin(){
+        return loops[loops.size()-1].begin;
+    }
+
+    std::string getCurrentLoopEnd(){
+        return loops[loops.size()-1].end;
+    }
 
     std::string make_label (std::string label){
         static int unique = 0 ;
@@ -143,18 +195,29 @@ struct Context{
         return error;
     }
 
-        
+    int getEnum(std::string var){
+        for ( int i = scope.size()-1; i > -1 ; i--){
+            if (scope[i].findEnum(var)){
+                return scope[i].getEnum(var);
+            }
+        }
+        return 421;
+    }
+
     int getOverallOffset(){
         int min = -60;
         for(auto i : scope){
             min= std::min(min,i.getCurrentOffset());
         }
         return min;
-
     }
 
     void addGlobal(std::string var, Params varinfo) {
         scope[0].addVar(var, varinfo);
+    }
+
+    void addGlobalEnum(std::string var, int value) {
+        scope[0].addEnum(var, value);
     }
 
     void addVar (std::string _varname, std::string _type, int _offset){
@@ -163,6 +226,10 @@ struct Context{
 
     void addVar(std::string var, Params varinfo) {
         scope.back().addVar(var, varinfo);
+    }
+
+    void addEnum(std::string var, int value) {
+        scope.back().addEnum(var, value);
     }
 
     void newScope() {
@@ -178,6 +245,7 @@ struct Context{
         for (int i = scope.size()-1; i>-1; i--){
             dst<<"Scope Level "<< i << ":\n";
             scope[i].DebugVars(dst);
+            scope[i].DebugEnums(dst);
         }
     }
 

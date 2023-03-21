@@ -15,11 +15,11 @@ IS (u|U|l|L)*
 %%
 
 "auto"			{ return(AUTO); }
-"break"			{ return(BREAK); }
+"break"			{ yylval.string=new std::string(yytext); return(BREAK); }
 "case"			{ return(CASE); }
 "char"			{ return(CHAR); }
 "const"			{ return(CONST); }
-"continue"		{ return(CONTINUE); }
+"continue"		{ yylval.string=new std::string(yytext); return(CONTINUE); }
 "default"		{ return(DEFAULT); }
 "do"			{ return(DO); }
 "double"		{ return(DOUBLE); }
@@ -33,7 +33,7 @@ IS (u|U|l|L)*
 "int"			{ yylval.string=new std::string(yytext); return(INT); }
 "long"			{ return(LONG); }
 "register"		{ return(REGISTER); }
-"return"		{yylval.string=new std::string(yytext);  return(RETURN); }
+"return"		{ yylval.string=new std::string(yytext); return(RETURN); }
 "short"			{ return(SHORT); }
 "signed"		{ return(SIGNED); }
 "sizeof"		{ return(SIZEOF); }
@@ -55,7 +55,7 @@ IS (u|U|l|L)*
 L?'(\\.|[^\\'])+'	{ yylval.string=new std::string(yytext); return(CONSTANT); }
 
 {D}+{E}{FS}?		{ yylval.string=new std::string(yytext); return(CONSTANT); }
-{D}*"."{D}+({E})?{FS}?	{ return(CONSTANT); }
+{D}*"."{D}+({E})?{FS}?	{ yylval.string=new std::string(yytext); return(CONSTANT); }
 {D}+"."{D}*({E})?{FS}?	{ yylval.string=new std::string(yytext); return(CONSTANT); }
 
 L?\"(\\.|[^\\"])*\"	{ yylval.string=new std::string(yytext); return(STRING_LITERAL); }
