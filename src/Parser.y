@@ -27,7 +27,7 @@
 %token CONST VOLATILE
 %token STRUCT UNION ENUM ELLIPSIS
 
-%token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO 
+%token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO
 
 %token <string> MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN SUB_ASSIGN
 
@@ -298,10 +298,10 @@ shift_expression
 
 relational_expression
 	: shift_expression { $$ = $1;}
-	| relational_expression '<' additive_expression { $$ = new LessThan($1, $3);}
-	| relational_expression '>' additive_expression { $$ = new GreaterThan($1, $3);}
-	| relational_expression LE_OP additive_expression { $$ = new LessThanEqual($1, $3);}
-	| relational_expression GE_OP additive_expression { $$ = new GreaterThanEqual($1, $3);}
+	| relational_expression '<' shift_expression { $$ = new LessThan($1, $3);}
+	| relational_expression '>' shift_expression { $$ = new GreaterThan($1, $3);}
+	| relational_expression LE_OP shift_expression { $$ = new LessThanEqual($1, $3);}
+	| relational_expression GE_OP shift_expression { $$ = new GreaterThanEqual($1, $3);}
 	;
 
 equality_expression
@@ -344,7 +344,7 @@ assignment_expression
 	| unary_expression MOD_ASSIGN assignment_expression { $$ = new Assignment($1, "%=", new Modulo($1, $3));}
 	| unary_expression ADD_ASSIGN assignment_expression { $$ = new Assignment($1, "+=", new Addition($1, $3));}
 	| unary_expression SUB_ASSIGN assignment_expression { $$ = new Assignment($1, "-=", new Subtraction($1, $3));}
-	
+
 	;
 
 primary_expression
