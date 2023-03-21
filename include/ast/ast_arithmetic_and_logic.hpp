@@ -33,21 +33,10 @@ public:
         Three_op(dst,"addi",reg,reg,"1");
         sw_lw(dst,"sw",reg,offset,"s0");
         context.regs.freeReg(reg);
-
-
-        // return fib(1) + fib(2)
-
-        // t6 = ( fib(1) + fib(2) )
-
-        // fib 1 
-        // return 1 => 1 -> t6
-        // fib 2 
-        // return 2 => 2 -> t6
     }
 
     virtual int evalExpression() const override {
         return value->evalExpression() +1;
-
     }
 
 };
@@ -86,9 +75,6 @@ public:
     virtual int evalExpression()const override{
         return value->evalExpression() - 1;
     }
-
-
-
 };
 
 class Multiplication : public Block {
@@ -119,14 +105,17 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"mul",destReg,sreg1,sreg2);
-        //context.regs.freeReg(destReg);
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
     }
@@ -167,14 +156,16 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
         Three_op(dst,"div",destReg,sreg1,sreg2);
-        //context.regs.freeReg(destReg);
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
     }
@@ -212,16 +203,18 @@ public:
         dst << " ] ";
     }
 
-
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"rem",destReg,sreg1,sreg2);
-        
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
     }
@@ -260,14 +253,17 @@ public:
 
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"add",destReg,sreg1,sreg2);
-      
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
     }
@@ -305,12 +301,15 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"sub",destReg,sreg1,sreg2);
 
         context.regs.freeReg(sreg1);
@@ -351,14 +350,17 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"sll",destReg,sreg1,sreg2);
-        //context.regs.freeReg(destReg);
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
 
@@ -398,14 +400,17 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"sra",destReg,sreg1,sreg2);
-        // context.regs.freeReg(destReg);
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
     }
@@ -447,12 +452,15 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"slt",destReg,sreg1,sreg2);
         Three_op(dst,"andi",destReg,destReg,"0xff");
 
@@ -494,15 +502,18 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"sgt",destReg,sreg1,sreg2);
         Three_op(dst,"andi",destReg,destReg,"0xff");
-        
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
     }
@@ -541,12 +552,15 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2 = context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"sgt",destReg,sreg1,sreg2);
         Three_op(dst,"xori",destReg,destReg,"1");
         Three_op(dst,"andi",destReg,destReg,"0xff");
@@ -589,22 +603,19 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-
-        std::string sreg1=context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2=context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
-        // context.regs.useReg(destReg);
-        // left->generateRISC(dst,context,destReg);
-        // std::string reg = context.regs.nextFreeReg();
-        // context.regs.useReg(reg);
-        // right->generateRISC(dst,context,reg);
+
         Three_op(dst,"slt",destReg,sreg1,sreg2);
         Three_op(dst,"xori",destReg,destReg,"1");
         Three_op(dst,"andi",destReg,destReg,"0xff");
-        //context.regs.freeReg(destReg);
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
 
@@ -644,23 +655,19 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-
-        std::string sreg1=context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2=context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
-        // context.regs.useReg(destReg);
-        // left->generateRISC(dst,context,destReg);
-        // std::string reg = context.regs.nextFreeReg();
-        // context.regs.useReg(reg);
-        // right->generateRISC(dst,context,reg);
-        
+
         Three_op(dst,"sub",destReg,sreg1,sreg2);
         Two_op(dst,"seqz",destReg,destReg);
         Three_op(dst,"andi",destReg,destReg,"0xff");
-        //context.regs.freeReg(destReg);
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
     }
@@ -699,17 +706,19 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        
-        std::string sreg1=context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2=context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"sub",destReg,sreg1,sreg2);
-        Two_op(dst,"sneqz",destReg,destReg);
+        Two_op(dst,"snez",destReg,destReg);
         Three_op(dst,"andi",destReg,destReg,"0xff");
-        //context.regs.freeReg(destReg);
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
     }
@@ -745,14 +754,17 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-
-        std::string sreg1=context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2=context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
-        right->generateRISC(dst,context,sreg2); 
+        right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"and",destReg,sreg1,sreg2);
+
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
     }
@@ -790,13 +802,15 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-
-        std::string sreg1=context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2=context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"xor",destReg,sreg1,sreg2);
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
@@ -834,12 +848,15 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-        std::string sreg1=context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
         left->generateRISC(dst,context,sreg1);
-        std::string sreg2=context.regs.nextFreeStoreReg();
+
+        std::string sreg2 = context.regs.nextFreeReg();
         context.regs.useReg(sreg2);
         right->generateRISC(dst,context,sreg2);
+
         Three_op(dst,"or",destReg,sreg1,sreg2);
         context.regs.freeReg(sreg1);
         context.regs.freeReg(sreg2);
@@ -879,21 +896,22 @@ public:
         std::string l2 = context.make_label(".L");
         std::string l3 = context.make_label(".L");
 
-        std::string sreg1 = context.regs.nextFreeStoreReg();
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
-        
+
         left->generateRISC(dst,context,sreg1);
         Three_op(dst,"beq",sreg1,"zero",l2);
-        
+
         right->generateRISC(dst,context,sreg1);
         Three_op(dst,"beq",sreg1,"zero",l2);
 
         Two_op(dst,"li",destReg,"1");
         One_op(dst,"j",l3);
-        
+
         label(dst,l2);
         Two_op(dst,"li",destReg,"0");
-        
+
         label(dst,l3);
 
         context.regs.freeReg(sreg1);
@@ -933,10 +951,11 @@ public:
         std::string l2 = context.make_label(".L");
         std::string l3 = context.make_label(".L");
         std::string l4 = context.make_label(".L");
-        
-        std::string sreg1=context.regs.nextFreeStoreReg();
-        
+
+        std::string sreg1 = context.regs.nextFreeReg();
+        if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
         context.regs.useReg(sreg1);
+
         left->generateRISC(dst,context,sreg1);
         Three_op(dst,"bne",sreg1,"zero",l2);
 
@@ -951,7 +970,7 @@ public:
         Two_op(dst,"li",destReg,"0");
 
         label(dst,l4);
-        
+
         context.regs.freeReg(sreg1);
     }
 

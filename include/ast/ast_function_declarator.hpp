@@ -29,7 +29,7 @@ public:
         }
     };
 
-    virtual int isFunction() const override { 
+    virtual int isFunction() const override {
         return 1;
     }
 
@@ -37,7 +37,7 @@ public:
         return declarator->getIdentifier();
     }
 
-    std::vector<BlockPtr> getDec()  const override { 
+    std::vector<BlockPtr> getDec()  const override {
         if (paramList != nullptr) {
             return *paramList;
         } else {
