@@ -5,8 +5,10 @@
 #include <iostream>
 #include <map>
 #include <unordered_map>
-#include <ranges> 
+#include <ranges>
 #include <memory>
+
+static int unique = 0 ;
 
 struct Params{
     std::string type;
@@ -90,6 +92,7 @@ struct VarMap{
         }
     }
 };
+
 struct Registers{
 
     std::unordered_map<std::string,bool> reg_used;
@@ -141,6 +144,7 @@ struct Registers{
             }
     }
 };
+
 struct loopLabels
 {
     std::string begin;
@@ -159,6 +163,7 @@ struct Context{
     Registers regs;
     int offset = -20;
     int is_function = 0;
+
     Context(){
         loops.push_back(loopLabels("f","return0"));
     }
@@ -167,7 +172,7 @@ struct Context{
         loopLabels label = loopLabels(start,end);
         loops.push_back(label);
     }
-    
+
     void popLoopLabel(){
         loops.pop_back();
     }
@@ -266,9 +271,11 @@ inline void One_op(std::ostream &dst,std::string inst,std::string dstReg){
 inline void sw_lw(std::ostream &dst ,std::string inst ,std::string reg , int off , std::string offReg){
     dst<<inst<<" "<<reg<<","<<off<<"("<<offReg<<")"<<std::endl;
 };
+
 inline void lui(std::ostream &dst ,std::string inst ,std::string reg , std::string off , std::string offReg){
     dst<<inst<<" "<<reg<<","<<off<<"("<<offReg<<")"<<std::endl;
 };
+
 inline void addi(std::ostream &dst ,std::string inst ,std::string destReg,std::string reg,  std::string off , std::string offReg){
     dst<<inst<<" "<<destReg<<","<<reg<<","<<off<<"("<<offReg<<")"<<std::endl;
 };
@@ -276,9 +283,9 @@ inline void addi(std::ostream &dst ,std::string inst ,std::string destReg,std::s
 inline void label(std::ostream &dst , std::string lbl){
     dst<<lbl<<":"<<std::endl;
 };
-static int unique = 0 ;
+
 inline std::string make_label (std::string label){
-        
+
         return label + std::to_string(unique++);
 }
 
