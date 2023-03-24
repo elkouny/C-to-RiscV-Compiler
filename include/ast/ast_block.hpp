@@ -21,17 +21,18 @@ public:
     virtual int isArray() const { return 0; }
 
     virtual int isFunction() const { return 0; }
+
+    virtual std::string getType() const  { return "error"; }
    
     virtual std::vector<int>  arrIndexes() const { return {0}; }
 
+    virtual int evalExpression() const { return 0; }
     // virtual int initSize() const { return 0; }
 
-    virtual int evalExpression() const { return 0; }
-    // virtual int evalExpression() const { return -1 };
     virtual BlockPtr getIndex() const { return nullptr; }
-    
+    // virtual int evalExpression() const { return -1 };
     virtual BlockPtr getDeclarator() const { return nullptr; }
-
+    
     virtual std::string getEnumIden() const { return "error"; }
 
     virtual BlockPtr getEnumVal() const { return nullptr; }

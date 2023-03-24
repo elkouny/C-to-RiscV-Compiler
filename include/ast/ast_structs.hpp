@@ -200,6 +200,10 @@ struct Context{
         return error;
     }
 
+    std::string getTypeVar(std::string var){
+        return getVarInfo(var).type;
+    }
+
     int getEnum(std::string var){
         for ( int i = scope.size()-1; i > -1 ; i--){
             if (scope[i].findEnum(var)){

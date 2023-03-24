@@ -11,8 +11,6 @@ private:
 public:
     FunctionCall(BlockPtr _function) {
         function = _function;
-        // std::vector<BlockPtr> *empty;
-        // argList = empty;
     }
 
     FunctionCall(BlockPtr _function, std::vector<BlockPtr> *_argList) {

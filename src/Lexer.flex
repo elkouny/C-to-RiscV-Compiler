@@ -17,12 +17,12 @@ IS (u|U|l|L)*
 "auto"			{ return(AUTO); }
 "break"			{ yylval.string=new std::string(yytext); return(BREAK); }
 "case"			{ return(CASE); }
-"char"			{ return(CHAR); }
+"char"			{ yylval.string=new std::string(yytext); return(CHAR); }
 "const"			{ return(CONST); }
 "continue"		{ yylval.string=new std::string(yytext); return(CONTINUE); }
 "default"		{ return(DEFAULT); }
 "do"			{ return(DO); }
-"double"		{ return(DOUBLE); }
+"double"		{ yylval.string=new std::string(yytext); return(DOUBLE); }
 "else"			{ return(ELSE); }
 "enum"			{ return(ENUM); }
 "extern"		{ return(EXTERN); }
@@ -42,7 +42,7 @@ IS (u|U|l|L)*
 "switch"		{ return(SWITCH); }
 "typedef"		{ return(TYPEDEF); }
 "union"			{ return(UNION); }
-"unsigned"		{ return(UNSIGNED); }
+"unsigned"		{ yylval.string=new std::string(yytext); return(UNSIGNED); }
 "void"			{ return(VOID); }
 "volatile"		{ return(VOLATILE); }
 "while"			{ return(WHILE); }

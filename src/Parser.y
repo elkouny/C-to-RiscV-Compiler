@@ -229,7 +229,7 @@ statement
 labeled_statement
 	/* : IDENTIFIER ':' statement { $$ = new LabeledStatement($1, $3);} */
 	: CASE constant_expression ':' statement 	{ $$ = new Case($2, $4);}
-	| DEFAULT ':' statement { $$ = new Default($3);}
+	| DEFAULT ':' statement { $$ = new Case($3);}
 	;
 
 jump_statement
@@ -280,8 +280,8 @@ unary_expression
 	| INC_OP unary_expression { $$ = new Inc($2);}
 	| DEC_OP unary_expression { $$ = new Dec($2);}
 	| unary_operator unary_expression { $$ = new UnaryOperator(*$1, $2);}
-	/* | SIZEOF unary_expression { $$ = new Sizeof($2);}
-	| SIZEOF '(' type_name ')' { $$ = new Sizeof($3);} */
+	| SIZEOF unary_expression { $$ = new SizeOf($2);}
+	| SIZEOF '(' type_specifier ')' { $$ = new SizeOf(*$3);}
 	;
 
 unary_operator
@@ -376,7 +376,7 @@ constant_expression
 enum_specifier
 	: ENUM '{' enumerator_list '}' { $$ = new EnumSpecifier($3);}
 	| ENUM IDENTIFIER '{' enumerator_list '}' { $$ = new EnumSpecifier($4);}
-	/* | ENUM IDENTIFIER { $$ = new EnumSpecifier($2);} */
+	/* | ENUM IDENTIFIER { $$ = new Init_Declarator(*$2);} */
 	;
 
 enumerator_list

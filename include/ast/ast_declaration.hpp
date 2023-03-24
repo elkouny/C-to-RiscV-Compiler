@@ -17,7 +17,7 @@ public:
         delete init_declarator;
     }
 
-    std::string getType() const { return type; }
+    std::string getType() const override { return type; }
 
     BlockPtr getDeclarator() const override { return init_declarator; }
 

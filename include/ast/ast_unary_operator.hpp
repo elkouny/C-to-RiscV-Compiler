@@ -49,5 +49,46 @@ public:
     }  
 };
 
+class SizeOf : public Block {
+private: 
+    BlockPtr Expression;
+    std::string typeofVar;
+    int typeS;
+
+public:
+    SizeOf(BlockPtr B){
+        Expression=B;
+        typeS=1;
+
+    }
+    SizeOf(std::string T){
+        typeofVar=T;
+        Expression=nullptr;
+        typeS=0;
+    }
+    ~SizeOf(){
+        if(Expression!=nullptr){
+            delete Expression;
+        }
+    }
+
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+        std::string v=typeofVar;
+       if(typeS==1){
+            v = (context.getTypeVar(Expression->getIdentifier()));
+       }
+       if(v=="int" || v=="unsigned"){
+            Two_op(dst,"li",destReg,"4");
+        }
+        else if(v=="char"){
+            Two_op(dst,"li",destReg,"1");
+        }
+        else if(v=="double"){
+            Two_op(dst,"li",destReg,"8");
+        }
+    }
+    
+    
+};
 
 #endif

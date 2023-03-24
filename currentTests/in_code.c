@@ -1,9 +1,6 @@
-enum X{
-    vv = 13,
-    yy = 10
-};
-
-int g()
+int f()
 {
-    return vv+yy;
+    int x;
+    double y;
+    return sizeof(x+y);
 }

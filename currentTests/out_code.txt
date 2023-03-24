@@ -1,8 +1,11 @@
-here
-New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ g ] Parameters [  ] ] ] ] [
+hereNew Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [  ] ] ] ] [
     Compound Statement [
+    Declaration List [
+        Declaration [ Variable Type: [ int ] Variable Name: [ x ] ]
+        Declaration [ Variable Type: [ double ] Variable Name: [ y ] ]
+    ]
     Statement List [
-        Jump Statement [ return ] Addition:  [  Expression [ String: [ vv ] ] +  Expression [ String: [ yy ] ] ] 
+        Jump Statement [ return ] 
     ]
     ]
 ] 
