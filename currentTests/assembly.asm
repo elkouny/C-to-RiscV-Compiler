@@ -1,12 +1,7 @@
 .text
-.data
-x:
-.word 1
-.word 2
-.word 4
 .text
-.globl zoo
-zoo:
+.globl g
+g:
 addi sp,sp,-64
 sw ra,60(sp)
 sw s0,56(sp)
@@ -22,168 +17,11 @@ sw s9,20(sp)
 sw s10,16(sp)
 sw s11,12(sp)
 addi s0,sp,64
-li t4,2
-lui t6,%hi(x)
-addi t6,t6,%lo(x)
-li a2,4
-mul t4,t4,a2
-add t4,t4,t6
-lw t6,0(t4)
+li t4,13
+li a2,10
+add t6,t4,a2
 j return0
 return0:
-mv a0,t6
-lw ra,60(sp)
-lw s0,56(sp)
-lw s1,52(sp)
-lw s2,48(sp)
-lw s3,44(sp)
-lw s4,40(sp)
-lw s5,36(sp)
-lw s6,32(sp)
-lw s7,28(sp)
-lw s8,24(sp)
-lw s9,20(sp)
-lw s10,16(sp)
-lw s11,12(sp)
-addi sp,sp,64
-jr ra
-.text
-.globl goo
-goo:
-addi sp,sp,-64
-sw ra,60(sp)
-sw s0,56(sp)
-sw s1,52(sp)
-sw s2,48(sp)
-sw s3,44(sp)
-sw s4,40(sp)
-sw s5,36(sp)
-sw s6,32(sp)
-sw s7,28(sp)
-sw s8,24(sp)
-sw s9,20(sp)
-sw s10,16(sp)
-sw s11,12(sp)
-addi s0,sp,64
-call zoo
-mv s3,a0
-call zoo
-mv a4,a0
-add a2,s3,a4
-call zoo
-mv s2,a0
-call zoo
-mv a6,a0
-mul s1,s2,a6
-call zoo
-mv a6,a0
-div s3,s1,a6
-call zoo
-mv a6,a0
-rem a4,s3,a6
-sub s7,a2,a4
-beq s7,zero,.L3
-call zoo
-mv s7,a0
-beq s7,zero,.L3
-li t4,1
-j .L4
-.L3:
-li t4,0
-.L4:
-bne t4,zero,.L0
-call zoo
-mv a2,a0
-call zoo
-mv s7,a0
-call zoo
-mv t5,a0
-and a6,s7,t5
-call zoo
-mv s3,a0
-call zoo
-mv t1,a0
-sub s7,s3,t1
-seqz s7,s7
-andi s7,s7,0xff
-call zoo
-mv s2,a0
-call zoo
-mv t0,a0
-slt s1,s2,t0
-andi s1,s1,0xff
-call zoo
-mv t0,a0
-sgt s3,s1,t0
-andi s3,s3,0xff
-call zoo
-mv t0,a0
-sgt a0,s3,t0
-xori a0,a0,1
-andi a0,a0,0xff
-call zoo
-mv s1,a0
-call zoo
-mv a1,a0
-sll s3,s1,a1
-call zoo
-mv a1,a0
-sra t0,s3,a1
-slt t1,a0,t0
-xori t1,t1,1
-andi t1,t1,0xff
-sub t5,s7,t1
-snez t5,t5
-andi t5,t5,0xff
-xor a4,a6,t5
-or t4,a2,a4
-beq t4,zero,.L1
-.L0:
-li t6,1
-j .L2
-.L1:
-li t6,0
-.L2:
-j return1
-return1:
-mv a0,t6
-lw ra,60(sp)
-lw s0,56(sp)
-lw s1,52(sp)
-lw s2,48(sp)
-lw s3,44(sp)
-lw s4,40(sp)
-lw s5,36(sp)
-lw s6,32(sp)
-lw s7,28(sp)
-lw s8,24(sp)
-lw s9,20(sp)
-lw s10,16(sp)
-lw s11,12(sp)
-addi sp,sp,64
-jr ra
-.text
-.globl f
-f:
-addi sp,sp,-64
-sw ra,60(sp)
-sw s0,56(sp)
-sw s1,52(sp)
-sw s2,48(sp)
-sw s3,44(sp)
-sw s4,40(sp)
-sw s5,36(sp)
-sw s6,32(sp)
-sw s7,28(sp)
-sw s8,24(sp)
-sw s9,20(sp)
-sw s10,16(sp)
-sw s11,12(sp)
-addi s0,sp,64
-call goo
-mv t6,a0
-j return2
-return2:
 mv a0,t6
 lw ra,60(sp)
 lw s0,56(sp)

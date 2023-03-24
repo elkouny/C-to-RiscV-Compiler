@@ -1,25 +1,8 @@
-hereherehere
-        Declaration [ Variable Type: [ int ] Variable Name: [  Array Declarator [ Array [ x ] Size [  Expression [ Constant: [ 3 ] ] ] ] ] Variable assignment : [
-    Value List [ Expression [ Constant: [ 1 ] ] Expression [ Constant: [ 2 ] ] Expression [ Constant: [ 4 ] ]
-    ] ] ]
-New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ zoo ] Parameters [  ] ] ] ] [
+here
+New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ g ] Parameters [  ] ] ] ] [
     Compound Statement [
     Statement List [
-        Jump Statement [ return ]  Array Expression [ Array [  Expression [ String: [ x ] ] ] Index [  Expression [ Constant: [ 2 ] ] ] ]
-    ]
-    ]
-] 
-New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ goo ] Parameters [  ] ] ] ] [
-    Compound Statement [
-    Statement List [
-        Jump Statement [ return ] Logical Or:  [ Logical And:  [ Subtraction:  [ Addition:  [  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] +  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  - Mod:  [ Division:  [ Multiplication:  [  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] *  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  /  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  %  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  ]  &&  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  || Bitwise Or:  [  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] | Bitwise Xor:  [ Bitwise And:  [ :  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] &  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  ^ NotEqual:  [ Equal:  [  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ==  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  != GreaterThanEqual:  [ LessThanEqual:  [ GreaterThan:  [ LessThan:  [  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] <  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  >  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  <=  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  >= Right shift:  [ Left shift:  [  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] <<  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  >>  FunctionCall [ Function [  Expression [ String: [ zoo ] ] ] Args [  ] ] ]  ]  ]  ]  ]  ] 
-    ]
-    ]
-] 
-New Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [  ] ] ] ] [
-    Compound Statement [
-    Statement List [
-        Jump Statement [ return ]  FunctionCall [ Function [  Expression [ String: [ goo ] ] ] Args [  ] ]
+        Jump Statement [ return ] Addition:  [  Expression [ String: [ vv ] ] +  Expression [ String: [ yy ] ] ] 
     ]
     ]
 ] 

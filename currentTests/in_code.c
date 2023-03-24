@@ -1,13 +1,9 @@
-int x[3]={1, 2, 4};
+enum X{
+    vv = 13,
+    yy = 10
+};
 
-int zoo(){
-  return x[2];
-}
-
-int goo(){
-  return ( zoo() + zoo() - zoo() * zoo() / zoo() % zoo() && zoo())|| zoo() | (zoo() & zoo()) ^ (zoo() == zoo() != zoo() < zoo() > zoo() <= zoo() >= zoo() << zoo() >> zoo());
-}
-
-int f(){
-  return goo();
+int g()
+{
+    return vv+yy;
 }

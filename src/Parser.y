@@ -35,7 +35,7 @@
 
 %token <string> CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID TYPE_NAME
 
-%token <string> RETURN CONTINUE BREAK
+%token <string> RETURN CONTINUE BREAK 
 /*
 %token <string> IDENTIFIER CONSTANT STRING_LITERAL
 
@@ -52,12 +52,14 @@
 %type <block> init_declarator
 %type <block> declarator
 %type <block> direct_declarator
+%type <block> labeled_statement
 
 %type <list> statement_list
 %type <list> declaration_list
 %type <list> argument_expression_list
 %type <list> parameter_list
 %type <list> initializer_list
+%type <list> enumerator_list
 /* %type <block> conditional_expression */
 
 %type <block> expression
@@ -76,8 +78,12 @@
 %type <block> postfix_expression
 %type <block> primary_expression // etc
 %type <block> shift_expression // etc
+%type <block> conditional_expression
+%type <block> constant_expression
+%type <block> enumerator
 /* %type <block> unary_operator // etc */
 
+%type <block> enum_specifier
 %type <block> compound_statement
 %type <block> statement
 %type <block> jump_statement
@@ -123,6 +129,7 @@ declaration_list
 
 declaration
 	: declaration_specifiers init_declarator ';' { $$ = new Declaration(*$1, $2);}
+	| enum_specifier ';' { $$ = $1;}
 	;
 
 init_declarator
@@ -166,6 +173,7 @@ type_specifier
 	| SIGNED    { $$ = $1; }
 	| UNSIGNED  { $$ = $1; }
 	| TYPE_NAME { $$ = $1; }
+	/* | enum_specifier { $$ = $1;}	 */
 	;
 
 declarator
@@ -214,6 +222,14 @@ statement
 	| compound_statement { $$ = $1; }
 	| selection_statement { $$ = $1; }
 	| iteration_statement { $$ = $1; }
+	| labeled_statement { $$ = $1; }
+	;
+
+
+labeled_statement
+	/* : IDENTIFIER ':' statement { $$ = new LabeledStatement($1, $3);} */
+	: CASE constant_expression ':' statement 	{ $$ = new Case($2, $4);}
+	| DEFAULT ':' statement { $$ = new Default($3);}
 	;
 
 jump_statement
@@ -231,6 +247,7 @@ expression_statement
 selection_statement
 	: IF '(' expression ')' statement { $$ = new IfElse($3, $5);} %prec LOWER_THAN_ELSE
 	| IF '(' expression ')' statement ELSE statement { $$ = new IfElse($3, $5, $7);}
+	| SWITCH '(' expression ')' statement	{ $$ = new Switch($3, $5);}
 	;
 
 iteration_statement
@@ -335,8 +352,13 @@ logical_or_expression
 	| logical_or_expression OR_OP logical_and_expression { $$ = new LogicalOr($1, $3);}
 	;
 
-assignment_expression
+conditional_expression
 	: logical_or_expression { $$ = $1;}
+	/* | logical_or_expression '?' expression ':' conditional_expression { $$ = new Conditional($1, $3, $5);} */
+	;
+
+assignment_expression
+	: conditional_expression { $$ = $1;}
 	/* | unary_expression assignment_operator assignment_expression { $$ = new Assignment($1, *$2, $3);} */
 	| unary_expression '=' assignment_expression { $$ = new Assignment($1, "=", $3);}
 	| unary_expression MUL_ASSIGN assignment_expression { $$ = new Assignment($1, "*=", new Multiplication($1, $3));}
@@ -345,6 +367,26 @@ assignment_expression
 	| unary_expression ADD_ASSIGN assignment_expression { $$ = new Assignment($1, "+=", new Addition($1, $3));}
 	| unary_expression SUB_ASSIGN assignment_expression { $$ = new Assignment($1, "-=", new Subtraction($1, $3));}
 
+	;
+
+constant_expression
+	: conditional_expression { $$ = $1;}
+	;
+
+enum_specifier
+	: ENUM '{' enumerator_list '}' { $$ = new EnumSpecifier($3);}
+	| ENUM IDENTIFIER '{' enumerator_list '}' { $$ = new EnumSpecifier($4);}
+	/* | ENUM IDENTIFIER { $$ = new EnumSpecifier($2);} */
+	;
+
+enumerator_list
+	: enumerator { std::vector<BlockPtr>* BlockList = new std::vector<BlockPtr>(); BlockList->push_back($1);  $$ = BlockList;}
+	| enumerator_list ',' enumerator { $1->push_back($3); $$ = $1;}
+	;
+
+enumerator
+	: IDENTIFIER { $$ = new Enumerator(*$1);}
+	| IDENTIFIER '=' constant_expression { $$ = new Enumerator(*$1, $3);}
 	;
 
 primary_expression

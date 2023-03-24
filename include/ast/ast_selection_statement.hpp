@@ -57,4 +57,26 @@ public:
 
 };
 
+class Switch : public Block {
+private:
+    BlockPtr expression;
+    BlockPtr statement;
+public:
+    Switch(BlockPtr _expression, BlockPtr _statement)
+        : expression(_expression)
+        , statement(_statement)
+    {}
+
+    ~Switch() {
+        delete expression;
+        delete statement;
+    }
+    
+    
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override{
+        
+    }
+
+};
+
 #endif

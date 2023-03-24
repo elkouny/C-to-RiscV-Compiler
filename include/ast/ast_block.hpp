@@ -14,7 +14,7 @@ class Block {
 public:
     virtual ~Block() {}
     //! Tell and expression to print itself to the given stream
-    virtual void print(std::ostream &dst) const =0;
+    virtual void print(std::ostream &dst) const {};
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const {};
 
@@ -31,6 +31,10 @@ public:
     virtual BlockPtr getIndex() const { return nullptr; }
     
     virtual BlockPtr getDeclarator() const { return nullptr; }
+
+    virtual std::string getEnumIden() const { return "error"; }
+
+    virtual BlockPtr getEnumVal() const { return nullptr; }
 
     virtual std::string getIdentifier() const { return "error "; }
 

@@ -196,7 +196,7 @@ struct Context{
                 return scope[i].getParams(var);
             }
         }
-        Params error = Params("0",0);
+        Params error = Params("0",1);
         return error;
     }
 

@@ -41,7 +41,13 @@ public:
         }
         else if (type == 1) {
             int offset = context.getVarInfo(variable).offset;
-            sw_lw(dst,"lw",destReg,offset,"s0");
+            if(offset!=1){
+                sw_lw(dst,"lw",destReg,offset,"s0");
+            }
+            else{
+                int val = context.getEnum(variable);
+                Two_op(dst,"li",destReg,std::to_string(val));
+            }
         }
     }
 };
