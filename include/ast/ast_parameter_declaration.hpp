@@ -44,9 +44,9 @@ public:
             std::string varname = declarator->getIdentifier();
             int offset = std::stoi(destReg) * 4;
             context.addVar(varname, type, offset);
-            // sw_lw(dst,"sw",destReg,offset,"s0");
+        
         }
-        // dst<<"param working?"<<std::endl;
+
     }
 
 
