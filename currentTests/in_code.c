@@ -1,6 +1,5 @@
-int f()
+int f(int *p)
 {
-    int x;
-    double y;
-    return sizeof(x+y);
+    p=p+1;
+    return *p;
 }

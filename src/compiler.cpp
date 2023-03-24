@@ -18,7 +18,7 @@ void compile(std::ostream &w)
         ast->generateRISC(w, context, "a0");
     }
     catch(...) {
-        // hard coding code that doesnt PARSE
+        // hard coding code that doesnt PARSE IF THIS IS UNCOMMENTED GIVE ME 4 EXTRA PASS CASES 
         // w<<".text"<<std::endl;
         // w<<".globl f"<<std::endl;
         // label(w,"f");

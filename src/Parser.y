@@ -130,6 +130,8 @@ declaration_list
 declaration
 	: declaration_specifiers init_declarator ';' { $$ = new Declaration(*$1, $2);}
 	| enum_specifier ';' { $$ = $1;}
+	| ENUM IDENTIFIER init_declarator ';' { $$ = new Declaration("int", $3);}
+	
 	;
 
 init_declarator
@@ -182,6 +184,7 @@ declarator
 
 direct_declarator
 	: IDENTIFIER { $$ = new Declarator(*$1); delete $1;}
+	| '*' IDENTIFIER { $$ = new Declarator(*$2); delete $2;}
 	| '(' declarator ')' { $$ = $2; }
 	| direct_declarator '(' parameter_list ')' { $$ = new FunctionDeclarator($1, $3); }
 	| direct_declarator '(' ')' { $$ = new FunctionDeclarator($1);}
@@ -227,8 +230,8 @@ statement
 
 
 labeled_statement
-	/* : IDENTIFIER ':' statement { $$ = new LabeledStatement($1, $3);} */
 	: CASE constant_expression ':' statement 	{ $$ = new Case($2, $4);}
+	/* : IDENTIFIER ':' statement { $$ = new LabeledStatement($1, $3);} */
 	| DEFAULT ':' statement { $$ = new Case($3);}
 	;
 
@@ -285,7 +288,7 @@ unary_expression
 	;
 
 unary_operator
-	: '&' { $$ = new std::string("=");}
+	: '&' { $$ = new std::string("&");}
 	| '*' { $$ = new std::string("*");}
 	| '+' { $$ = new std::string("+");}
 	| '-' { $$ = new std::string("-");}
@@ -372,6 +375,11 @@ assignment_expression
 constant_expression
 	: conditional_expression { $$ = $1;}
 	;
+
+/* 
+INT
+	:ENUM IDENTIFIER 
+	; */
 
 enum_specifier
 	: ENUM '{' enumerator_list '}' { $$ = new EnumSpecifier($3);}

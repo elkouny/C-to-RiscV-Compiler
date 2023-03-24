@@ -29,7 +29,6 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
-       
        if(op=="-"){
             expression->generateRISC(dst,context,destReg);
             Two_op(dst,"neg",destReg,destReg);
@@ -46,7 +45,50 @@ public:
             expression->generateRISC(dst,context,destReg);
             Two_op(dst,"not",destReg,destReg);
        } 
-    }  
+       else if (op=="&"){
+            std::string varname;
+            if (expression->isArray()){
+                varname = expression->getIdentifier();
+                int offset = context.getVarInfo(varname+"[0]").offset; 
+
+                std::string ireg = context.regs.nextFreeReg();
+                context.regs.useReg(ireg);
+                std::string reg4 = context.regs.nextFreeReg();
+                context.regs.useReg(reg4);
+                std::string oreg = context.regs.nextFreeReg();
+
+                if (offset == 0){
+                    lui(dst,"lui",destReg,"%hi",varname);
+                    addi(dst,"addi",destReg,destReg,"%lo",varname);
+                    Two_op(dst,"li",reg4,"4");
+                    Three_op(dst,"mul",ireg,ireg,reg4);
+                    Three_op(dst,"add",destReg,ireg,destReg);
+                }
+                else{
+                    std::string oreg = context.regs.nextFreeReg();
+                    Two_op(dst,"li",reg4,"4");
+                    Three_op(dst,"mul",ireg,ireg,reg4);
+                    Two_op(dst,"li",oreg,std::to_string(offset));
+                    Three_op(dst,"sub",ireg,oreg,ireg);
+                    Three_op(dst,"add",destReg,ireg,"s0");
+                }     
+                context.regs.freeReg(ireg);
+                context.regs.freeReg(reg4);    
+            }
+            else{
+                varname = expression->getIdentifier();
+                int offset = context.getVarInfo(varname).offset; 
+                Three_op(dst,"addi",destReg,"s0",std::to_string(offset));
+            }
+       }
+       else if (op == "*"){
+            std::string addreg = context.regs.nextFreeReg();
+            context.regs.useReg(addreg);
+            expression->generateRISC(dst, context, addreg);
+            sw_lw(dst,"lw",destReg,0,addreg);
+            context.regs.freeReg(addreg);
+       }
+    }
 };
 
 class SizeOf : public Block {
