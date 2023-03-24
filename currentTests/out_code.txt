@@ -1,10 +1,10 @@
-hereNew Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [ 
-        Parameter Declaration [ Variable Type: [ int ] Variable [ p ] ] ] ] ] ] [
+hereNew Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [  ] ] ] ] [
     Compound Statement [
+    Declaration List [
+        Declaration [ Variable Type: [ float ] Variable Name: [ a ] ]
+    ]
     Statement List [
-        New Assignment: [  Expression [ String: [ p ] ] Operator: [ = ] Addition:  [  Expression [ String: [ p ] ] +  Expression [ Constant: [ 1 ] ] ]  ]
         Jump Statement [ return ] 
-        Unary Operator: [  Operator: [ * ]  Expression [ String: [ p ] ] ]
     ]
     ]
 ] 

@@ -17,33 +17,8 @@ sw s9,24(sp)
 sw s10,20(sp)
 sw s11,16(sp)
 addi s0,sp,68
-sw a0,-64(s0) #-64 has add of p
-lw t4,-64(s0) #t4 has add of p
-li a2,1 
-add t4,t4,a2 # add 1 to add of p
-sw t4,-64(s0)
-UNARY OPlw t4,-64(s0)
-lw t6,0(t4)
-UNARY OPj return0
-
-a0 = p*
-sw a0 -> -64 
-int x = 5;
-
-
-main(x)
-
-int mian(int *p){ addr
-    print p
-}
-
-Scope Level 1:
-Variables:
-var: [ p ] type: [ int ] offset [ -64 ]
-Enums:
-Scope Level 0:
-Variables:
-Enums:
+li t6,4
+j return0
 return0:
 mv a0,t6
 lw ra,64(sp)

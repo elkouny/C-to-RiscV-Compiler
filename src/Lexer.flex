@@ -26,12 +26,12 @@ IS (u|U|l|L)*
 "else"			{ return(ELSE); }
 "enum"			{ return(ENUM); }
 "extern"		{ return(EXTERN); }
-"float"			{ return(FLOAT); }
+"float"			{ yylval.string=new std::string(yytext); return(FLOAT); }
 "for"			{ return(FOR); }
 "goto"			{ return(GOTO); }
 "if"			{ return(IF); }
 "int"			{ yylval.string=new std::string(yytext); return(INT); }
-"long"			{ return(LONG); }
+"long"			{  return(LONG); }
 "register"		{ return(REGISTER); }
 "return"		{ yylval.string=new std::string(yytext); return(RETURN); }
 "short"			{ return(SHORT); }

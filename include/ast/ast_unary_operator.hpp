@@ -119,7 +119,7 @@ public:
        if(typeS==1){
             v = (context.getTypeVar(Expression->getIdentifier()));
        }
-       if(v=="int" || v=="unsigned"){
+       if(v=="int" || v=="unsigned"||v=="float"){
             Two_op(dst,"li",destReg,"4");
         }
         else if(v=="char"){

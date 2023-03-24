@@ -1,5 +1,5 @@
-int f(int *p)
+int f()
 {
-    p=p+1;
-    return *p;
+    float a;
+    return sizeof(a);
 }
