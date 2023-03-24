@@ -1,16 +1,11 @@
-New Function: [ Function Type: [ int ] Function Name: [ f ] ] [
+hereNew Function: [ Function Type: [ int ] Function Name: [  Function Declarator [ Function [ f ] Parameters [  ] ] ] ] [
     Compound Statement [
     Declaration List [
-        Declaration [ Variable Type: [ int ] Variable Name: [ x ] Variable assignment : [ Expression [ Constant: [ 1 ] ] ] ]
+        Declaration [ Variable Type: [ int ] Variable Name: [ x ] ]
+        Declaration [ Variable Type: [ double ] Variable Name: [ y ] ]
     ]
     Statement List [
-    IF [  Expression [ String: [ x ] ] ]
-    Compound Statement [
-    Statement List [
-        Declaration [ Variable Type: [ int ] Variable Name: [ x ] Variable assignment : [ Expression [ Constant: [ 2 ] ] ] ]
-    ]
-    ]
-        Jump Statement [ return ] Expression [ String: [ x ] ]
+        Jump Statement [ return ] 
     ]
     ]
 ] 

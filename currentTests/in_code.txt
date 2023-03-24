@@ -1,9 +1,6 @@
 int f()
 {
-    int x = 1; 
-    if(x)
-{
-    int x = 2;
-}   
-    return x;
+    int x[8];
+    x[0]=23;
+    return x[0];
 }

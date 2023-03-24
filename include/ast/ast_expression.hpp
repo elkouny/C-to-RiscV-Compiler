@@ -16,16 +16,14 @@ public:
 
     ~Expression() {};
 
-    int getConstant() const {
+    int evalExpression() const override {
         return constant;
     }
-
-    std::string getVar() const override {
+ 
+    std::string getIdentifier() const override {
         return variable;
     }
-
    
-
     virtual void print(std::ostream &dst) const override {
         dst<<" Expression [ ";
         if (type==0) {
@@ -43,7 +41,13 @@ public:
         }
         else if (type == 1) {
             int offset = context.getVarInfo(variable).offset;
-            sw_lw(dst,"lw",destReg,offset,"s0");
+            if(offset!=1){
+                sw_lw(dst,"lw",destReg,offset,"s0");
+            }
+            else{
+                int val = context.getEnum(variable);
+                Two_op(dst,"li",destReg,std::to_string(val));
+            }
         }
     }
 };
