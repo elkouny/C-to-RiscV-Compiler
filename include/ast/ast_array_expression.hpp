@@ -18,7 +18,6 @@ public:
     ~ArrayExpression() {
         delete array;
         delete index;
-
     }
 
     virtual int isArray() const override { return 1; }

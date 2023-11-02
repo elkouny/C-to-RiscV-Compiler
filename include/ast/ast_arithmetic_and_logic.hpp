@@ -893,8 +893,8 @@ public:
         dst << " ] ";
     }
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override{
-        std::string l2 = context.make_label(".L");
-        std::string l3 = context.make_label(".L");
+        std::string l2 = make_label(".L");
+        std::string l3 = make_label(".L");
 
         std::string sreg1 = context.regs.nextFreeReg();
         if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }
@@ -948,9 +948,9 @@ public:
     }
 
     virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override{
-        std::string l2 = context.make_label(".L");
-        std::string l3 = context.make_label(".L");
-        std::string l4 = context.make_label(".L");
+        std::string l2 = make_label(".L");
+        std::string l3 = make_label(".L");
+        std::string l4 = make_label(".L");
 
         std::string sreg1 = context.regs.nextFreeReg();
         if ( right->isFunction() ) { sreg1 = context.regs.nextFreeStoreReg(); }

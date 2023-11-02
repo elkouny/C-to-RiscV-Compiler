@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Author : James Nock (@Jpnock)
 # Year   : 2023
 

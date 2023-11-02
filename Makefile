@@ -26,6 +26,10 @@ src/$(PARSER).tab.cpp src/$(PARSER).tab.hpp: src/$(PARSER).y
 src/$(LEXER).yy.cpp : src/$(LEXER).flex src/$(PARSER).tab.hpp
 	flex -o src/$(LEXER).yy.cpp src/$(LEXER).flex
 
+bin/print_canonical : src/compiler_code/print_canonical.o bin/$(PARSER).tab.o bin/$(LEXER).yy.o bin/$(PARSER).tab.o
+	mkdir -p bin
+	g++ $(CPPFLAGS) -o bin/print_canonical $^
+
 makeobj:
 	$(CC) $(CPPFLAGS) src/$(CPPALLTEST) -o bin/testout
 

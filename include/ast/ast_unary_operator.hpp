@@ -50,7 +50,6 @@ public:
             if (expression->isArray()){
                 varname = expression->getIdentifier();
                 int offset = context.getVarInfo(varname+"[0]").offset; 
-
                 std::string ireg = context.regs.nextFreeReg();
                 context.regs.useReg(ireg);
                 std::string reg4 = context.regs.nextFreeReg();
@@ -76,6 +75,7 @@ public:
                 context.regs.freeReg(reg4);    
             }
             else{
+                
                 varname = expression->getIdentifier();
                 int offset = context.getVarInfo(varname).offset; 
                 Three_op(dst,"addi",destReg,"s0",std::to_string(offset));
@@ -128,6 +128,7 @@ public:
         else if(v=="double"){
             Two_op(dst,"li",destReg,"8");
         }
+
     }
     
     

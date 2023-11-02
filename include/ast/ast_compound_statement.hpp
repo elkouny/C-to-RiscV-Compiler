@@ -3,97 +3,127 @@
 
 #include "ast_block.hpp"
 
-class Compound_Statement : public Block {
+class Compound_Statement : public Block
+{
 private:
-
     std::vector<BlockPtr> *dlist;
     std::vector<BlockPtr> *slist;
 
 public:
-    Compound_Statement(std::vector<BlockPtr> * _dlist, std::vector<BlockPtr> * _list) : dlist(_dlist), slist(_list) {}
+    Compound_Statement(std::vector<BlockPtr> *_dlist, std::vector<BlockPtr> *_list) : dlist(_dlist), slist(_list) {}
 
-    Compound_Statement(std::vector<BlockPtr> *_list, std::string list_type) {
+    Compound_Statement(std::vector<BlockPtr> *_list, std::string list_type)
+    {
         // slist =_list;
-        if (list_type == "dlist"){
+        if (list_type == "dlist")
+        {
             dlist = _list;
             slist = nullptr;
-        } else {
+        }
+        else
+        {
             dlist = nullptr;
             slist = _list;
         }
     }
 
-    ~Compound_Statement() {
+    ~Compound_Statement()
+    {
         // for (auto i : *slist){
         //     delete i;
         // }
-        if (slist != nullptr){
-            for (auto i : *slist){
+        if (slist != nullptr)
+        {
+            for (auto i : *slist)
+            {
                 delete i;
             }
             delete slist;
         }
-        if (dlist != nullptr){
-            for (auto i : *dlist){
+        if (dlist != nullptr)
+        {
+            for (auto i : *dlist)
+            {
                 delete i;
             }
             delete dlist;
         }
     }
 
-    std::vector<BlockPtr> getDec()  const override {
-        if (dlist != nullptr) {
+    std::vector<BlockPtr> getDec() const override
+    {
+        if (dlist != nullptr)
+        {
             return *dlist;
-        } else {
+        }
+        else
+        {
             std::vector<BlockPtr> empty;
             return empty;
         }
     }
 
-    std::vector<BlockPtr> getList() const override {
-        if (slist != nullptr) {
+    std::vector<BlockPtr> getList() const override
+    {
+        if (slist != nullptr)
+        {
             return *slist;
-        } else {
+        }
+        else
+        {
             std::vector<BlockPtr> empty;
             return empty;
         }
     }
 
-    virtual void print(std::ostream &dst) const override {
+    virtual void print(std::ostream &dst) const override
+    {
         dst << "\n    Compound Statement [";
-        if (dlist != nullptr) {
+        if (dlist != nullptr)
+        {
             dst << "\n    Declaration List [";
-            for (auto i : *dlist){
+            for (auto i : *dlist)
+            {
                 i->print(dst);
             }
-            dst<<"\n    ]";
+            dst << "\n    ]";
         }
-        if (slist != nullptr) {
+        if (slist != nullptr)
+        {
             dst << "\n    Statement List [";
-            for (auto i : *slist){
+            for (auto i : *slist)
+            {
                 i->print(dst);
             }
-            dst<<"\n    ]";
-            dst<<"\n    ]";
+            dst << "\n    ]";
+            dst << "\n    ]";
         }
     }
 
-    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override {
+    virtual void generateRISC(std::ostream &dst, Context &context, std::string destReg) const override
+    {
         // dst<<"here";
-        if (context.is_function){
+        if (context.is_function)
+        {
             context.is_function = 0;
-        }else {
+        }
+        else
+        {
             context.newScope();
         }
 
-        if (dlist != nullptr) {
-            for (auto i : *dlist){
+        if (dlist != nullptr)
+        {
+            for (auto i : *dlist)
+            {
                 i->generateRISC(dst, context, destReg);
             }
         }
 
-        if (slist != nullptr) {
-            for (auto i : *slist){
+        if (slist != nullptr)
+        {
+            for (auto i : *slist)
+            {
                 i->generateRISC(dst, context, destReg);
             }
         }

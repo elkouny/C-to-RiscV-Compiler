@@ -43,7 +43,7 @@ public:
         }
         if (type == "break") {
             One_op(dst,"j",context.getCurrentLoopEnd());
-            context.popLoopLabel();
+            // context.popLoopLabel();
         }
         if (type == "continue") {
             One_op(dst,"j",context.getCurrentLoopBegin());

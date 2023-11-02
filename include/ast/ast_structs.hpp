@@ -160,6 +160,7 @@ struct Context{
     std::vector<loopLabels> loops;
     std::vector<VarMap> scope;
     std::string ret_label;
+    std::vector<std::string> caseRegs;
     Registers regs;
     int offset = -20;
     int is_function = 0;
@@ -184,12 +185,7 @@ struct Context{
     std::string getCurrentLoopEnd(){
         return loops[loops.size()-1].end;
     }
-
-    std::string make_label (std::string label){
-        static int unique = 0 ;
-        return label + std::to_string(unique++);
-    }
-
+    
     Params getVarInfo (std::string var) {
         for ( int i = scope.size()-1; i > -1 ; i--){
             if (scope[i].findVar(var)){
