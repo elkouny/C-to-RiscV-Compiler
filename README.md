@@ -29,6 +29,33 @@ You should then see the output assembly code in currentTest/ast.txt
 ```bash 
 $ ./test.sh
 ```
+How it works:
+For instance, suppose I have a file called `test_program.c` that contains:
+
+    int f() { return 5; }
+
+and another file called `test_program_driver.c` that contains:
+
+    int f();
+    int main() { return !( 5 == f() ); }
+
+I run the compiler on the test program, like so:
+
+    bin/c_compiler -S test_program.c -o test_program.s
+
+I then use GCC to assemble the generated assembly program (`test_program.s`), like so:
+
+    riscv64-unknown-elf-gcc -march=rv32imfd -mabi=ilp32d -o test_program.o -c test_program.s
+
+I then use GCC to link the generated object file (`test_program.o`) with the driver program (`test_program_driver.c`), to produce an executable (`test_program`), like so:
+
+    riscv64-unknown-elf-gcc -march=rv32imfd -mabi=ilp32d -static -o test_program test_program.o test_program_driver.c
+
+I then use spike to simulate the executable on RISC-V, like so:
+
+    spike pk test_program
+
+This command should produce the exit code `0`.
 
 C to RISCV compiler using Flex Bison and C++ for AST processing.
 Ranked 7/70 groups for IAC Compilers coursework
