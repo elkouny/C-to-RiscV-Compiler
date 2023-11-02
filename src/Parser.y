@@ -236,7 +236,7 @@ labeled_statement
 	;
 
 jump_statement
-	: RETURN expression ';' { std::cout << "here"; $$= new JumpStatement(*$1,$2); delete $1;}
+	: RETURN expression ';' { $$= new JumpStatement(*$1,$2); delete $1;}
 	| CONTINUE ';'	{ $$ = new JumpStatement(*$1); delete $1;}
 	| BREAK ';'	{ $$ = new JumpStatement(*$1); delete $1;}
 	| RETURN ';'	{ $$ = new JumpStatement(*$1); delete $1;}

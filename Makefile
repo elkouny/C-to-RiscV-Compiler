@@ -11,11 +11,11 @@ HPPFILES := $(shell find include/ -type f -name "*.hpp")
 CPPFILES := $(shell find src/ -type f -name "*.cpp")
 OBJS = $(patsubst %.cpp,%.o,$(CPPFILES))
 
-all : $(LINK_TARGET)
-
-$(LINK_TARGET) : src/$(LEXER).yy.o src/$(PARSER).tab.o $(OBJS)
-	$(CC) $(CPPFLAGS) $^ -o $@
-
+#all : $(LINK_TARGET)
+#
+#$(LINK_TARGET) : src/$(LEXER).yy.o src/$(PARSER).tab.o $(OBJS)
+#	$(CC) $(CPPFLAGS) $^ -o $@
+#
 src/%.o: src/%.cpp $(HPPFILES)
 	$(CC) $(CPPFLAGS) -c -o $@ $<
 
@@ -26,9 +26,9 @@ src/$(PARSER).tab.cpp src/$(PARSER).tab.hpp: src/$(PARSER).y
 src/$(LEXER).yy.cpp : src/$(LEXER).flex src/$(PARSER).tab.hpp
 	flex -o src/$(LEXER).yy.cpp src/$(LEXER).flex
 
-bin/print_canonical : src/compiler_code/print_canonical.o bin/$(PARSER).tab.o bin/$(LEXER).yy.o bin/$(PARSER).tab.o
+bin/print_parsed : src/compiler_code/print_parsed.o src/$(PARSER).tab.o src/$(LEXER).yy.o src/$(PARSER).tab.o
 	mkdir -p bin
-	g++ $(CPPFLAGS) -o bin/print_canonical $^
+	g++ $(CPPFLAGS) -o bin/print_parsed $^
 
 makeobj:
 	$(CC) $(CPPFLAGS) src/$(CPPALLTEST) -o bin/testout
