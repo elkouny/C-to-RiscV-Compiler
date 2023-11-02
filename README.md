@@ -1,6 +1,31 @@
 2022/2023 Compilers Coursework
 ==============================
-
+C to RISCV compiler using Flex Bison and C++ for AST processing.
+Ranked 7/70 groups for IAC Compilers coursework
+Here is a list of features:
+* a file containing just a single function with no arguments
+* variables of `int` type
+* local variables
+* arithmetic and logical expressions
+* if-then-else statements
+* while loops
+* files containing multiple functions that call each other
+* functions that take up to four parameters
+* for loops
+* arrays declared globally (i.e. outside of any function in your file)
+* arrays declared locally (i.e. inside a function)
+* reading and writing elements of an array
+* recursive function calls
+* the `enum` keyword
+* `switch` statements
+* the `break` and `continue` keywords
+* functions that take more than four parameters
+* mutually recursive function calls
+* locally scoped variable declarations (e.g. a variable that is declared inside the body of a while loop, such as `while(...) { int x = ...; ... }`.
+* the `sizeof(...)` function (which takes either a type or a variable)
+* taking the address of a variable using the `&` operator
+* dereferencing a pointer-variable using the `*` operator
+* pointer arithmetic
 ## Setup:
 ```bash
 $ docker build -t compilers_image .
@@ -57,29 +82,4 @@ I then use spike to simulate the executable on RISC-V, like so:
 
 This command should produce the exit code `0`.
 
-C to RISCV compiler using Flex Bison and C++ for AST processing.
-Ranked 7/70 groups for IAC Compilers coursework
-Here is a list of features:
-* a file containing just a single function with no arguments
-* variables of `int` type
-* local variables
-* arithmetic and logical expressions
-* if-then-else statements
-* while loops
-* files containing multiple functions that call each other
-* functions that take up to four parameters
-* for loops
-* arrays declared globally (i.e. outside of any function in your file)
-* arrays declared locally (i.e. inside a function)
-* reading and writing elements of an array
-* recursive function calls
-* the `enum` keyword
-* `switch` statements
-* the `break` and `continue` keywords
-* functions that take more than four parameters
-* mutually recursive function calls
-* locally scoped variable declarations (e.g. a variable that is declared inside the body of a while loop, such as `while(...) { int x = ...; ... }`.
-* the `sizeof(...)` function (which takes either a type or a variable)
-* taking the address of a variable using the `&` operator
-* dereferencing a pointer-variable using the `*` operator
-* pointer arithmetic
+
