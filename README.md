@@ -22,7 +22,7 @@ Then run
 ```bash 
 $ ./parsePrint.sh
 ```
-You should then see the output assembly code in currentTest/ast.txt
+You should then see the visulized AST in currentTest/ast.txt
 
 ## Run Test suite
 
