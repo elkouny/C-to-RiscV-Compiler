@@ -4,7 +4,7 @@ CPPFLAGS += -I include
 
 default: bin/c_compiler
 
-all : bin/print_parsed bin/print_canonical  bin/cumpile
+all : bin/print_parsed bin/print_canonical
 
 bin/$(PARSER).tab.cpp bin/$(PARSER).tab.hpp : src/$(PARSER).y
 	mkdir -p bin
